@@ -1,0 +1,48 @@
+name: prek-update
+
+# Dependabot does not read prek.toml, so this keeps hook revs current.
+on:
+  schedule:
+    - cron: "0 14 * * 1"
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          ref: dev
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@d0cc045d04ccac9d8b7881df0226f9e82c39688e # v6.8.0
+        with:
+          enable-cache: false
+      - name: Install prek
+        run: uv tool install prek==0.3.11
+      - name: Update hook revs
+        run: prek auto-update --cooldown-days 7
+      - name: Open pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -eu
+          if git diff --quiet; then
+            echo "hook revs already current"
+            exit 0
+          fi
+          branch=chore/prek-update
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -C "$branch"
+          git commit -qam "chore: update prek hook revs"
+          git push --force "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}" "$branch"
+          if [ -z "$(gh pr list --head "$branch" --base dev --json number -q '.[].number')" ]; then
+            gh pr create --base dev --head "$branch" \
+              --title "chore: update prek hook revs" \
+              --body "Automated \`prek auto-update --cooldown-days 7\`. Close and reopen this PR to trigger CI, since PRs opened with GITHUB_TOKEN do not start workflows."
+          fi
