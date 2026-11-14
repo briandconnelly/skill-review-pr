@@ -1,0 +1,8 @@
+# Owners must review changes to these paths once the ruleset requires code-owner review.
+# Last match wins, so the catch-all comes first.
+*                       @briandconnelly
+/AGENTS.md              @briandconnelly
+/CLAUDE.md              @briandconnelly
+/.github/               @briandconnelly
+/scripts/               @briandconnelly
+/prek.toml              @briandconnelly
