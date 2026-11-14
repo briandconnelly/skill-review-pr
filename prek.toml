@@ -51,3 +51,13 @@ hooks = [
   { id = "review-pr-lens-evidence", name = "review-pr: replay manifest-scored evidence", language = "system", entry = "bash review-pr/tests/lens-evidence-test.sh", files = "^review-pr/(scripts/(adapters/supported|validate-result\\.sh)|references/review-lens\\.md|tests/(score-lens\\.py|lens-rubric\\.md|lens-fixture-test\\.sh|lens-evidence-test\\.sh|lens-cases/.*|evidence/lens/.*))$", pass_filenames = false },
   { id = "review-pr-shellcheck", name = "review-pr: shellcheck", language = "system", entry = "shellcheck", files = "^review-pr/.*\\.sh$", pass_filenames = true },
 ]
+
+[[repos]]
+repo = "https://github.com/rhysd/actionlint"
+rev = "v1.7.12"
+hooks = [{ id = "actionlint" }]
+
+[[repos]]
+repo = "https://github.com/zizmorcore/zizmor-pre-commit"
+rev = "v1.32.0"
+hooks = [{ id = "zizmor" }]

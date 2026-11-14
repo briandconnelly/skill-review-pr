@@ -3,8 +3,11 @@
 
 The release tree is what an install fetches from `main`: the skill's
 SKILL.md, references, and scripts, plus the license and README. Tests,
-fixtures, and evidence stay on `dev`. The output directory is created fresh;
-an existing directory is rebuilt only when it carries this builder's marker.
+fixtures, and evidence stay on `dev`. `.github/dependabot.yml` ships too:
+Dependabot reads its config only from the default branch. Workflows cannot
+ship, because the publish job's token may not push `.github/workflows/`.
+The output directory is created fresh; an existing directory is rebuilt
+only when it carries this builder's marker.
 """
 
 import shutil
@@ -13,7 +16,7 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
 MARKER = ".skill-review-pr-release"
-ALLOW = ["LICENSE", "README.md", "CHANGELOG.md", "review-pr/SKILL.md"]
+ALLOW = ["LICENSE", "README.md", "CHANGELOG.md", "review-pr/SKILL.md", ".github/dependabot.yml"]
 SKILL_SUBTREES = ["review-pr/references", "review-pr/scripts"]
 
 
