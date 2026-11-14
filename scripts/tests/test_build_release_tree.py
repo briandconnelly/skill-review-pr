@@ -70,3 +70,11 @@ def test_rebuilds_its_own_output(tree: Path) -> None:
     (tree / "stale").write_text("x")
     builder.build(tree)
     assert not (tree / "stale").exists()
+
+
+def test_ships_dependabot_config_but_no_workflows(tree: Path) -> None:
+    # Dependabot reads its config only from the default branch, `main`; the
+    # publish job's GITHUB_TOKEN cannot push `.github/workflows/`.
+    shipped = _files(tree)
+    assert ".github/dependabot.yml" in shipped
+    assert not any(rel.startswith(".github/workflows/") for rel in shipped)
