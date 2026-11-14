@@ -1,0 +1,63 @@
+name: publish-runtime
+
+on:
+  push:
+    branches: [dev]
+
+# `dev` holds the source and evidence; `main` holds only the runtime tree built
+# from it, so a clone of the default branch is what an install should fetch.
+# Two pushes to dev must not race: the loser's push would leave `main`, the
+# branch every install fetches, stale with no alarm and no self-heal.
+concurrency: { group: publish-runtime, cancel-in-progress: true }
+
+permissions:
+  contents: write
+
+jobs:
+  # The checks run here, in the same workflow as the publish, so the publish
+  # job can depend on them for the exact commit being published. A separate
+  # workflow's run would be a different job graph with no dependency edge,
+  # and a commit could reach `main` before -- or despite -- its checks.
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - name: Install prek
+        run: uv tool install prek==0.3.11
+      - name: Run prek hooks
+        run: prek run --all-files
+
+  publish:
+    needs: checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/build-release-tree.py "$RUNNER_TEMP/release"
+      - name: Commit onto the main branch
+        # `main` keeps its history: each publish is a commit on top of the
+        # previous one, pushed without force, so the prior release stays
+        # addressable (`main~1`). Rolling back therefore moves forward --
+        # `git revert`, or a new commit whose tree is the prior release
+        # (`git restore --source=main~1 -- .` then commit). Pushing that
+        # older commit itself is non-fast-forward, and nothing here force-
+        # pushes, so it would be rejected. A missing `main` is an error, not
+        # a first publish: starting a fresh branch would orphan its history.
+        run: |
+          set -eu
+          url="https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}"
+          git clone -q --branch main --single-branch "$url" "$RUNNER_TEMP/release-repo"
+          cd "$RUNNER_TEMP/release-repo"
+          git rm -rq --quiet . 2>/dev/null || true
+          find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -R "$RUNNER_TEMP/release/." .
+          rm -f .skill-review-pr-release
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "release tree unchanged for $GITHUB_SHA; nothing to publish"
+            exit 0
+          fi
+          git commit -q -m "chore(release): runtime tree for $GITHUB_SHA"
+          git push "$url" main
