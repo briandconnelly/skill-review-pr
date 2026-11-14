@@ -6,3 +6,4 @@
 - A link in a shipped file (`review-pr/SKILL.md`, `review-pr/references/`) must not point into `review-pr/tests/`, which `main` does not carry; link to `https://github.com/briandconnelly/skill-review-pr/blob/dev/...` instead
 - `CHANGELOG.md` records every user-visible change under `## [Unreleased]`, in the pull request that makes it; dev-only changes (tests, scripts, evidence) stay out of it
 - Run every check with `prek run --all-files`
+- Agents never merge pull requests, approve them, or create tags or releases; a human maintainer does all three
