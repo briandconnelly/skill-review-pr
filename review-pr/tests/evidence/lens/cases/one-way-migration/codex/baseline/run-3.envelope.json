@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nMigration 3 must back up current user data before merge because dropping the column can permanently lose legacy email values.\n\n## Changes\nThe pull request adds migrations dropping `users.legacy_email` and `orders.coupon_code`, with a backup for orders. It adds a test covering both removals and preservation of coupon codes.\n\n## Critical\n- migrations/m0003_drop_legacy_email.py:7 — correctness — Back up users before dropping legacy_email — For users inserted or whose legacy email changed after migration 2, this drop destroys values absent from the earlier backup. Your migration omits the `backup_table` call used by the other destructive migrations. — After the migration commits, operators cannot recover those legacy email values from the migration backups.\n\n## Important\n(none)\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.nq2hTt1GBT/review-pr.4u1bPb",
+  "head_sha": "feed4c51919541a1512cbc8a6633949b3b9b77a0",
+  "base_sha": "d6b9e67e66c4350a4918dc6a8a9f3be567c090ea",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "051e7b1eab200200aca88ef3d43c7601ab9c7ba9"
+}

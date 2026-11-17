@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nThe missing backup in migration 3 must be fixed before merge because existing migration backups cannot preserve user data written since migration 2.\n\n## Changes\nThe pull request adds migrations that drop `users.legacy_email` and `orders.coupon_code`, plus a test checking column removal and the orders backup. This review read the tests without running them.\n\n## Critical\n- migrations/m0003_drop_legacy_email.py:7 — correctness — Back up users before dropping legacy_email — For users created or updated after migration 2, this drop discards their current legacy emails without preserving them. Unlike migrations 2 and 4, this migration skips `backup_table`; `users_backup_2` contains only the earlier snapshot. — When users change between migrations 2 and 3, operators cannot recover their dropped legacy emails from the migration backups. — Fix: Import and call `backup_table(conn, \"users\", VERSION)` before the drop, and extend `test_drop_retired_columns` to verify preservation.\n\n## Important\n(none)\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.nq2hTt1GBT/review-pr.PWHXwC",
+  "head_sha": "feed4c51919541a1512cbc8a6633949b3b9b77a0",
+  "base_sha": "d6b9e67e66c4350a4918dc6a8a9f3be567c090ea",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "051e7b1eab200200aca88ef3d43c7601ab9c7ba9"
+}

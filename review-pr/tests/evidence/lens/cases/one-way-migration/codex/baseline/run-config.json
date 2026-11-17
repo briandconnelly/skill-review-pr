@@ -1,0 +1,11 @@
+{
+  "collection_id": "051e7b1eab200200aca88ef3d43c7601ab9c7ba9",
+  "runner": "codex",
+  "case": "one-way-migration",
+  "snapshot": "baseline",
+  "level": "high",
+  "runs": 3,
+  "budget_usd": 1,
+  "lens_sha256": "481012da835849d0676f6c9c4797b831d876ba106edc458afc083ae09f4c864b",
+  "diagnostic": false
+}
