@@ -27,6 +27,7 @@ printf '%s\n' run >> "$OFFLINE_CALLS"
 [ ! -f ../policy-manifest.json ] || cat ../policy-manifest.json >> "$OFFLINE_SEEN_MANIFESTS"
 [ ! -f AGENTS.md ] || cat AGENTS.md >> "$OFFLINE_SEEN_AGENTS"
 if [ -f ../policy-changes.json ]; then cat ../policy-changes.json >> "$OFFLINE_SEEN_CHANGES"; else echo MISSING >> "$OFFLINE_SEEN_CHANGES"; fi
+if [ -f ../issues.json ]; then cat ../issues.json >> "$OFFLINE_SEEN_ISSUES"; else echo MISSING >> "$OFFLINE_SEEN_ISSUES"; fi
 jq -n --rawfile manifest "$OFFLINE_MANIFEST" '
   ($manifest | split("\n") | map(split("\t")) |
     map(select(.[0] // "" | startswith("PLANT-")) |
@@ -40,7 +41,7 @@ jq -n --rawfile manifest "$OFFLINE_MANIFEST" '
 EOF
 chmod +x "$S/bin/claude"
 export PATH="$S/bin:$PATH"
-export OFFLINE_CALLS="$S/calls" OFFLINE_MANIFEST OFFLINE_SEEN_MANIFESTS="$S/seen-manifests" OFFLINE_SEEN_AGENTS="$S/seen-agents" OFFLINE_SEEN_CHANGES="$S/seen-changes"
+export OFFLINE_CALLS="$S/calls" OFFLINE_MANIFEST OFFLINE_SEEN_MANIFESTS="$S/seen-manifests" OFFLINE_SEEN_AGENTS="$S/seen-agents" OFFLINE_SEEN_CHANGES="$S/seen-changes" OFFLINE_SEEN_ISSUES="$S/seen-issues"
 export GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=commit.gpgsign GIT_CONFIG_VALUE_0=false
 COLLECTOR="$S/skill/tests/lens-fixture-test.sh"
 EVID="$S/skill/tests/evidence/lens/cases/legacy/claude/baseline"
@@ -129,7 +130,7 @@ build_case() {
   printf 'PLANT-X\tapp.py:1\tcorrectness\n' > "$M"
 }
 EOF
-: > "$OFFLINE_SEEN_MANIFESTS"; : > "$OFFLINE_SEEN_AGENTS"; : > "$OFFLINE_SEEN_CHANGES"
+: > "$OFFLINE_SEEN_MANIFESTS"; : > "$OFFLINE_SEEN_AGENTS"; : > "$OFFLINE_SEEN_CHANGES"; : > "$OFFLINE_SEEN_ISSUES"
 POLICY_EVID="$S/skill/tests/evidence/lens/cases/policy/claude/baseline"
 OFFLINE_MANIFEST="$POLICY_EVID/manifest"
 bash "$COLLECTOR" --runner claude --case policy --snapshot baseline --runs 1 > "$S/policy.log" 2>&1 || true
@@ -141,6 +142,9 @@ jq -e '. == {version: 2, policy_files: ["AGENTS.md"], skills: []}' "$OFFLINE_SEE
 # The job beside the clone holds policy-changes.json, equal to the envelope's policy_changes (RC13).
 jq -e --slurpfile env "$POLICY_EVID/run-1.envelope.json" '. == $env[0].policy_changes' "$OFFLINE_SEEN_CHANGES" >/dev/null \
   || { echo "FAIL: job policy-changes.json differs from the envelope's policy_changes: $(cat "$OFFLINE_SEEN_CHANGES")"; exit 1; }
+# The job beside the clone holds RC16's issues.json; a case that sets no issues closes none.
+jq -e '. == {version: 1, total: 0, issues: []}' "$OFFLINE_SEEN_ISSUES" >/dev/null \
+  || { echo "FAIL: job issues.json missing or not the empty RC16 envelope: $(cat "$OFFLINE_SEEN_ISSUES")"; exit 1; }
 grep -qF 'BASE-POLICY-7' "$OFFLINE_SEEN_AGENTS" || { echo 'FAIL: child did not see the base AGENTS.md'; exit 1; }
 grep -qF 'HEAD-POLICY-9' "$OFFLINE_SEEN_AGENTS" && { echo 'FAIL: child saw the head AGENTS.md'; exit 1; }
 # Known positive for the sentinel check: the head commit really does carry the other sentinel.

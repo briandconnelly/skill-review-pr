@@ -111,8 +111,9 @@ write_linked_issues() {
   work="$(mktemp -d "${TMPDIR:-/tmp}/review-pr-issues.XXXXXX")" || die 1 "cannot create issue workspace"
   total="$(jq '(.closingIssuesReferences // []) | length' "$meta")" || { rm -rf "$work"; die 1 "cannot read closingIssuesReferences"; }
   while [ "$i" -lt "$total" ] && [ "$i" -lt "$max" ]; do
-    slug="$(jq -r --argjson i "$i" '.closingIssuesReferences[$i] | "\(.repository.owner.login // "")/\(.repository.name // "")"' "$meta")"
-    num="$(jq -r --argjson i "$i" '.closingIssuesReferences[$i].number // ""' "$meta")"
+    # try: a malformed reference (a string where an object belongs) must reach the invalid branch, not abort checkout.
+    slug="$(jq -r --argjson i "$i" '.closingIssuesReferences[$i] | try "\(.repository.owner.login // "")/\(.repository.name // "")" catch ""' "$meta")"
+    num="$(jq -r --argjson i "$i" '.closingIssuesReferences[$i] | try (.number // "") catch ""' "$meta")"
     if [[ "$slug" =~ ^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$ && "$num" =~ ^[1-9][0-9]*$ ]]; then
       rc=0
       gh issue view "$num" -R "github.com/$slug" --json title,body,state,url > "$work/raw" 2>/dev/null || rc=$?
