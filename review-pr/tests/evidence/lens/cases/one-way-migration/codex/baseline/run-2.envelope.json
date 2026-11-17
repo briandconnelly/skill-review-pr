@@ -4,7 +4,7 @@
     "engine": "codex",
     "engine_version": "0.169.0",
     "status": "completed",
-    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nMigration 3 must preserve current user data before merge because its missing backup permits irreversible data loss.\n\n## Changes\nThe pull request adds migrations that drop `users.legacy_email` and `orders.coupon_code`, plus a test covering column removal and the orders backup.\n\n## Critical\n- migrations/m0003_drop_legacy_email.py:7 — correctness — Back up current users before dropping legacy_email — For users created or updated after migration 2, migration 3 deletes their current `legacy_email` values without saving them. `users_backup_2` contains only the earlier snapshot; the surrounding destructive migrations call `backup_table` before dropping columns. — Operators cannot recover legacy email values written after migration 2 from the migration backups once migration 3 runs. — Fix: Call `backup_table(conn, \"users\", VERSION)` before the drop and extend `test_drop_retired_columns` to verify preservation.\n\n## Important\n(none)\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nBack up users before merging: migration 3 can permanently discard current legacy email values without preserving them.\n\n## Changes\nThe pull request adds migrations to drop `users.legacy_email` and `orders.coupon_code`, with a backup for orders. The added test checks both column removals and preservation of coupon values; tests were read, not run.\n\n## Critical\n- migrations/m0003_drop_legacy_email.py:7 — correctness — Back up users before dropping legacy_email — For users inserted or updated after migration 2, this migration drops current legacy email values without preserving them. `migrations/safety.py:4` documents the backup requirement, while `users_backup_2` contains only the earlier snapshot. — Deployments with user changes after migration 2 lose those legacy email values and cannot recover them from the migration backups. — Fix: Call `backup_table(conn, \"users\", VERSION)` before dropping the column and extend `test_drop_retired_columns` to verify preservation.\n\n## Important\n(none)\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
     "duration_ms": null,
     "cost_usd": null,
     "subtype": null,
@@ -14,9 +14,9 @@
   "stderr_tail": "Reading additional input from stdin...",
   "exit": 0,
   "kept": true,
-  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.nq2hTt1GBT/review-pr.crNeCw",
-  "head_sha": "feed4c51919541a1512cbc8a6633949b3b9b77a0",
-  "base_sha": "d6b9e67e66c4350a4918dc6a8a9f3be567c090ea",
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.5EbJfkPB6H/review-pr.Pukc5y",
+  "head_sha": "181fe84749385a70780b21cf77cb418a32639f79",
+  "base_sha": "ce08afdbfa396f1ec103de05b37f37854a32b4b4",
   "merge_base_sha": null,
   "policy_changes": [],
   "pr_state": null,
@@ -29,5 +29,5 @@
   "schema_valid": true,
   "schema_errors": [],
   "diff_unavailable": false,
-  "collection_id": "051e7b1eab200200aca88ef3d43c7601ab9c7ba9"
+  "collection_id": "93bb7ca39290cd93d185f6d6482130a0615c5c04"
 }
