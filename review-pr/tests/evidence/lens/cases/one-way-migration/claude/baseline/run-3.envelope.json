@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.326",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nThe `users.legacy_email` drop in m0003 must be fixed before merge: it skips the backup step that the other destructive migrations take, so once deployed, the dropped data can't be recovered.\n\n## Changes\nThis pull request adds migration m0003, which drops `users.legacy_email`, and migration m0004, which backs up `orders` and then drops `orders.coupon_code`. It also adds a test that runs both migrations.\n\n## Critical\n- migrations/m0003_drop_legacy_email.py:7 — correctness — Call backup_table before dropping users.legacy_email — When `upgrade` runs on a database with populated `users` rows, it drops `legacy_email` without first creating `users_backup_3`. `migrations/safety.py:3-5` says \"each destructive migration first calls backup_table\", and m0002 and m0004 both do so. — Every stored legacy email is lost for good on deploy, and `restore_table` has no backup to restore from. — Fix: Add `backup_table(conn, \"users\", VERSION)` before the `ALTER TABLE`, import it as `migrations/m0004_drop_coupon_code.py:1` does, and extend `test_drop_retired_columns` to check `users_backup_3`.\n\n## Important\n(none)\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 21141,
+    "cost_usd": 0.0812466,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.rniAoDDA71/review-pr.abaGjr",
+  "head_sha": "181fe84749385a70780b21cf77cb418a32639f79",
+  "base_sha": "ce08afdbfa396f1ec103de05b37f37854a32b4b4",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "6beed7f031454eaf0374fe2061755482fede7399"
+}

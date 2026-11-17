@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix the missing backup before merging: migration 3 permanently discards legacy email values written after migration 2.\n\n## Changes\nThe pull request adds migrations to drop `users.legacy_email` and `orders.coupon_code`, backs up orders, and extends migration tests.\n\n## Critical\n- migrations/m0003_drop_legacy_email.py:7 — correctness — Back up users before dropping legacy_email — For users created or updated after migration 2, migration 3 deletes their current `legacy_email` without preserving it. `users_backup_2` predates those values, and this migration omits the backup required by the destructive-migration contract in `migrations/safety.py:1`. — Deploying migration 3 loses those legacy addresses and leaves no current snapshot for recovery if the deployment needs reverting. — Fix: Call `backup_table(conn, \"users\", VERSION)` before dropping the column and extend `test_drop_retired_columns` to verify preservation.\n\n## Important\n(none)\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.5EbJfkPB6H/review-pr.hwRksF",
+  "head_sha": "181fe84749385a70780b21cf77cb418a32639f79",
+  "base_sha": "ce08afdbfa396f1ec103de05b37f37854a32b4b4",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "93bb7ca39290cd93d185f6d6482130a0615c5c04"
+}
