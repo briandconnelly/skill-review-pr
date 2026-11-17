@@ -15,13 +15,13 @@ adapter_check() {
 }
 
 adapter_is_policy_path() {
-  [[ "$1" =~ (^|/)(CLAUDE\.md|CLAUDE\.local\.md|AGENTS\.md)$|^\.claude/|^\.mcp\.json$ ]]
+  [[ "$1" =~ (^|/)(CLAUDE\.md|CLAUDE\.local\.md|AGENTS\.md)$|^\.claude/|^\.mcp\.json$ ]] || is_standards_path "$1"
 }
 
 adapter_context_paths() {
   local p
   while IFS= read -r -d '' p; do
-    if [[ "$p" =~ (^|/)(CLAUDE\.md|CLAUDE\.local\.md|AGENTS\.md)$|^\.claude/(skills/.*/SKILL\.md|agents/.*\.md)$ ]]; then
+    if [[ "$p" =~ (^|/)(CLAUDE\.md|CLAUDE\.local\.md|AGENTS\.md)$|^\.claude/(skills/.*/SKILL\.md|agents/.*\.md)$ ]] || is_standards_path "$p"; then
       printf '%s\0' "$p"
     fi
   done < <(restored_policy_paths "$1" "$2")

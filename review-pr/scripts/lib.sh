@@ -96,6 +96,47 @@ tree_listing() {
   printf '%s\n' "$listing"
 }
 
+# is_standards_path PATH -> success for a runner-neutral coding-standards document (RC14) at the root, `.github/`,
+# or `docs/`, the locations GitHub recognizes for contributing guidelines. Adapters fold it into their policy paths.
+is_standards_path() {
+  local LC_ALL=C
+  [[ "$1" =~ ^(\.github/|docs/)?(CONTRIBUTING|CODING_STANDARDS)\.md$ ]]
+}
+
+# write_linked_issues META OUTPUT MAX -> writes RC16's issues.json from the closingIssuesReferences in the PR metadata
+# file META, fetching at most MAX issues. A failed fetch is recorded, never fatal: the issues are evidence, not policy,
+# and a review without them is still a review. Issue bodies reach jq as files, never as arguments.
+write_linked_issues() {
+  local meta="$1" out="$2" max="$3" work i=0 total slug num rc
+  work="$(mktemp -d "${TMPDIR:-/tmp}/review-pr-issues.XXXXXX")" || die 1 "cannot create issue workspace"
+  total="$(jq '(.closingIssuesReferences // []) | length' "$meta")" || { rm -rf "$work"; die 1 "cannot read closingIssuesReferences"; }
+  while [ "$i" -lt "$total" ] && [ "$i" -lt "$max" ]; do
+    slug="$(jq -r --argjson i "$i" '.closingIssuesReferences[$i] | "\(.repository.owner.login // "")/\(.repository.name // "")"' "$meta")"
+    num="$(jq -r --argjson i "$i" '.closingIssuesReferences[$i].number // ""' "$meta")"
+    if [[ "$slug" =~ ^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$ && "$num" =~ ^[1-9][0-9]*$ ]]; then
+      rc=0
+      gh issue view "$num" -R "github.com/$slug" --json title,body,state,url > "$work/raw" 2>/dev/null || rc=$?
+      if [ "$rc" = 0 ] && jq -e '(.title | type == "string") and (.body | type == "string")' "$work/raw" >/dev/null 2>&1; then
+        jq --arg repo "$slug" --argjson n "$num" '{repository:$repo, number:$n, status:"fetched", url, state, title, body}' "$work/raw" > "$work/$i.json"
+      else
+        jq -n --arg repo "$slug" --argjson n "$num" '{repository:$repo, number:$n, status:"unavailable"}' > "$work/$i.json"
+      fi
+    else
+      jq -n '{repository:null, number:null, status:"invalid"}' > "$work/$i.json"
+    fi
+    i=$((i + 1))
+  done
+  # Glob order is lexical (10 before 2), so the files are named in fetch order explicitly.
+  local files=() j=0
+  while [ "$j" -lt "$i" ]; do files+=("$work/$j.json"); j=$((j + 1)); done
+  if [ "${#files[@]}" -gt 0 ]; then
+    jq -s --argjson total "$total" '{version:1, total:$total, issues:.}' "${files[@]}" > "$out"
+  else
+    jq -n --argjson total "$total" '{version:1, total:$total, issues:[]}' > "$out"
+  fi || { rm -rf "$work"; die 1 "cannot write $out"; }
+  rm -rf "$work"
+}
+
 # policy_paths DIR TREEISH -> NUL-separated tracked policy paths at TREEISH (may be empty).
 # Paths stay NUL-delimited end to end (ls-tree -z), so names containing newlines or tabs are
 # neither split nor quoted.

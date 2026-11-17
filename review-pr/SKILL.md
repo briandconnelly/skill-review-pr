@@ -132,6 +132,8 @@ Runner references state whether the selected adapter can enforce the budget and 
 
 `REVIEW_PR_SCRATCH` optionally selects its parent directory and otherwise uses the operating system temporary directory.
 
+`REVIEW_PR_MAX_ISSUES` caps how many linked issues the checkout fetches as evidence and defaults to `10`.
+
 `REVIEW_PR_MAX_POLICY_FILES` and `REVIEW_PR_MAX_SKILL_INDEX` control the policy-manifest safety bounds described by RC9 in [references/runner-contract.md](references/runner-contract.md).
 
 ## Scope
