@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nAdd coverage for adopting an already-matching setting. Recording that key is the behavior that distinguishes adoption from replacement.\n\n## Changes\n\nThe settings merger now accepts `adopt=True`, records existing keys handled by that mode, and writes the configuration when it records changes. The pull request adds tests for updating a setting through adoption and replacement.\n\n## Critical\n\n(none)\n\n## Important\n\n- app/config.py:13 — tests — Test adoption of an already-matching setting — No test exercises `adopt=True` when the stored and incoming values are both `theme=dark`. `test_adopt_updates_setting` starts with `theme=light`, which both modes update. — The suite would pass if adoption stopped recording matching keys and skipped the resulting configuration write.\n\n## Suggestions\n\n- app/config.py:18 — tests — Test that default merges preserve existing settings — No test merges incoming `theme=dark` over stored `theme=light` with both modes disabled. The default-mode test starts with an empty configuration and skips the replacement guard. — The suite would pass if a default merge started overwriting existing settings.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.FRenIQt5GU/review-pr.2q5rst",
+  "head_sha": "2751daaa14594c7e6ed72d3eaa7d32234275d34b",
+  "base_sha": "839c09ab3824195b701eaf185748da8b156e2e99",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "d38de903781c93dad8022b20a9bd7895f72b4b7e"
+}

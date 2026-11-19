@@ -1,0 +1,4 @@
+snapshot	run	input_tokens	cached_tokens	output_tokens	cost_usd	turns	duration_ms	commands	skill_commands
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/linked-issue-requirement/claude/candidate-2	1	35272	26054	1947	0.1179	8	19640	NA	NA
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/linked-issue-requirement/claude/candidate-2	2	35100	30927	1865	0.0768	7	20829	NA	NA
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/linked-issue-requirement/claude/candidate-2	3	50037	44594	2130	0.0950	9	23577	NA	NA

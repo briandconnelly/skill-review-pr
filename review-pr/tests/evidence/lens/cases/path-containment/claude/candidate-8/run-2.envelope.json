@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.326",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nThe containment check in `preview` must be fixed before merge: it compares paths lexically, so a `..` segment or a symlink reads files outside the home directory. The added outside-path test covers only an absolute path, so it does not catch this.\n\n## Changes\nAdds `preview(home, relative)`, which returns the first 200 characters of a file under `home`, and `settings_file(home)`, which returns the `settings.toml` path, to `app/paths.py`, with tests for both. It also adds `tests/review-note.txt`, which no test reads.\n\n## Critical\n- app/paths.py:12 — correctness — Resolve the candidate before the home containment check — `preview(home, \"../outside.txt\")` returns the first 200 characters of a file outside `home` instead of raising `ValueError`. `Path.is_relative_to` compares components lexically, so `home/../outside.txt` counts as inside `home`; a symlink under `home` that points outside passes the same way. — A caller that passes a user-supplied relative path exposes the start of any file the process can read. — Fix: Compare `(Path(home) / relative).resolve()` against `Path(home).resolve()`, and extend `test_preview` with a `..` case and a symlink case.\n\n## Important\n- app/paths.py:14 — correctness — Decode previews with an explicit encoding and error handler — `preview(home, \"photo.png\")` on a UTF-8 locale raises `UnicodeDecodeError` instead of returning a preview. `read_text()` decodes strictly with the locale's default encoding, and `UnicodeDecodeError` subclasses `ValueError`, the type line 13 raises for outside-home paths. — A caller catching `ValueError` cannot tell an undecodable file inside home from a rejected outside path.\n\n## Suggestions\n- app/paths.py:14 — correctness — Read only the first 200 characters, not the whole file — `preview` on a multi-gigabyte log under `home` loads and decodes the entire file to return 200 characters, because `candidate.read_text()[:200]` slices after the full read. — Previewing one large file costs memory and time proportional to its size.\n\n## Not reviewed\n(none)",
+    "duration_ms": 43672,
+    "cost_usd": 0.24468600000000001,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.oJCUjXg64o/review-pr.adDnsS",
+  "head_sha": "848391e13c6eaed91670f2a864e162f671c23bb0",
+  "base_sha": "045540e13efa1bf55c5929495418ab3e6fe7e3da",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "0a0c251f6381d0aad055bb09efc93375a4224290"
+}

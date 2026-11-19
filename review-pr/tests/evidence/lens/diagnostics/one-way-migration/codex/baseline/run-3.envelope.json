@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nMigration 3 must take a fresh backup before merge because it erases legacy email values added or updated after the version 2 snapshot.\n\n## Changes\n\nThe pull request adds migrations that drop `users.legacy_email` and `orders.coupon_code`, with a backup before the orders migration. The added test checks both column drops and verifies that the orders backup contains the original coupon code.\n\n## Critical\n\n- migrations/m0003_drop_legacy_email.py:7 — correctness — Back up users before dropping legacy_email — If a user’s `legacy_email` was added or updated after migration 2, migration 3 drops that value without saving it. The existing `users_backup_2` snapshot predates the new value. — Operators cannot recover the dropped value from the migration backups. — Fix: Call `backup_table(conn, \"users\", VERSION)` before the drop, following `migrations/m0002_drop_nickname.py:7`.\n\n## Important\n\n- migrations/m0004_drop_coupon_code.py:8 — correctness — Restore the orders schema before copying backup rows — When you call `restore_table(conn, \"orders\", 4)` after this drop, the helper deletes the current orders and then fails to insert the backup rows. Its `SELECT *` supplies four columns to the three-column table. — Operators cannot recover coupon codes through the restore helper and lose current orders if they commit the deletion. — Fix: Update `migrations/safety.py:13` to restore the pre-drop schema and replace the rows in one transaction.\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.iZ588O9F7J/review-pr.tRZqBt",
+  "head_sha": "c5059ec49a17aa14e4b8230fedc8d04ee9e2dac6",
+  "base_sha": "ed36688faf9fe8ffcdc5731a744c9224949e3f2f",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "0657188ded49745dd2c465e67621ca286abca4b0"
+}

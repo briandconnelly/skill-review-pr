@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.  \nNormalize keys on write so callers can retrieve entries written with mixed-case keys.\n\n## Changes\n\nThe pull request adds `Cache.set`, raises the default TTL from 60 to 300 seconds, and adds tests for reads after writes, the default TTL constant, and expiration.\n\n## Critical\n\n(none)\n\n## Important\n\n- app/cache.py:27 — correctness — Normalize keys before storing entries — After `set(\"Alpha\", 1)`, both `get(\"Alpha\")` and `get(\"alpha\")` return `None`. The setter stores the original key, while `get` lowercases it before lookup. — Mixed-case writes cause cache misses and leave entries that lookup-driven expiration cannot remove.\n\n## Suggestions\n\n- app/cache.py:27 — correctness — Expire entries at their deadline — An entry written at monotonic time `1000.0` with `ttl=1` is still returned at `1001.0`. The setter records `1001.0` as the deadline, but `get` only expires it when `expires < time.monotonic()`. — Callers reading at the deadline receive a value whose configured lifetime has elapsed. — Fix: Use `expires <= time.monotonic()` at `app/cache.py:21` and extend `test_entries_expire`.\n- app/cache.py:7 — comments — Identify 300 seconds as the default TTL — An entry written with `Cache(ttl=1)` has a one-second lifetime despite the comment “Entries expire 300 seconds after they are written.” The setter uses `time.monotonic() + self._ttl`. — The comment gives maintainers the wrong lifetime when callers override the default.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.UTHBICNfSd/review-pr.YSNPqO",
+  "head_sha": "5e35d22e74625b2808e631a1071336495cee9692",
+  "base_sha": "f1d39324c969d87d87dd09c6a8656a42421668c8",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "1f74790621162ee3e75479a8b90bc149f9774d37"
+}

@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.328",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nThe new `--exclude` flag does not take its default from an `ARCHIVE_EXCLUDE` environment variable, which the project's cli-flags policy requires for every new flag under `cli/`. Apart from that, the exclusion logic and its tests are consistent with the stated behaviour.\n\n## Changes\nThe pull request adds a repeatable `--exclude GLOB` option that drops files from the archive when their base name matches any of the given patterns, and logs each skipped file. It also documents the flag in `docs/flags.md` and adds parser, `collect` and end-to-end tests.\n\n## Critical\n(none)\n\n## Important\n- cli/main.py:17 — correctness — Read the --exclude default from ARCHIVE_EXCLUDE — When CI sets `ARCHIVE_EXCLUDE=*.log` and runs `archive src`, nothing is excluded, because the parser sets `default=[]` and never reads the environment. Policy `.claude/skills/cli-flags/SKILL.md:11` says: \"Every command-line flag added under `cli/` from now on must also take its default from an `ARCHIVE_<NAME>` environment variable\". — CI jobs that pass options through the environment cannot use `--exclude`, so excluded files still end up in their archives. — Fix: Parse `ARCHIVE_EXCLUDE` into a fresh list for `default=`, using a documented separator for multiple globs; note that `action=\"append\"` adds command-line patterns to that default instead of replacing it, then cover the variable in `test_exclude_defaults_to_nothing` or a sibling test.\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 35131,
+    "cost_usd": 0.1651876,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.Q8P5vvPNmR/review-pr.ukObPv",
+  "head_sha": "b7776eaee25f6954078b3af89fd0b683d7f14d43",
+  "base_sha": "9edc832b8c9dec4ce385163c502929a6253e6b0f",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "feee90e7be5345630a56a0e71eb322a7425c7880"
+}

@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\nFix the finish-time calculation before merge because it reports a finish time for a process whose only event is a start.\n\n## Changes\n\nThe pull request adds and documents a `finished_at` column in the current-state model, which still selects one row per process from its latest event.\n\n## Critical\n\n- models/processes.sql:10 — correctness — Populate `finished_at` from a completion event — Process 20 has only a `started` event, yet the model emits its start time as `finished_at`. The source permits `created`, `started`, and `cleared`, and the expression only returns a timestamp for `started`. — Consumers can treat a process that has only started as already finished. — Fix: Define which source event represents completion and use its timestamp.\n\n## Important\n\n- models/schema.yml:17 — comments — Document when `finished_at` is null — Process 30 has a `started` event followed by a `cleared` event, yet `finished_at` is null. “NULL means the process has never been started” contradicts `case when event_type = 'started' then occurred_at end`, which evaluates only the latest event. — Consumers who use null to identify never-started processes will misclassify processes that started and were later cleared.\n\n## Suggestions\n\n- models/processes.sql:10 — tests — Test that a created-only process has no finish time — Process 10 has only a `created` event, and the fixture contains no assertion that its `finished_at` stays null. — A regression that assigns a finish time to a never-started process would go undetected.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.bEkEeFCSrj/review-pr.24dM5h",
+  "head_sha": "53e010a5f68ace2570c2f3292cc35f70eba6ad7c",
+  "base_sha": "ffbd850a15952cfe670301f0ebd699ad70dbd684",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "389c9b3af273d0b16bca61c3ad7bb4432ae4c318"
+}

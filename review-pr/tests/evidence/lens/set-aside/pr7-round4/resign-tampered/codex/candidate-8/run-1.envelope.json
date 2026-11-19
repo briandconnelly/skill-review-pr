@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\nFix the refresh before merge because adding a new file can make verification accept a hand-edited tracked file.\n\n## Changes\n\nThe pull request adds two helpers that update the fingerprint manifest and tests for adding files and preserving existing fingerprints.\n\n## Critical\n\n- app/integrity.py:17 — correctness — Preserve tracked fingerprints when adding files — Refreshing with an edited `tracked.txt` and a new `new.txt` replaces the stored digest for `tracked.txt`. The assignment updates every supplied name. — After the refresh, verification accepts the hand-edited file as valid. — Fix: Delegate to `register_new_files` and extend `test_refresh_registers_new_files_and_keeps_unchanged_entries`.\n\n## Important\n\n- app/integrity.py:25 — correctness — Exclude the manifest from its own entries — When a root-level scan includes the previously unlisted `fingerprints.json`, registration stores a digest of the manifest and then rewrites it. Refresh has the same behavior at `app/integrity.py:17`. — Verification fails immediately after either update because the manifest’s stored digest describes its previous contents.\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.wZlIOu5oOB/review-pr.0J5yA0",
+  "head_sha": "8cb40ddfc28a08308d454c4ec8132865af3bbecb",
+  "base_sha": "6d07f71b82101eaaa04e2cf1db83f9e7d8069362",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "b923cbdd599fb5ed5fe99a184059746812def9a2"
+}

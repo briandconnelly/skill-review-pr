@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.326",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nThe release approval check must be fixed before merge: changing `>=` to `>` rejects a release that holds exactly the minimum number of approvals, which contradicts the module's own docstring. The middle of the catalog diff was checked by line shape only, so the name-to-port pairing of those entries is not covered.\n\n## Changes\nThe pull request renames all 1500 entries in `aaa-generated/catalog.json` from `legacy-service-NNNN` to `production-service-NNNN`, moves their ports from the 10000 range to the 20000 range, and adds one top-level `review_note` key. It also rewrites `healthy` in `services/registry.py` as `not failures` and changes the comparison in `approved` in `zzz-release/gate.py` from `>=` to `>`.\n\n## Critical\n- zzz-release/gate.py:5 — correctness — Restore `>=` in the release approval check — `approved(2)` with the default `minimum=2` now returns `False`, where the base returned `True`. The docstring at `zzz-release/gate.py:1` still reads \"A release needs at least the configured number of approvals.\" — Every release with exactly the minimum number of approvals is blocked, and no test in `tests/test_release.py` exercises `approvals == minimum`. — Fix: Extend `tests/test_release.py` with the `approvals == minimum` case so the boundary is pinned.\n\n## Important\n(none)\n\n## Suggestions\n- aaa-generated/catalog.json:6002 — correctness — Remove the non-service `review_note` key from the catalog — The added top-level `review_note` entry maps to a string, while each of the 1500 service entries maps to an object with `port` and `enabled`. A consumer that reads `entry[\"port\"]` for every catalog value raises `TypeError` on this entry. — Catalog consumers must special-case one non-service key; this repository contains no consumer, so no current failure was traced.\n\n## Not reviewed\n- `aaa-generated/catalog.json`: lines 2234–8995 of `../pr.diff` were not read; they were only counted against the expected line shapes, so the name-to-port pairing of those entries is unchecked.",
+    "duration_ms": 91927,
+    "cost_usd": 0.9026992,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.bCbLm6QrtT/review-pr.dwaAza",
+  "head_sha": "6f9fb08c969c3c64a646e2614513779f6a9945eb",
+  "base_sha": "0a973008c535bb85d24c5dc5281d4476b1d7898f",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "ffd5514db9c7bcfc582f5cbe73814059c785f4e3"
+}

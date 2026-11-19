@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\nRestore the proof check’s handling of empty criteria and unset proof values so requirements with missing evidence are reported as unproven.\n\n## Changes\n\nThe pull request changes requirement proof status to compare the sum of proof values with the criteria count. It adds a batch review helper and tests for both helpers.\n\n## Critical\n\n(none)\n\n## Important\n\n- app/proof.py:3 — correctness — Keep empty requirements unproven — `requirement_proven([])` returns `True` because the sum and the criteria count are both zero. The previous nonempty check returned `False`. — Callers receive a proven status for a requirement with no criteria.\n- app/proof.py:2 — correctness — Preserve the truth-value check for proof flags — A criterion with `{\"proven\": None}` raises `TypeError` because `sum` tries to add `None`. The previous `all` check treated the unset value as false. — A caller checking a requirement with an unset proof flag gets an exception instead of an unproven status.\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.mdaTj0iOdp/review-pr.JCHaZa",
+  "head_sha": "94b5722d358d66f1d1fe23a5b06d8607942d6b06",
+  "base_sha": "58972b891575bc27da6ce4fafad01e59697794cd",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "2c48de2d94a3b232f7a250499f7d0085293bd57c"
+}

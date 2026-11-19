@@ -45,6 +45,9 @@ check pr-body-location true false <<<"${VALID/"$SUGGESTION"/"$PR_BODY_BULLET"}"
 for bad in 'PR body [base]' 'pr body' 'PR-body' ' PR body' 'PR body:'; do
   check "pr-body-variant:$bad" false false <<<"${VALID/"$SUGGESTION"/"${PR_BODY_BULLET/PR body/$bad}"}"
 done
+# Codex 0.169 ends the coverage line with a markdown hard break (two spaces); a changed line still fails.
+check coverage-trailing-blanks true false <<<"${VALID/comments./comments.  }"
+check coverage-altered false false <<<"${VALID/Lenses checked: correctness,/Lenses checked: correctness;}"
 check missing-coverage false false <<<"$(sed '/^Lenses checked:/d' <<<"$VALID")"
 check marker-only-summary false false <<<'## Summary
 Lenses checked: correctness, silent-failure, tests, comments.

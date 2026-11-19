@@ -1,0 +1,4 @@
+snapshot	run	input_tokens	cached_tokens	output_tokens	cost_usd	turns	duration_ms	commands	skill_commands
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/path-containment/claude/candidate-8	1	38915	29358	2849	0.2727	9	32450	NA	NA
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/path-containment/claude/candidate-8	2	38728	34230	4148	0.2447	9	43672	NA	NA
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/path-containment/claude/candidate-8	3	34415	24291	1908	0.1240	8	20468	NA	NA

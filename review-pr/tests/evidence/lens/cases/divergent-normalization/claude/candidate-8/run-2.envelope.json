@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.328",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nFix `select_failures` so it matches report paths the way `select_explicit` does: today a report path with a `./` prefix never matches, so those failed tests are silently skipped.\n\n## Changes\nThe pull request adds `select_failures`, which selects requested paths from a runner report's `failed` list. It also turns two existing helpers into list comprehensions and adds the first tests for all three selectors.\n\n## Critical\n(none)\n\n## Important\n- app/selection.py:20 — correctness — Normalize report paths before the membership check — `select_failures({\"failed\": [\"./tests/test_x.py\"]}, {\"tests/test_x.py\"})` returns `[]` because it tests `path in requested` on the raw path. `select_explicit` at `app/selection.py:6` preserves the original spelling but matches on `normalize(path)`. The added test at `tests/test_selection.py:43` uses only unprefixed paths, so it misses this. — When a runner reports `./`-prefixed paths, the failed tests are dropped from the rerun with no error. — Fix: Use `normalize(path) in requested`, as `select_explicit` does, and add a `./`-prefixed case to `test_failure_report_selection`.\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 15767,
+    "cost_usd": 0.058877599999999995,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.lAR3IeccCi/review-pr.Eq2NpX",
+  "head_sha": "56a90e6cfbfcd520044133bca92013c64016b21f",
+  "base_sha": "6733a206bec8843d6d5db8ba9a1e7837b35fa140",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "062919d28f8214199599d1172a4bb635c62572b8"
+}

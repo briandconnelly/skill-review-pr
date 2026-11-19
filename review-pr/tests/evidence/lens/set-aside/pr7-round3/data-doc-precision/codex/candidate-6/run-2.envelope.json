@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\nFix the timestamp’s meaning before merge. A process that has only started gets a completion timestamp, and the catalog also gives consumers an incorrect interpretation of NULL.\n\n## Changes\n\nThe pull request adds `finished_at` to the current-state model and documents it in the schema catalog, while preserving one row per process based on the latest event. It also adds `review.txt`.\n\n## Critical\n\n- models/processes.sql:10 — correctness — Align `finished_at` with the event it represents — For process 20, whose only event is `started`, `finished_at` reports `2026-01-01T00:01:00Z` as a completion time. The CASE selects the start timestamp, and the source defines only `created`, `started`, and `cleared` events. — Consumers using `finished_at` to count completed processes will include processes that have only started. — Fix: Use the event that represents completion, or rename the column and update the catalog if it is meant to expose a start time.\n\n## Important\n\n- models/schema.yml:17 — comments — Document when the timestamp is NULL — For process 30, a `cleared` event after `started` makes `finished_at` NULL despite the earlier start. “NULL means the process has never been started” conflicts with `case when event_type = 'started' then occurred_at end` applied to the latest event. — Consumers following the catalog will misclassify previously started processes whose latest event is `cleared`.\n\n## Suggestions\n\n- models/schema.yml:12 — comments — Document the timestamp’s source offset — For a `started` event with `occurred_at` set to `2026-01-01T01:00:30+01:00`, the output retains `+01:00`. “Stored in UTC using the source event timestamp” conflicts with `then occurred_at`, which copies the value unchanged. — Consumers sorting the documented UTC strings can misorder timestamps with mixed offsets.\n- models/processes.sql:10 — tests — Cover processes with only a `created` event — For process 10, the CASE should return NULL because its only event is `created`. The source fixture contains this input, but no test checks the resulting timestamp. — A regression that assigns the creation time to the new column would go undetected.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.Bosa0R2AWu/review-pr.9nfOWi",
+  "head_sha": "e612a9ea148bc7c77cdf9e732430b232b2ec67d4",
+  "base_sha": "fc6626d13de3af9d127fe510a0274546753649e3",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "d226de21dc9933ca4109ca313c19f069a1f15b72"
+}

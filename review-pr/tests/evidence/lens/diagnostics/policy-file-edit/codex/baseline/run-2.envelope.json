@@ -1,0 +1,35 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nUpdate the agent guide’s pre-push command because the target it requires has been removed.\n\n## Changes\nThe pull request renames the Makefile target from `test` to `check`, updates the README’s test command, and adds a repository layout section to `AGENTS.md`.\n\n## Critical\n(none)\n\n## Important\n- Makefile:6 — correctness — Update the required pre-push test command — Running `make test` before pushing fails because the rename removes that target. The rule at base `AGENTS.md:11` still reads “Run `make test` before you push; it runs the pytest suite.” — A contributor who pushes after that failure skips the test suite, and the repository has no CI to run it. — Fix: Update the command at `AGENTS.md:24` to `make check`.\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.W8jWxLzYN6/review-pr.QrCnzu",
+  "head_sha": "785b643f65eb3bac43baa0b8c95d1d1d41f758ae",
+  "base_sha": "e7977a76c795dd9e8312906a837cc0383e48a7d0",
+  "merge_base_sha": null,
+  "policy_changes": [
+    "AGENTS.md"
+  ],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "bac887dd13377dc915727521ac563667af058a37"
+}

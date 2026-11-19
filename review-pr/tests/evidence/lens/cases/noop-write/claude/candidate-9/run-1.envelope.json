@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.328",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nAdopt mode needs an equality check before it records a change: in its current form it reports and rewrites settings whose values already match, which breaks the module's promise to preserve untouched configuration files.\n\n## Changes\nThe pull request adds an `adopt` flag to `merge` in `app/config.py`. With the flag set, incoming values overwrite existing keys and those keys are recorded as changes. It also adds tests for adopting a changed value and for replacing a changed value.\n\n## Critical\n(none)\n\n## Important\n- app/config.py:13 — correctness — Skip adoption when the existing value already matches — `merge(path, {\"theme\": \"dark\"}, adopt=True)` on a file holding `{\"theme\":\"dark\"}` returns `[\"theme\"]` and rewrites the file. The `elif adopt:` branch has no `current[key] != value` check, unlike the `replace` branch at line 19. This contradicts the module docstring \"preserving untouched configuration files\" and the byte-preservation behavior tested in `test_unchanged_replacement_preserves_bytes`. — With adopt mode on, unchanged config files are reformatted and reported as changed, so callers see changes that did not happen. — Fix: Use the same `if current[key] != value:` guard as the replace branch, and add an adopt case alongside `test_unchanged_replacement_preserves_bytes`.\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 16917,
+    "cost_usd": 0.10892099999999999,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.gJ7t97OTXX/review-pr.oLAoNP",
+  "head_sha": "833145cc0372a10c5613ce073a481a67b45b7673",
+  "base_sha": "7ba63f065c3208b5dfc55770e2b2aa88be81c18b",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "b88600a35fd52b6418ddf6c94f5bfe52fbd88dc8"
+}

@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.327",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nRunning the command on an existing setting now prints its adoption message twice, so the CLI filter needs fixing before the new `adopt` entries ship.\n\n## Changes\n`plan` now adds an `adopt` entry for each setting that already exists and adds a trailing `audit` entry with the incoming count. Two tests cover the audit entry through `run`, and the PR adds `app/review.txt`.\n\n## Critical\n(none)\n\n## Important\n- app/planner.py:9 — correctness — Stop `run` re-emitting adopt entries already reported — If you call `run({\"theme\": \"dark\"}, {\"theme\": \"dark\"}, emit)`, it emits \"Adopted theme\" twice. `plan` sends it as progress at line 8, and `app/cli.py:7` skips only `audit`, so it emits the new `adopt` entry's message again. No test calls `run` with an existing setting. — Every adopted setting appears twice in the command's output, which goes against the PR body's statement that the command renders actionable changes. — Fix: Skip `adopt` along with `audit` in `app/cli.py:7`, and add a `run` case with an existing key next to `test_adoption_progress`.\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 23141,
+    "cost_usd": 0.0761586,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.8WspnzY9PG/review-pr.5ddZWS",
+  "head_sha": "0e56f8b274b54c87be7e83f61c95a1488a65d4ce",
+  "base_sha": "93ca2c7ea1eb5c7da857f02603593c70fa50f71d",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "e065f0d17438a1f9ac7974ceeee5a8e55223abc6"
+}

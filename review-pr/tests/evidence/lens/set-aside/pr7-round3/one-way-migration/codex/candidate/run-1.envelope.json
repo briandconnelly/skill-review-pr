@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\nBack up `users` before merge because migration 3 permanently drops legacy email values written after the previous snapshot. The orders migration also needs a recovery path that restores the dropped column.\n\n## Changes\n\nMigrations 3 and 4 drop `users.legacy_email` and `orders.coupon_code`, respectively. Migration 4 snapshots `orders` before the drop, and the added test checks both column removals and the saved coupon code.\n\n## Critical\n\n- migrations/m0003_drop_legacy_email.py:7 — correctness — Back up users before dropping legacy_email — Upgrading a version 2 database with a user added after the previous snapshot discards that user's legacy email without saving it. The migration skips the pre-drop backup described in `migrations/safety.py:3`. — Operators cannot recover legacy email values written after the version 2 snapshot from a migration backup. — Fix: Follow `migrations/m0002_drop_nickname.py:7` and extend `test_drop_retired_columns`.\n\n## Important\n\n- migrations/m0004_drop_coupon_code.py:8 — correctness — Restore the orders schema before restoring rows — Restoring a version 4 snapshot containing an order fails after the drop because `migrations/safety.py:15` inserts four snapshot columns into the three-column `orders` table. The helper deletes the live rows before attempting that insert. — Operators cannot restore backed-up orders through the recovery helper against the version 4 schema. — Fix: Restore `coupon_code` before invoking `migrations/safety.py:13` during version 4 recovery.\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.wSpYgiV86S/review-pr.zzV93T",
+  "head_sha": "ea049bc6ad6c4f2de6f9cb6b50757d770a3e080a",
+  "base_sha": "0c519bf4b5e33a73dba98d88d48560e18dd42da6",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "9eb58f8f65643f2c5bf784623e21fdd82af653c0"
+}

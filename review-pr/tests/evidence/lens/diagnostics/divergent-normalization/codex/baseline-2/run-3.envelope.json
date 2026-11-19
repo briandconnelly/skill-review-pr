@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nFix failure-report selection so reruns include requested tests whose paths the runner spells with a `./` prefix.\n\n## Changes\nThe pull request adds selection from a runner’s failure report, rewrites the cached-path filter as a list comprehension, and adds tests for all three selectors.\n\n## Critical\n(none)\n\n## Important\n- app/selection.py:20 — correctness — Match dot-prefixed failure paths — A report containing `./tests/test_x.py` returns an empty selection when `tests/test_x.py` is requested. `select_failures` compares the raw path directly, while both existing selectors normalize paths before matching. — A rerun silently skips a requested failed test when the runner includes a `./` prefix. — Fix: Use `select_explicit(report[\"failed\"], requested)` to match normalized paths and preserve the report’s spelling, then extend `test_failure_report_selection`.\n\n## Suggestions\n- app/selection.py:15 — tests — Test exclusion of unrequested cached paths — No test exercises the rewritten filter with a cached path outside `requested`, such as `./tests/test_y.py` when only `tests/test_x.py` is requested. — Returning every normalized cached path would still pass the cached-selector test. — Fix: Extend `test_cached_paths_are_normalized_by_caller`.\n\n## Not reviewed\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.QvNXuwxgIG/review-pr.vFWv7B",
+  "head_sha": "65a300dbda429a701c48b2598b146c008d3c28df",
+  "base_sha": "14e6a5cc6ca31e0a77986f2eeebf544e41747639",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "1b44feaabc368f6c0082cd7600a26744ed14c4b5"
+}

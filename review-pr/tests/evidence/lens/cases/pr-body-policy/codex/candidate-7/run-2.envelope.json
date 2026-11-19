@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nPreserve Unicode letters and digits so titles such as `東京` produce a slug, and add the required verification section to the PR description.\n\n## Changes\n\nThe PR adds a `slugify` helper that lowercases page titles, replaces runs of characters outside the ASCII letter and digit ranges with hyphens, and trims leading and trailing hyphens. It adds parameterized tests for capitalization, separator runs, and empty results.\n\n## Critical\n\n(none)\n\n## Important\n\n- app/slug.py:7 — correctness — Preserve Unicode letters and digits in slugs — `slugify(\"東京\")` returns an empty string because `[^a-z0-9]+` treats both letters as separators, even though the PR description says only non-alphanumeric characters are replaced. — A page titled `東京` gets no slug to use as its URL segment.\n- PR body — correctness — Document how the change was verified — The current description omits `## Testing`. `AGENTS.md:4` requires “Every pull-request description has a `## Testing` section that says how the change was verified.” — Readers cannot tell from the PR description how the slug behavior was verified.\n\n## Suggestions\n\n- app/slug.py:7 — tests — Test digit preservation in slugs — For a title such as `Release 0.9`, the tests would still pass if the helper dropped both digits because none of the cases contain a digit. — A regression that drops version numbers from page slugs would pass the current suite. — Fix: Extend `test_slugify` with a versioned title.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.OUiA2aRnc4/review-pr.q8KSof",
+  "head_sha": "3426e8bc801040aba2fea8845782fb092e2d9484",
+  "base_sha": "bf44483db80f45a0ec46c99b76e9d7efcfb935da",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "12fc54b40454a1f1051deb24de0c621cf3f9689f"
+}

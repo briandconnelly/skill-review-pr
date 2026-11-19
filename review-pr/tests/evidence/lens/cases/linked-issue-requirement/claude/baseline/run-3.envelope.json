@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.326",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nThis review found no defects in the reviewed scope: the slice bounds, the negative-argument check and the default arguments in the pagination path hold for the boundary inputs traced. The tests were read, not run, and the requirements of issue #12 were not available to compare against.\n\n## Changes\nThe pull request adds `paginate(items, limit, offset=0)` in `app/paging.py` and gives `list_orders` optional `limit` and `offset` parameters that apply it after the newest-first sort. It adds tests for both and also adds a module-level string constant, `REVIEW_NOTE`, in `app/paging.py` that no code references.\n\n## Critical\n(none)\n\n## Important\n(none)\n\n## Suggestions\n(none)\n\n## Not reviewed\n- The text of issue #12, which the pull-request body says this change closes, was not available, so the change was not checked against that issue's requirements.",
+    "duration_ms": 26113,
+    "cost_usd": 0.1867984,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.KVVtBD11d5/review-pr.U7SeiQ",
+  "head_sha": "26fd0d5d9c94794da7f510800c322b42bd665004",
+  "base_sha": "598c786c8d5b4eddb2641a2fc9b656be987afb13",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "77c0b5ea63d10eaa842dfc7e844792ec1d75e2f5"
+}

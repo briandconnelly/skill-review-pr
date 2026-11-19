@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.328",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nFix the release gate before merge: a missing results file now lets the release through, because the gate passes when no checks were loaded.\n\n## Changes\n`load_results` now returns an empty list when the results file is missing. A new `display_preferences` function returns `{\"theme\": \"light\"}` when the preferences file is missing. Tests cover saved checks and both preference paths.\n\n## Critical\n- app/results.py:8 — correctness — Block the release when the results file is missing — When `results.json` does not exist, `load_results` returns `[]`, and `release_allowed` at `app/results.py:12` evaluates `all([])` as `True`. Before this change, the missing file raised `FileNotFoundError`. A gate that only reads saved checks should not pass when it finds none. — A deployment whose checks never ran or never wrote results is allowed to release without logging anything or signalling the caller. — Fix: Let `FileNotFoundError` propagate from `load_results`, or make `release_allowed` return `False` when no results load, and add a missing-file case to `test_saved_checks_control_release`.\n\n## Important\n(none)\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 16255,
+    "cost_usd": 0.05763879999999999,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.8Q09jh4bnO/review-pr.GgC7Ap",
+  "head_sha": "5009c8b2d275726c52bbae22c9efc1f4d2782440",
+  "base_sha": "8d3764ad62294760531b24345f67f45218c071c4",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "0f955703b77d4b1bea864de5b82b9305a6ffa27b"
+}

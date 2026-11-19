@@ -1,0 +1,11 @@
+{
+  "collection_id": "e975c5b23cd4cbd5ab0a4568586667eb2647f18d",
+  "runner": "codex",
+  "case": "plan-contradiction",
+  "snapshot": "candidate-7",
+  "level": "high",
+  "runs": 3,
+  "budget_usd": 1,
+  "lens_sha256": "97e599be92500984576328481fecb786a95457d3aa70ea3f6f8eb968cf577a56",
+  "diagnostic": false
+}

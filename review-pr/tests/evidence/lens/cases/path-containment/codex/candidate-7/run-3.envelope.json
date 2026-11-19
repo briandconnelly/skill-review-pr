@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix the preview’s containment check before merge because it allows reads outside the selected home directory.\n\n## Changes\n\nThe pull request adds a 200-character file preview, a helper for the `settings.toml` path, and tests for both helpers.\n\n## Critical\n\n- app/paths.py:12 — correctness — Check containment after resolving paths — A relative path with a parent-directory component or an in-home symlink pointing outside can return text from outside the selected home. `is_relative_to()` checks the unresolved path, while `read_text()` follows the filesystem target. — A caller who controls the preview path can read the first 200 characters of an outside text file the process can access. — Fix: Resolve the home and candidate before checking containment, then open the resolved candidate.\n\n## Important\n\n- app/paths.py:14 — correctness — Bound the preview read to 200 characters — Previewing a multi-gigabyte text log can fail on a memory-constrained process because `read_text()` loads the entire file before the slice runs. — Users can lose access to a short preview when opening a large log. — Fix: Open the file with a context manager and call `read(200)` on the text stream.\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.Lj65OYEu5R/review-pr.iLzRWW",
+  "head_sha": "3807c2275104425a54ad52b625428b5b28d866f7",
+  "base_sha": "049ebec4c0b7eb5b24d01707c9954bfcf605a154",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "e1cd0123cfab8327cefe9c40b4692f82e3911491"
+}

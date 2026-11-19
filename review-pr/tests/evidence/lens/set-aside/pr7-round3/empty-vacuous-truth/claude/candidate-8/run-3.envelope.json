@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.326",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nRestore the empty-criteria guard in `requirement_proven` before merge: the rewrite reports a requirement with no criteria as proven, which the base code explicitly rejected. This review read the tests and did not run them.\n\n## Changes\nThe pull request rewrites `requirement_proven` in `app/proof.py` to count proven items, adds a `reviewed_batch` helper that raises on an empty batch, and adds a `REVIEW_HINT` string constant. It also adds `tests/test_proof.py` covering both functions.\n\n## Critical\n- app/proof.py:3 — correctness — Restore the empty-criteria guard in requirement_proven — `requirement_proven([])` now returns `True`, because `sum` over no items is `0` and `0 == len([])`. The base expression `bool(criteria) and all(...)` returned `False` for that input, and no added test passes an empty list. — A requirement with no criteria is reported as proven, so callers treat a requirement without evidence as satisfied. — Fix: use `return bool(criteria) and all(item[\"proven\"] for item in criteria)` and extend `test_requirement_with_evidence` with the empty case.\n\n## Important\n(none)\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 31760,
+    "cost_usd": 0.18731760000000003,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.ZSqQTC1trj/review-pr.ELHcIF",
+  "head_sha": "b53b6d858e879f0a6bc889f7775d90e50e3d42fa",
+  "base_sha": "856a3531aaa10e28eb506b4aeff2193b83d10b20",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "bdc041e1c6718d63a37d22646bdc67aeb3f80098"
+}

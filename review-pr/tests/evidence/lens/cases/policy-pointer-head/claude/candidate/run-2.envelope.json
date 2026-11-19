@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.326",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nThe legacy fetcher's 8-attempt retry loop breaks the project's 3-attempt retry cap and should be fixed. The `app/legacy/` exemption that would allow it is added by this same pull request, so this review does not treat it as policy.\n\n## Changes\nThis pull request adds `fetch_inventory` in `app/legacy/fetch.py`, which tries up to 8 times, and `probe` in `app/health.py`, which tries up to 3 times. Both raise HTTP errors at once and retry other `OSError`s. It also adds parametrized tests for both and a sentence in `docs/review-rules.md` that exempts `app/legacy/` from the retry cap.\n\n## Critical\n(none)\n\n## Important\n- app/legacy/fetch.py:7 — correctness — Cap fetch_inventory retries at 3 attempts — When the legacy service is down, `MAX_ATTEMPTS = 8` with `timeout=10` and `RETRY_DELAY = 1.0` holds the caller for about 87 seconds. That breaks \"Code that retries a network call must stop after at most 3 attempts.\" (docs/review-rules.md:5). The exemption at `docs/review-rules.md:7` is added by this pull request, so it does not change the rule. — During an upstream outage, each worker thread stays blocked for minutes, which is the failure the rule was written to prevent. — Fix: Set `MAX_ATTEMPTS` to at most 3 and update the `8` in `tests/test_retries.py:10`, or remove the `docs/review-rules.md:7` exemption from this pull request and get it approved as a separate policy change.\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 26004,
+    "cost_usd": 0.1013082,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.z1fZiL6lYu/review-pr.30aSTF",
+  "head_sha": "96d6892ecdf2e2cd2bdacf6a77f509176608e0a5",
+  "base_sha": "97f5b2e79506ed896ca3fe95811757962d2b5561",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "27b987c91f6e633996415c6b7988ac6354c5c204"
+}

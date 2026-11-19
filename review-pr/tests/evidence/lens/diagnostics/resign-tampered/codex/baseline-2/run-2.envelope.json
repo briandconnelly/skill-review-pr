@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix the refresh before merge because it can erase the baseline that verification uses to detect edits.\n\n## Changes\n\nThe pull request adds two helpers that update the integrity manifest and adds tests for both.\n\n## Critical\n\n- app/integrity.py:17 — correctness — Preserve tracked fingerprints during refresh — When `names` contains an edited `tracked.txt` alongside `new.txt`, `refresh_fingerprints` overwrites the saved digest for `tracked.txt` with the digest of its edited contents. — After refreshing that list, `verify` accepts the edited tracked file as valid. — Fix: Reuse the membership check in `register_new_files` and extend `test_refresh_registers_new_files_and_keeps_unchanged_entries`.\n\n## Important\n\n(none)\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.3ToPgattKS/review-pr.JSqWx7",
+  "head_sha": "9be3df21d44b3188bd7768f17fc7421cb7a2211c",
+  "base_sha": "0e1f668fbe0b7d759f7dc2989bfb9b0b558b699e",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "53afc380e2ab84cf041fbd595dc01c0ba46bba83"
+}

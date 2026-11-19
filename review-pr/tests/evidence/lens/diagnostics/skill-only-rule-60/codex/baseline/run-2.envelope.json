@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nFix the `--exclude` default so CI can configure exclusions through the environment as project policy requires.\n\n## Changes\nThe pull request adds a repeatable `--exclude GLOB` flag that skips files by basename and logs each skip at info level. It documents the flag and adds tests for argument parsing, file collection, and archive contents.\n\n## Critical\n(none)\n\n## Important\n- cli/main.py:17 — correctness — Default `--exclude` from `ARCHIVE_EXCLUDE` — With `ARCHIVE_EXCLUDE=*.log` and no `--exclude` argument, the parser still returns `[]`. The CLI flags policy requires that every added flag “must also take its default from an `ARCHIVE_<NAME>` environment variable” (`.agents/skills/cli-flags/SKILL.md:11`). — CI jobs that set exclusions through the environment will include files they intended to omit.\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.s4u1alvxq1/review-pr.9Hq0FO",
+  "head_sha": "cbf78f82c77ac142c7c6aed6cdba3d5e4cebf954",
+  "base_sha": "b721a791c145ebfabee4b5516ebf0f1ed5c2cb2a",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "8b57949ef8b2677aa4d0af7d3819af2d228e4e1c"
+}

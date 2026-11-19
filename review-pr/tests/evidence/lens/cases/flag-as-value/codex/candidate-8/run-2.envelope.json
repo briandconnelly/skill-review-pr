@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix option parsing before merge because placing a pathless `--json` before `--junit` prevents either report from being written.\n\n## Changes\n\nThe pull request adds an optional path for `--json`, defaulting to `results.json`. It also adds a report writer and tests for JSON destinations and the required `--junit` path argument.\n\n## Critical\n\n- app/cli.py:15 — correctness — Preserve flags after a pathless `--json` — For `--json --junit x.xml`, the parser consumes `--junit` as the JSON destination and rejects `x.xml` as an unknown option. — When a pathless `--json` precedes `--junit`, report generation stops before writing either file. — Fix: Apply the JUnit branch’s `--` prefix check before consuming a JSON path.\n\n## Important\n\n- app/cli.py:30 — correctness — Reject a shared JUnit and JSON destination — With `--junit results.json --json`, both reports resolve to `results.json`, and the second `write_text` call overwrites the JUnit XML. — A JUnit consumer pointed at `results.json` receives JSON when both reports use that destination. — Fix: Check for shared destinations before writing either report.\n\n## Suggestions\n\n- app/cli.py:29 — tests — Test writing both reports in one invocation — The two-output path for `--junit junit.xml --json report.json` has no test. The only writer test requests JSON alone. — A regression that drops JUnit output when both reports are requested would pass the suite. — Fix: Extend `test_json_default_and_explicit_path` to exercise both outputs together.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.Nqbm78w4AU/review-pr.9pSKUI",
+  "head_sha": "bbcfa3e6f0481eec8dbf6bda7b2c18cc29575688",
+  "base_sha": "0b77351b62311f294b7a992e12ff279af759d6af",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "cd4cee356a55d6ed51c22bc30f9eadbcbaacad9b"
+}

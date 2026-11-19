@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.328",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nFix \"Restore `--wait` as a deprecated alias\" before merge: the ADR added in this pull request promises a one-release `--wait` alias with a deprecation warning, but the parser drops `--wait`, so existing invocations now fail.\n\n## Changes\nThis pull request renames the CLI option `--wait` to `--timeout` in `app/cli.py` and keeps the default of 30. It updates `tests/test_cli.py` to use the new name, adds ADR `docs/adr/007-timeout.md`, and adds a one-line `review.txt`.\n\n## Critical\n- app/cli.py:6 — correctness — Restore `--wait` as a deprecated alias — `parse_args([\"--wait\", \"12\"])` now exits with code 2 (\"unrecognized arguments\") because only `--timeout` is registered. That contradicts `docs/adr/007-timeout.md:5`: \"Accept `--wait` as an alias for one release and emit a deprecation warning when it is used.\" No test covers the alias or the warning. — Every existing script that passes `--wait` breaks immediately and gets no deprecation period. — Fix: Register `--wait` with `dest=\"timeout\"` and an action that emits a `DeprecationWarning`, then add a `--wait` case beside `test_explicit_options`.\n\n## Important\n(none)\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 20338,
+    "cost_usd": 0.07626699999999999,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.y90gL9w9aV/review-pr.i8in7l",
+  "head_sha": "720d5148d95cb0b674ef3bc8a4e5f5cb4e8df4f0",
+  "base_sha": "0bedf6162a1685ea5da6f197bea0777de62602d7",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "5ab92ee6354ff520c39f542d3985f213bd848b1c"
+}

@@ -1,0 +1,4 @@
+snapshot	run	input_tokens	cached_tokens	output_tokens	cost_usd	turns	duration_ms	commands	skill_commands
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/diagnostics/adjacent-comment/codex/baseline	1	120989	97408	2838	NA	1	NA	8	0
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/diagnostics/adjacent-comment/codex/baseline	2	120659	113792	2173	NA	1	NA	9	0
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/diagnostics/adjacent-comment/codex/baseline	3	101547	94976	1999	NA	1	NA	7	0

@@ -1,0 +1,40 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "error",
+    "result": "",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [
+      "You’ve hit your usage limit. Upgrade to Pro (https://chatgpt.com/explore/pro), visit https://chatgpt.com/settings/usage to purchase more credits or try again at 9:36 PM.",
+      "You’ve hit your usage limit. Upgrade to Pro (https://chatgpt.com/explore/pro), visit https://chatgpt.com/settings/usage to purchase more credits or try again at 9:36 PM."
+    ],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 1,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.AEPoGjgS3j/review-pr.enaHgE",
+  "head_sha": "6886e13125025e64b1dc01f70c0e408a120d1403",
+  "base_sha": "5679d2e4b96a6f9b653a727b985674ed5cb4533a",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": false,
+  "schema_errors": [
+    "only 0 of 6 headings present",
+    "Summary must begin with the exact lenses-checked line",
+    "Summary must include prose after the lenses-checked line"
+  ],
+  "diff_unavailable": false,
+  "collection_id": "4acfbfb545f669e7f605a0f0242976e1842344cd"
+}

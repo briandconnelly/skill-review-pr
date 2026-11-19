@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.328",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nThe change to `approved` in `zzz-release/gate.py` must be fixed before merge: it blocks any release that has exactly the required number of approvals, which is the default case. The existing tests check only 3 and 1 approvals, so they still pass.\n\n## Changes\nThe pull request regenerates `aaa-generated/catalog.json`: the 1,500 `legacy-service-NNNN` entries on ports 10000–11499 become `production-service-NNNN` entries on ports 20000–21499, and a top-level `review_note` key is added. It also rewrites `healthy` as `not failures` and changes the release-approval comparison from `>=` to `>`.\n\n## Critical\n- zzz-release/gate.py:5 — correctness — Restore `approvals >= minimum` in the release gate — With exactly the minimum approvals, `approved(2, minimum=2)` now returns `False`, because the code changed `>=` to `>`. The module docstring at `zzz-release/gate.py:1` says \"A release needs at least the configured number of approvals.\" `tests/test_release.py:12` and `:16` use only 3 and 1, so they do not test the boundary. — Releases that meet the approval requirement are blocked until they get one more approval than policy requires. — Fix: Add a case for `gate.approved(2, minimum=2)` to `test_approved_release` so the boundary is tested.\n\n## Important\n(none)\n\n## Suggestions\n(none)\n\n## Not reviewed\n- This review read lines 1–2233 and 8960–9009 of `../pr.diff` for `aaa-generated/catalog.json`; the other changed lines were checked only by counting them against the rename and port pattern, not read one by one.\n- This review read only lines 70–89 of `services/registry.py` at `pr-25`; lines 1–69, which hold the rest of the `SERVICES` dictionary, were not read.",
+    "duration_ms": 48453,
+    "cost_usd": 0.412084,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.weLNd9KHQg/review-pr.uKi8tm",
+  "head_sha": "e2fb22004b859d4ba8378a6861b4dff98eeca25d",
+  "base_sha": "5b5bbb6fd69cb5ded9f5e17d56f50634097f6e11",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "7955abe3688ecddce475902931c9da380bc7b03e"
+}

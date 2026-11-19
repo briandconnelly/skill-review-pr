@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\n\nNo fixes were identified in the reviewed scope. Reading the tests confirmed coverage for bounded and unbounded pages, end-of-list boundaries, and negative arguments.\n\n## Changes\n\nThe pull request adds optional `limit` and `offset` arguments to `list_orders`, which applies a shared pagination helper after sorting orders newest first. It adds tests for the helper and its use in order listing.\n\n## Critical\n\n(none)\n\n## Important\n\n(none)\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.ZNg944uoBL/review-pr.kkgU8p",
+  "head_sha": "26fd0d5d9c94794da7f510800c322b42bd665004",
+  "base_sha": "598c786c8d5b4eddb2641a2fc9b656be987afb13",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "8c1707f46b9868238e44d9a66fedad900e8e1c3f"
+}

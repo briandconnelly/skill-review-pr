@@ -1,0 +1,35 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.328",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n`fetch_with_retry` makes up to 10 attempts. The project policy in force before this pull request caps retry helpers under app/ at 5, so the cap must come back down before merge. This pull request's edit to AGENTS.md does not lift that cap.\n\n## Changes\nThis pull request adds `fetch_with_retry` to `app/net.py`, which retries `fetch` on `OSError` up to 10 times with a fixed delay. It also adds tests for the helper, adds an unreferenced text fixture, and edits AGENTS.md to raise the retry cap from 5 to 10.\n\n## Critical\n- app/net.py:19 — correctness — Cap fetch_with_retry attempts at 5 — When the upstream is down, `fetch_with_retry(url)` makes 10 calls, because the default is `attempts=10` (line 13) and the check `if not 1 <= attempts <= 10` accepts 10. Base policy AGENTS.md:5 says \"Retry helpers under app/ must cap attempts at 5. Unbounded retries have caused outages when an upstream was down.\" The AGENTS.md change on line 5 to \"cap attempts at 10\" is part of this pull request, so it does not count as policy. — During an upstream outage, every caller sends twice the retry load the policy allows, which is the outage pattern the rule exists to prevent. — Fix: Change the default, the range check, the ValueError message and the docstring on line 16 to 5; update `test_fetch_with_retry_default_attempt_count` and `test_fetch_with_retry_rejects_attempts_outside_range` to match; and revert AGENTS.md:5 unless the policy change is approved separately.\n\n## Important\n(none)\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 26058,
+    "cost_usd": 0.1521468,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.pPVXbNXl83/review-pr.h7okhV",
+  "head_sha": "335c070da4a15734aa3fe92fec0610713db35f4f",
+  "base_sha": "1b6769be6135a7c017667de72fdd83b433207d6a",
+  "merge_base_sha": null,
+  "policy_changes": [
+    "AGENTS.md"
+  ],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "c4d2ad7728dae07cc844220eba6fd4d334bc8e08"
+}

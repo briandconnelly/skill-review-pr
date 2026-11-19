@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix the empty-criteria regression before merge because it allows a release requirement to be marked proven without evidence.\n\n## Changes\n\nThe pull request modernizes handler type annotations and warning calls, uses `itemgetter` for name sorting, and replaces the requirement proof check with a count comparison. It also adds `review.txt`.\n\n## Critical\n\n- app/handlers/h091_requirements.py:12 — correctness — Require criteria before marking a requirement proven — An empty criteria list now returns `True`. After logging the warning, the function compares the sum of an empty sequence with its length, and both are zero. — A release review can mark a requirement proven without any supporting criteria.\n\n## Important\n\n- app/handlers/h091_requirements.py:11 — correctness — Stop evaluating after the first failed criterion — With `[{\"proven\": False}, {}]`, proof evaluation raises `KeyError`. The new sum reads the second row even though the previous `all` stopped at the first failed criterion. — A partially completed checklist can abort a release review even when a recorded failure already settles the proof result.\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.lyZ32UiGPQ/review-pr.87a7V6",
+  "head_sha": "166a868ae0ed673baeb458a190dc64e6221686d3",
+  "base_sha": "c710b0e349fcd8de8ad19aa57c10251ed0356a5b",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "dd426bfaed025e5d9f8b4e2942fdb08c86da18b0"
+}

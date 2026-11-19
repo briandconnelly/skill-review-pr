@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\nFix the preview’s directory containment check before merge because it can disclose text from outside the selected home. Bound the amount of text read so large files can be previewed reliably.\n\n## Changes\n\nThe pull request adds a helper that returns up to 200 characters from a file under the selected home and a helper that returns the path to `settings.toml`. It adds tests for preview truncation, rejection of an outside absolute path, and settings path construction.\n\n## Critical\n\n- app/paths.py:12 — correctness — Check containment on resolved preview paths — A relative path containing `..` or naming an in-home symlink to an outside file passes the lexical `is_relative_to()` check, so `preview()` opens the outside file. — A caller can receive the first 200 characters of a readable text file outside the selected home. — Fix: Resolve both the selected home and the candidate before checking containment, then read the resolved candidate.\n\n## Important\n\n- app/paths.py:14 — correctness — Read only the text needed for the preview — For a multi-gigabyte log, `read_text()[:200]` loads and decodes the entire file before taking the first 200 characters. — Previewing a log larger than the process’s available memory can fail with `MemoryError`. — Fix: Open the file in a context manager and read at most 200 characters.\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.Lj65OYEu5R/review-pr.ijUfKk",
+  "head_sha": "3807c2275104425a54ad52b625428b5b28d866f7",
+  "base_sha": "049ebec4c0b7eb5b24d01707c9954bfcf605a154",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "e1cd0123cfab8327cefe9c40b4692f82e3911491"
+}

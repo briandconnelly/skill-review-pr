@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nThe new flag should honor `ARCHIVE_EXCLUDE` so CI jobs can apply exclusions through the environment.\n\n## Changes\nThe pull request adds and documents a repeatable `--exclude GLOB` flag that matches filenames before archiving. It logs skipped paths in verbose mode and adds tests for parsing, filtering, and archive contents.\n\n## Critical\n(none)\n\n## Important\n- cli/main.py:17 — correctness — Read the default from `ARCHIVE_EXCLUDE` — With `ARCHIVE_EXCLUDE=*.log` and no `--exclude` argument, the CLI archives `skip.log` because the parser defaults to an empty list. The flag reference requires new flags to “take its default from an `ARCHIVE_<NAME>` environment variable” (`.agents/skills/cli-flags/reference.md:5`). — CI jobs that set exclusions through the environment produce archives containing files they intended to skip.\n\n## Suggestions\n- cli/main.py:33 — tests — Test exact-name exclusions in nested directories — The tests use only top-level files, so they would pass if `--exclude skip.log` stopped excluding `nested/skip.log` after a switch to matching relative paths. — A regression in basename matching could let nested files into archives without failing the tests.\n\n## Not reviewed\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.pW0dkUex6l/review-pr.MkCXYF",
+  "head_sha": "d996db5f49e9bb32aae8dff406a321134729cfe7",
+  "base_sha": "b598a0b6f59e0a6a4f50f72119e927830cd5b95b",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "52d4737062f663920215e3cba54d3ebb1b3fdee8"
+}

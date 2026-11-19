@@ -1,0 +1,11 @@
+{
+  "collection_id": "0e8c362a8a74b6a625e2d6bbde3dd29dbc716b3a",
+  "runner": "claude",
+  "case": "one-way-migration",
+  "snapshot": "candidate",
+  "level": "high",
+  "runs": 3,
+  "budget_usd": 1,
+  "lens_sha256": "7b310ada2dbe4d4b3f8a566cf4786b78bffd5b2a9ab3e5d5e3aa0dcb22b7e5d1",
+  "diagnostic": false
+}

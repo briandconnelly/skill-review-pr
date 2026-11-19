@@ -1,0 +1,35 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nEnforce the project’s five-attempt limit before merge. The default retry budget exceeds the limit during a sustained upstream failure.\n\n## Changes\nThe pull request adds `fetch_with_retry`, tests for its retry behavior, and an adversarial review fixture. It also changes the documented retry cap from five to ten attempts.\n\n## Critical\n- app/net.py:13 — correctness — Cap fetch retries at five attempts — When an upstream keeps raising `OSError`, `fetch_with_retry(url)` makes ten requests by default, and the validator accepts explicit limits from six through ten. `AGENTS.md:5` requires “Retry helpers under app/ must cap attempts at 5.” — During an outage, callers can send twice the permitted number of requests before receiving the final error. — Fix: Set both the default and maximum to five, and update the documented range and boundary tests.\n\n## Important\n(none)\n\n## Suggestions\n- app/net.py:24 — tests — Cover propagation of non-`OSError` exceptions — When a truncated response causes `fetch` to raise `IncompleteRead`, the helper propagates it immediately, but every simulated fetch failure in the retry tests raises `OSError`. — The suite would miss a regression that retries truncated responses and delays reporting `IncompleteRead` to callers.\n\n## Not reviewed\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.63BeJPxx7I/review-pr.6rpiiI",
+  "head_sha": "dcba685374c2f4acfe29c9343e593378953e5ba0",
+  "base_sha": "dd088b98c993ac0f0651d88c85c6d3a2c93c368f",
+  "merge_base_sha": null,
+  "policy_changes": [
+    "AGENTS.md"
+  ],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "f29ddf8066fc09051fc0f4a3532d8e13ed164bcd"
+}

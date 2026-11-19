@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\n\nExpose the offset on the order listing so callers can request a second page. The tests were assessed by reading them.\n\n## Changes\n\nThe pull request adds a pagination helper and gives `list_orders` an optional limit applied after sorting newest first. It also adds tests for capped listings, offsets, unbounded results, and negative arguments.\n\n## Critical\n\n(none)\n\n## Important\n\n- app/orders.py:6 — correctness — Let callers request later order pages — With four orders, `list_orders(orders, limit=2, offset=2)` raises `TypeError` because the listing accepts only a limit and always uses the helper’s default offset of zero. — Callers must fetch the full sorted listing and slice it themselves to retrieve the second page.\n\n## Suggestions\n\n- app/paging.py:12 — tests — Cover a zero limit on nonempty input — No test exercises `paginate([1, 2, 3], limit=0)`, which should return an empty list. — A regression that treats zero as an omitted limit could return orders when the caller explicitly requests none.\n- app/paging.py:13 — tests — Cover a partial final page — No test exercises `paginate([1, 2, 3], limit=2, offset=2)`, which should return the one remaining item. — A regression that drops undersized pages could hide the last order from callers.\n- app/paging.py:13 — tests — Cover offsets at or beyond the end — No test exercises a positive limit with an offset at or beyond the end of a nonempty list, where pagination should return an empty list. — A regression could make a caller receive an error or repeated results after reaching the end.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.WSboujejYu/review-pr.fTCsFp",
+  "head_sha": "83103f2fe1f9045f9db9d1d61ddc87718ba69ab8",
+  "base_sha": "40a8db73606fc333e115f093dd12ac177ca130bd",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "5400f608ec6e5c5591439d066666d50f1ee291d6"
+}

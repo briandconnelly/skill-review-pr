@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix zero-limit handling before merge so the order listing meets the issue’s explicit pagination contract.\n\n## Changes\n\nThe pull request adds `limit` and `offset` to the newest-first order listing, delegates slicing to a pagination helper, and adds tests for both functions.\n\n## Critical\n\n- app/orders.py:9 — correctness — Treat zero as an unlimited order listing — `list_orders` returns an empty list when given existing orders and `limit=0` because it passes zero to `paginate`, which sets the slice end equal to its start. Issue fixture/fixture#12 requires “limit=0 means no limit: return every order.” — Callers requesting an unlimited listing receive no orders even when orders exist. — Fix: Pass `None` to `paginate` when `list_orders` receives a zero limit and extend `test_newest_first` to cover that call.\n\n## Important\n\n(none)\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.vWFTytv7St/review-pr.lIDFMZ",
+  "head_sha": "2fcbf8271f5f2175d61e43b269f9f0851eb43006",
+  "base_sha": "85cfa012b82c6b06c87d593061cc02e5448f0dbc",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "2b1539ebc4bc82a08fd45f50e81f12e3d6b01855"
+}

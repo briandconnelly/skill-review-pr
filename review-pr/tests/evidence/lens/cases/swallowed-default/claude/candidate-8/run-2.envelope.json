@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.328",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nThe missing-results fallback has to be fixed before merge: when the saved checks file is absent, the release gate allows the release.\n\n## Changes\nThe pull request makes `load_results` return an empty list when the results file is missing, and adds `display_preferences`, which falls back to a light theme when no preferences file exists. It also adds tests for the release gate and for loading preferences.\n\n## Critical\n- app/results.py:8 — correctness — Block release when the results file is missing — If `results.json` is missing, `load_results` returns `[]`, and `release_allowed` then returns `all([])`, which is `True`, so the release is allowed. Nothing is logged and no comment says this is intended, unlike the commented preferences fallback at line 16. — A deleted, misnamed or never-written results file lets a release through the gate with zero checks run. — Fix: Let `FileNotFoundError` propagate from `load_results`, or have `release_allowed` return `False` for an empty result set, then add a missing-file case to `test_saved_checks_control_release`.\n\n## Important\n(none)\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 17542,
+    "cost_usd": 0.0616216,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.8Q09jh4bnO/review-pr.Slqgvg",
+  "head_sha": "5009c8b2d275726c52bbae22c9efc1f4d2782440",
+  "base_sha": "8d3764ad62294760531b24345f67f45218c071c4",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "0f955703b77d4b1bea864de5b82b9305a6ffa27b"
+}

@@ -1,0 +1,35 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\n\nThe pre-push instruction should be updated because it still invokes the removed `make test` target.\n\n## Changes\n\nThe pull request renames the Makefile’s pytest target to `check`, updates the README command, and adds a repository layout section to `AGENTS.md`.\n\n## Critical\n\n(none)\n\n## Important\n\n- Makefile:6 — correctness — Update the agent guide to use `make check` — Running `make test` fails because the rename removes the target required by `AGENTS.md:11` (“Run `make test` before you push”). The instruction remains at `AGENTS.md:24` in the PR. — Contributors who follow the documented pre-push command will leave the test suite unrun. — Fix: Replace `make test` with `make check` at `AGENTS.md:24`.\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.MUGFRA59no/review-pr.lW4RZo",
+  "head_sha": "98103feda4e78a4964701c33eb8edd15c4383503",
+  "base_sha": "c00e3ceccf6a9782ed6c383ea1589d641305933c",
+  "merge_base_sha": null,
+  "policy_changes": [
+    "AGENTS.md"
+  ],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "08851de6825d30194064685c8c05233897ee90b5"
+}

@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.328",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nOnly an optional correction was found: `test_rejects_legacy_header` passes without testing the new version check. `test_rejects_unsupported_header_with_complete_report` still covers that branch.\n\n## Changes\n`parse_report` now accepts only the exact header `REPORT v1` and no longer accepts any line starting with `REPORT `. The pull request also adds two tests that check unsupported reports are rejected.\n\n## Critical\n(none)\n\n## Important\n(none)\n\n## Suggestions\n- tests/test_report.py:11 — tests — Make the legacy-header test change the header — `\"v0\".join(fixture.rsplit(\"v1\", 1))` changes only the last `v1`, so the input becomes `\"REPORT v1\\nversion=v0\"`. That input keeps the v1 header and has no `END` line. `parse_report` returns `None` because `END` is missing (`app/report.py:3`), so the test also passes on the old `startswith(\"REPORT \")` code. The comment at line 9 says the test changes \"the fixture's version to v0\", but the header is unchanged. — This test does not protect the version check it is named for, and its comment misdescribes the input. — Fix: Use a complete legacy report such as `\"REPORT v0\\nvalue=ok\\nEND\"` with a distinct legacy header, or delete the test because `test_rejects_unsupported_header_with_complete_report` already covers this case.\n\n## Not reviewed\n(none)",
+    "duration_ms": 19555,
+    "cost_usd": 0.0638348,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.A69WJAeRW7/review-pr.wX3hG0",
+  "head_sha": "668895b6465b503e34f36a4e69fcf21c068c81c8",
+  "base_sha": "bb167ed39f51f898fc097d7be6a43db122d67ace",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "9519e4e42a5a96637e305dcc7eac82211a5e59b1"
+}

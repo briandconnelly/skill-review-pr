@@ -1,0 +1,4 @@
+snapshot	run	input_tokens	cached_tokens	output_tokens	cost_usd	turns	duration_ms	commands	skill_commands
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/policy-pointer-head/claude/candidate-4	1	62343	46125	2718	0.1933	10	30446	NA	NA
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/policy-pointer-head/claude/candidate-4	2	56031	46033	3159	0.1523	10	34271	NA	NA
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/policy-pointer-head/claude/candidate-4	3	52418	46027	2389	0.1081	10	25238	NA	NA

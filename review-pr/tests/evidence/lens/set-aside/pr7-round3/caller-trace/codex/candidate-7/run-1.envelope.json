@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\n\nThe command should emit adoption progress once per setting because the new adoption record causes it to replay progress the planner already emitted.\n\n## Changes\n\nThe planner now returns adoption records and an audit entry that counts incoming settings. The new tests check that audit entries appear in the returned plan and stay out of command output.\n\n## Critical\n\n(none)\n\n## Important\n\n- app/planner.py:9 — correctness — Emit adoption progress once per setting — When `theme` already exists, the planner emits `Adopted theme` and returns a new `adopt` record that the command emits again. The filter at `app/cli.py:7` skips only `audit` records. — A single adopted setting appears as two adoption events in command output. — Fix: Extend the filter at `app/cli.py:7` to skip `adopt` records while still returning them in the plan.\n\n## Suggestions\n\n- tests/test_planner.py:20 — tests — Assert audit presence independently of its position — For one new `theme` setting, `changes[-1]` would reject a plan with the correct audit entry before the add entry, even though the command output would be identical. — The test makes an audit entry’s position a requirement for changes that preserve the returned metadata and command output.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.a6WH2U58Ye/review-pr.f1LmSh",
+  "head_sha": "c7103917339c1d4a8b067749a110e5896965aef1",
+  "base_sha": "6538f84ed5d015f8760a2711677b0eb5dda2a275",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "284c764d2d3c4a79f32c29ee50d0529ac59eba3c"
+}

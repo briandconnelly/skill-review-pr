@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nMake `--exclude` read its default from `ARCHIVE_EXCLUDE` so CI jobs can omit matching files through their environment.\n\n## Changes\nThe PR adds a repeatable `--exclude GLOB` flag that matches file basenames and logs skipped files in verbose mode. It also adds flag documentation, tests, and a text fixture.\n\n## Critical\n(none)\n\n## Important\n- cli/main.py:17 — correctness — Read the default from `ARCHIVE_EXCLUDE` — With `ARCHIVE_EXCLUDE=*.log` and no explicit `--exclude`, the CLI archives `build.log` because the parser defaults to `[]`. `.agents/skills/cli-flags/reference.md:5` says each new flag “must also take its default from an `ARCHIVE_<NAME>` environment variable.” — CI jobs can ship archives containing files they configured the tool to omit.\n\n## Suggestions\n- tests/test_main.py:18 — tests — Verify both exclusions in the resulting archive — For `--exclude '*.log' --exclude '*.tmp'`, the test checks the parser’s list and would still pass if `main` forwarded only the first pattern. The archive test supplies one pattern. — A regression that drops the second exclusion could leave matching files in the archive while all tests pass.\n- cli/main.py:33 — tests — Test a literal basename in a nested directory — No test supplies `--exclude skip.log` for a file such as `subdir/skip.log`. The existing wildcard patterns would also match full paths, so the tests would pass if this call matched `path`. — A regression to full-path matching could archive nested files that users exclude by basename.\n\n## Not reviewed\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.KhxhjX5K6z/review-pr.d25e7e",
+  "head_sha": "3decbf0e1cbf76a6c7f6e8189637dd1d02a89fb5",
+  "base_sha": "e36370edeafac406535858c6b3a26da31fb75b26",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "700c46847aba97b63dd9cf623b4bb01830c7d9ef"
+}

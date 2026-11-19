@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nThe command should preserve one progress message per adopted setting so its output reflects the work performed.\n\n## Changes\nThe planner now returns adoption records and appends an audit record with the number of incoming settings. The added tests check that audit records are returned without being printed for both a new setting and empty input.\n\n## Critical\n(none)\n\n## Important\n- app/planner.py:9 — correctness — Emit adoption progress only once — When `theme` is already present, the new adoption record reaches `app/cli.py:9` and prints `Adopted theme` a second time. The planner already emits the message at `app/planner.py:8`, and the command skips only audit records. — Duplicate progress lines make one adoption look like two operations. — Fix: Skip adoption records in the rendering loop at `app/cli.py:7` while retaining them in the returned plan.\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.e5XjKevi1i/review-pr.aP12Vb",
+  "head_sha": "8db0283263ad268199c16319f3d155d15393bcf2",
+  "base_sha": "f9f28db3e24bcbca8bd6d2b171bcb69183304b8e",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "f996f5b8e89d411b4b685143d0854c08056995c6"
+}

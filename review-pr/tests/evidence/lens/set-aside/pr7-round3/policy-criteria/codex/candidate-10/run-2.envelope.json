@@ -1,0 +1,35 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nRestore the required retry cap before merge because the default exceeds the project’s limit during an upstream outage.\n\n## Changes\n\nThe pull request adds `fetch_with_retry` and tests for recovery, exhaustion, and attempt limits. It changes the documented cap from five attempts to ten.\n\n## Critical\n\n- app/net.py:19 — correctness — Enforce the five-attempt cap — When every fetch raises `OSError`, a default call makes ten attempts. `AGENTS.md:5` requires “Retry helpers under app/ must cap attempts at 5.” — The extra requests add load during an upstream outage and delay error reporting to callers. — Fix: Set both the default and the validation maximum to five, and update the documentation and tests to match.\n\n## Important\n\n(none)\n\n## Suggestions\n\n- app/net.py:24 — tests — Cover errors that bypass retries — No test covers a URL without a scheme, where `fetch` raises `ValueError` and the retry helper propagates it immediately. — A broader exception handler could retry a malformed URL and delay reporting the error without failing the suite.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.rU3zKgtQjM/review-pr.7X0TYr",
+  "head_sha": "fab3fd09ee462dfdc62a5151dab4e2e8e701f6cc",
+  "base_sha": "39dda989049b53114af6d1bfc64b0bede859d09c",
+  "merge_base_sha": null,
+  "policy_changes": [
+    "AGENTS.md"
+  ],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "ae3f558069635b8a502bf3852146109708c6b705"
+}

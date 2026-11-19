@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix option parsing before merge because a pathless `--json` blocks report generation when it precedes `--junit`.\n\n## Changes\n\nThe pull request adds `--json` with an optional destination that defaults to `results.json`. It adds a writer for the requested reports and tests for JSON destinations and the required JUnit path.\n\n## Critical\n\n- app/cli.py:15 — correctness — Keep following flags out of the JSON path — With `--json --junit out.xml`, the parser consumes `--junit` as the JSON path and rejects `out.xml` as an unknown option. The JSON branch treats any following token as a path. — Users who request default JSON output before JUnit get neither report. — Fix: Apply the JUnit branch’s `--` prefix check when deciding whether to consume the next token.\n\n## Important\n\n- app/cli.py:30 — correctness — Reject a shared JSON and JUnit destination — With `--junit out.xml --json out.xml`, the writer saves both reports to the same file. The second `write_text` call replaces the first report. — The call returns successfully with JSON in `out.xml`, and the requested JUnit report is lost. — Fix: Check for duplicate destinations before writing either report.\n\n## Suggestions\n\n- app/cli.py:29 — tests — Test writing both reports in one invocation — With `--junit out.xml --json out.json`, no test exercises the second iteration of the write loop. The only test that calls `write_reports` supplies one destination. — A regression that drops the second report would pass the tests.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.a306XbJqsa/review-pr.NPZjQn",
+  "head_sha": "6d9ad69fc4cbb7788cf021b7fa87f1ac75cdba35",
+  "base_sha": "50eafdb035f16b8e653009aa2352f7376aff24b7",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "e90a3384801a951f97b9320cf9f7cc0f39c1fce4"
+}

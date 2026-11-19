@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.326",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nFix the negative-`limit` handling in `paginate` before merging. Right now a negative value silently returns almost every order when it should be rejected the way a negative `offset` is.\n\n## Changes\nThis pull request adds `paginate(items, limit, offset=0)` in the new `app/paging.py` module. It also gives `list_orders` an optional `limit` that is passed to `paginate`, and adds a test that caps the listing at two orders.\n\n## Critical\n(none)\n\n## Important\n- app/paging.py:12 — correctness — Reject a negative limit as offset is rejected — With `list_orders(orders, limit=-1)`, `stop` becomes `-1` and `items[0:-1]` returns every order except the oldest. It does not raise an error or return an empty list. Line 9 validates `offset < 0`, but nothing validates `limit`. — A caller passing a bad or unchecked page size gets a nearly full listing with no error, which contradicts \"Return up to limit items\". — Fix: Add `if limit is not None and limit < 0: raise ValueError(\"limit must be non-negative\")` next to the offset check, and extend `test_limit_caps_results` or add a sibling test for it.\n\n## Suggestions\n- app/paging.py:9 — tests — Cover paginate's offset and negative-offset paths — No test passes a non-zero `offset` or a negative `offset` to `paginate`, so `start = offset` and the `ValueError` at line 10 are unexercised. `list_orders` only ever calls with the default `offset=0`. — A regression in the slice start or the offset guard would not be caught, and that path is the one the docstring says fetches later pages.\n\n## Not reviewed\n(none)",
+    "duration_ms": 21161,
+    "cost_usd": 0.0774676,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.hg2qnvXUso/review-pr.6qbriV",
+  "head_sha": "4ae59e347f1e7ef82e1bcb0f26a08f321caae3e1",
+  "base_sha": "3ee1aaaf97629439d22fbbbc30a995a83f3318e6",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "68c6833c7edcba95bd093b3e1fc4cd484d651977"
+}

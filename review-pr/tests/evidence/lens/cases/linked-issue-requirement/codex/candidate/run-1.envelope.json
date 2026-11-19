@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix zero-limit handling before merge because it returns an empty order listing for an input the linked issue requires to return every order.\n\n## Changes\n\nThe pull request adds `limit` and `offset` to the newest-first order listing, applies them through a pagination helper, and adds tests for page boundaries and negative arguments.\n\n## Critical\n\n- app/orders.py:9 — correctness — Treat a zero order limit as unlimited — With a nonempty order list and `limit=0`, `list_orders` returns `[]` because `paginate` sets the slice stop equal to its start at `app/paging.py:12`. The requirement in issue fixture/fixture#12 is “limit=0 means no limit: return every order.” — Clients using zero to request all orders can show customers an empty order history for an account with existing orders. — Fix: Normalize zero to `None` in `list_orders`, document the zero-limit behavior, and extend `test_limit_caps_results`.\n\n## Important\n\n(none)\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.A6K6OK4pg6/review-pr.vd74GC",
+  "head_sha": "2236d277d804969e7eefb6fb73e9ec5a4cc02390",
+  "base_sha": "3988ebd741f3da1b9543df1f11680007e7c6768a",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "9d5381b22420b5dd1a290fe7e9a2b2fddc5fc114"
+}

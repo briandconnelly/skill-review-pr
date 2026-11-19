@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nThis review found only an optional test correction in the reviewed scope because a separate test already checks rejection of a complete `REPORT v0` report.\n\n## Changes\nThe parser now requires the exact `REPORT v1` header. The pull request adds tests intended to check rejection of unsupported headers.\n\n## Critical\n(none)\n\n## Important\n(none)\n\n## Suggestions\n- tests/test_report.py:11 — tests — Remove the ineffective legacy-header test — With `REPORT v1\\nversion=v0` as input, `test_rejects_legacy_header` passes even if you remove the header check. The replacement changes the body, and the missing `END` makes the parser return `None` before checking the header. — If the parser starts accepting legacy headers again, this test still passes.\n\n## Not reviewed\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.32GCG0X36l/review-pr.swWfJE",
+  "head_sha": "4d3c79891373ebaad706e0291bde61ed494cc7da",
+  "base_sha": "2edf25f5b81914f820a3a58cfc361223cbddd947",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "ae62c4c2066b084d5381cff05813b6ff0054b0c2"
+}

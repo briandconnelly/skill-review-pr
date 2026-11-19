@@ -1,0 +1,4 @@
+snapshot	run	input_tokens	cached_tokens	output_tokens	cost_usd	turns	duration_ms	commands	skill_commands
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/linked-issue-requirement/claude/baseline	1	55347	44190	2358	0.2816	9	32518	NA	NA
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/linked-issue-requirement/claude/baseline	2	40205	34143	2415	0.2004	10	28061	NA	NA
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/linked-issue-requirement/claude/baseline	3	40218	34152	2074	0.1868	10	26113	NA	NA

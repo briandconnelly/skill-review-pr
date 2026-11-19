@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\n\nThe new flag should honor `ARCHIVE_EXCLUDE` so CI jobs can exclude files through the environment as project policy requires.\n\n## Changes\n\nThe pull request adds a repeatable `--exclude GLOB` flag that skips files by basename and logs each skip at INFO level. It documents the flag and adds parser, file collection, and archive tests.\n\n## Critical\n\n(none)\n\n## Important\n\n- cli/main.py:17 — correctness — Read the exclusion default from `ARCHIVE_EXCLUDE` — With `ARCHIVE_EXCLUDE=*.log` and no `--exclude` argument, the parser supplies `[]`, so the archive includes `.log` files. `.agents/skills/cli-flags/SKILL.md:11` says “Every command-line flag added under `cli/` from now on must also take its default from an `ARCHIVE_<NAME>` environment variable”. — CI jobs that configure exclusions through the environment archive files they intended to skip.\n\n## Suggestions\n\n- cli/main.py:33 — tests — Cover literal basename matching in subdirectories — The tests omit the case where `--exclude skip.log` should skip `nested/skip.log`. The existing `*.log` cases would still pass if the matcher received the full path. — A regression from basename matching to full-path matching could leave explicitly excluded files in an archive without failing the tests. — Fix: Extend `test_main_leaves_excluded_files_out_of_the_archive` with a nested file and a literal basename pattern.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.x33zUOMWki/review-pr.1KfJ8o",
+  "head_sha": "50fc1f282b0125f1175611ef3dcd33c6f0f51257",
+  "base_sha": "cdbfc379e3802df811ced8e58aa701b980c67604",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "ffb866e6499d3892ac84f230a486daee62ade2c2"
+}

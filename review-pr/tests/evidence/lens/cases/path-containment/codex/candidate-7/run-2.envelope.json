@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix the preview’s directory check before merge. It lets callers read files outside the selected home directory.\n\n## Changes\n\nThe pull request adds a helper that returns up to 200 characters from a file under the selected home directory and a helper that builds the path to `settings.toml`. It adds tests for short and long previews, rejection of an outside absolute path, and the settings path.\n\n## Critical\n\n- app/paths.py:12 — correctness — Check the resolved path before previewing — A relative path that uses `..` to reach a readable sibling file, or an in-home symlink to a readable outside file, passes `is_relative_to()` because it checks path components without resolving them. — A caller can read the first 200 characters of a file outside the selected home directory. — Fix: Resolve both the home and candidate before checking containment, then read the resolved candidate.\n\n## Important\n\n- app/paths.py:14 — correctness — Read only the requested preview length — Previewing a multi-gigabyte text log loads the entire file because `read_text()` completes before `[:200]` limits the result. — A log larger than available memory can exhaust the process’s memory before the caller gets a preview. — Fix: Open the file as a text stream and read at most 200 characters.\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.Lj65OYEu5R/review-pr.PRituf",
+  "head_sha": "3807c2275104425a54ad52b625428b5b28d866f7",
+  "base_sha": "049ebec4c0b7eb5b24d01707c9954bfcf605a154",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "e1cd0123cfab8327cefe9c40b4692f82e3911491"
+}

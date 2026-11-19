@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix zero-limit handling before merge because it returns an empty order list where issue #12 requires the full list.\n\n## Changes\n\n`list_orders` accepts an optional limit and applies it after sorting orders newest first. The new pagination helper also accepts an offset, and the added test checks that a positive limit returns the newest orders.\n\n## Critical\n\n- app/paging.py:12 — correctness — Treat a zero order limit as unlimited — `list_orders(orders, limit=0)` returns `[]` for a nonempty order list. Issue #12 requires all orders for this input, but the helper computes a slice stop of `0`. — Callers using the documented unlimited value see no orders even when orders exist. — Fix: Convert `limit=0` to `None` in `list_orders` before calling `paginate`.\n\n## Important\n\n(none)\n\n## Suggestions\n\n- app/paging.py:12 — tests — Test the stop calculation with a positive offset — For `paginate([1, 2, 3, 4], limit=2, offset=1)`, dropping the offset from the stop calculation would return `[2]` instead of `[2, 3]`. Both order-list tests use the default offset. — Later pages could lose items without a test failure.\n- app/paging.py:10 — tests — Test rejection of negative offsets — For `paginate([1, 2, 3], limit=2, offset=-1)`, removing the guard would return `[]` instead of raising `ValueError`. Neither order-list test exercises this error path. — Callers could lose the error signal that distinguishes an invalid offset from an empty page.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.gOs1DTDzci/review-pr.zWJB47",
+  "head_sha": "f86313b16e481e1067fc5d0f27c854c397aadc74",
+  "base_sha": "4e6571bb14d879fc2006d362eb643427de4b59b5",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "5969f29e2b06fd2f0b0f861c718ac157d4c069f6"
+}

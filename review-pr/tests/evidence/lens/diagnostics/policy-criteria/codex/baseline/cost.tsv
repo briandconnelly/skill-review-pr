@@ -1,0 +1,4 @@
+snapshot	run	input_tokens	cached_tokens	output_tokens	cost_usd	turns	duration_ms	commands	skill_commands
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/diagnostics/policy-criteria/codex/baseline	1	191265	162048	2229	NA	1	NA	15	0
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/diagnostics/policy-criteria/codex/baseline	2	165513	145792	1964	NA	1	NA	14	0
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/diagnostics/policy-criteria/codex/baseline	3	121990	108672	1782	NA	1	NA	10	0

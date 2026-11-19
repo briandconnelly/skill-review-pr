@@ -1,0 +1,11 @@
+{
+  "collection_id": "feee90e7be5345630a56a0e71eb322a7425c7880",
+  "runner": "claude",
+  "case": "skill-only-rule",
+  "snapshot": "candidate-3",
+  "level": "high",
+  "runs": 3,
+  "budget_usd": 1,
+  "lens_sha256": "97e599be92500984576328481fecb786a95457d3aa70ea3f6f8eb968cf577a56",
+  "diagnostic": false
+}

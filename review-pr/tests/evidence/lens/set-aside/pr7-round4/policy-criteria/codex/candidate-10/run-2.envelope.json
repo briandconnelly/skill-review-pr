@@ -1,0 +1,35 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nEnforce the five-attempt cap before merge. With the current default, an unavailable upstream receives ten requests from a single call.\n\n## Changes\n\nThe pull request adds `fetch_with_retry`, which retries `OSError` with a configurable delay and defaults to ten attempts. It adds retry tests and a review fixture, and proposes raising the project’s retry cap to ten.\n\n## Critical\n\n- app/net.py:13 — correctness — Enforce the five-attempt retry cap — When `fetch(url)` raises `OSError` on every call, `fetch_with_retry(url)` makes ten attempts, and the guard also accepts explicit values from 6 through 10. `AGENTS.md:5` requires “Retry helpers under app/ must cap attempts at 5.” — During an upstream outage, each default call can send five additional requests beyond the project’s cap. — Fix: Set the default and maximum to five, then update the docstring and the tests for the default and upper boundary.\n\n## Important\n\n(none)\n\n## Suggestions\n\n- app/net.py:14 — comments — Specify which failures trigger a retry — If an upstream sends a malformed HTTP status line and `fetch` raises `BadStatusLine`, the helper exits on the first attempt. The docstring says “Call fetch until it succeeds or attempts calls have failed,” but the handler is `except OSError:`. — Callers relying on the documented retry behavior can get an exception on the first attempt after a malformed response.\n- app/net.py:27 — tests — Assert the configured delay before retrying — For `delay=0.25` and a first attempt that raises `OSError`, the tests would pass if the helper retried immediately. Every multi-attempt test replaces `sleep` with a no-op that records no calls. — A regression that drops or ignores the configured delay can go undetected. — Fix: Extend `test_fetch_with_retry_succeeds_after_failures` to check the configured delay.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.63BeJPxx7I/review-pr.XyjKPp",
+  "head_sha": "dcba685374c2f4acfe29c9343e593378953e5ba0",
+  "base_sha": "dd088b98c993ac0f0651d88c85c6d3a2c93c368f",
+  "merge_base_sha": null,
+  "policy_changes": [
+    "AGENTS.md"
+  ],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "f29ddf8066fc09051fc0f4a3532d8e13ed164bcd"
+}

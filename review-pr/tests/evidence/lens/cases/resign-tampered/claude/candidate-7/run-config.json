@@ -1,0 +1,11 @@
+{
+  "collection_id": "39e0c0961f41f39dbbcf17f7e0b272615d78c495",
+  "runner": "claude",
+  "case": "resign-tampered",
+  "snapshot": "candidate-7",
+  "level": "high",
+  "runs": 3,
+  "budget_usd": 1,
+  "lens_sha256": "97e599be92500984576328481fecb786a95457d3aa70ea3f6f8eb968cf577a56",
+  "diagnostic": false
+}

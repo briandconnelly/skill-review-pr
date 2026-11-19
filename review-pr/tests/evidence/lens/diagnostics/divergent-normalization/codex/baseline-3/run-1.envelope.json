@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix failure-report selection so a leading `./` does not cause a requested failed test to be skipped.\n\n## Changes\n\nThe pull request adds a selector for failed paths from runner reports, simplifies cached selection without changing its behavior, and adds tests for all three selectors.\n\n## Critical\n\n(none)\n\n## Important\n\n- app/selection.py:20 — correctness — Normalize `./`-prefixed failure paths before matching — A report containing `./tests/test_x.py` returns no match when the request contains `tests/test_x.py`. The failure selector compares the raw path, while explicit selection normalizes it before matching and returns its original spelling. — When a runner reports paths with a leading `./`, users can miss rerunning a failed test they explicitly requested. — Fix: Reuse `select_explicit` for the report’s failed paths and extend `test_failure_report_selection`.\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.KSlGDqD5E1/review-pr.GY06HU",
+  "head_sha": "4f12f1d56671103d458cb6bf56b9f78761481573",
+  "base_sha": "df512a59f9a37ae85f7d0ac6cac9d4f9ec34ad45",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "cdd711660672d7b3a3af7d235bc068a1b7c03f0b"
+}

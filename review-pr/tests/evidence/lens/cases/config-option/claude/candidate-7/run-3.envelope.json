@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.326",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nThe new `CRITERION_HINT` should be fixed: it tells authors to omit \"shall\", and the validator rejects exactly those criteria whenever `require_shall` is enabled.\n\n## Changes\nThe pull request rewords the `CRITERION_HINT` and `BULLET_HINT` strings in `app/criteria.py`. It also adds a one-line `review.txt` at the repository root that no code references and the description does not mention.\n\n## Critical\n(none)\n\n## Important\n- app/criteria.py:1 — correctness — Make CRITERION_HINT agree with the require_shall option — With `require_shall=True`, a criterion written as the hint directs, such as `- Save the result`, is rejected because `app/criteria.py:8` returns `\" shall \" in text`. `tests/test_criteria.py:21` asserts that rejection, and `config.example.yml:1` exposes the option. — Authors on a deployment with `require_shall: true` who follow the hint have every criterion rejected, with guidance that points away from the fix. — Fix: Drop \"without the word shall\" from the hint, or select the hint text from the `require_shall` setting.\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 36288,
+    "cost_usd": 0.21217260000000002,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.lI5BBBDh8B/review-pr.SvVMcF",
+  "head_sha": "c2c41d00a7c2e7d5a6a974a8e3e670c56a33b727",
+  "base_sha": "9d093dfdef68b554cad6f34f33a12d82620a7e4d",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "763bf4808c4bbf03696b4e67a90421d6617bb878"
+}

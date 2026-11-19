@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.328",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nThe new `CRITERION_HINT` tells authors to leave out \"shall\", but the `require_shall=True` validator mode this pull request keeps rejects exactly those criteria, so the hint text needs fixing before merge.\n\n## Changes\nThe pull request rewords `CRITERION_HINT` and `BULLET_HINT` in `app/criteria.py`. It also adds a one-line `review.txt` at the repository root.\n\n## Critical\n(none)\n\n## Important\n- app/criteria.py:1 — correctness — Make the hint consistent with require_shall mode — With `require_shall: true`, a user who follows the new hint and writes `- Save the result` is rejected, because `accepts_criterion` returns `\" shall \" in text` at `app/criteria.py:8`. `tests/test_criteria.py:21` confirms that this exact input fails in that mode. — Deployments that enable `require_shall` would show a hint that leads users into validation failures. — Fix: Choose the hint based on `require_shall`, or reword it so it does not forbid \"shall\" in every mode.\n\n## Suggestions\n- review.txt:1 — correctness — Remove the unrelated review.txt file — The diff adds `review.txt` at the repository root. It has a single line addressed to a reviewer, no code references it, and the pull-request description does not mention it. — The file would ship as a stray root-level artifact that has nothing to do with the criteria hints.\n\n## Not reviewed\n(none)",
+    "duration_ms": 18873,
+    "cost_usd": 0.1017958,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.B5Wmh5ScMD/review-pr.v4XkEm",
+  "head_sha": "61478c257e0329ed4c68a11715250055ed7d4fe9",
+  "base_sha": "5dd25e8e477ea169a4d4a230bda270bd413f284a",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "3ab45ffe376ad47ac688d1a109d2d1aa98c508e8"
+}

@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nHonor `ARCHIVE_EXCLUDE` so CI can configure exclusions without passing command-line arguments.\n\n## Changes\n\nThe pull request adds and documents a repeatable `--exclude GLOB` flag that filters files by basename and logs skipped paths in verbose mode. It adds tests for parsing, filtering, and archive contents.\n\n## Critical\n\n(none)\n\n## Important\n\n- cli/main.py:17 — correctness — Read the default from `ARCHIVE_EXCLUDE` — With `ARCHIVE_EXCLUDE=*.log` and no `--exclude` argument, the archive still includes `build.log` because the parser hardcodes `default=[]`. `.agents/skills/cli-flags/SKILL.md:11` requires that “Every command-line flag added under `cli/` from now on must also take its default from an `ARCHIVE_<NAME>` environment variable”. — CI jobs that set exclusions through the environment will produce archives containing the files they configured the tool to skip.\n\n## Suggestions\n\n- tests/test_main.py:20 — tests — Verify repeated exclusions in the archive — With `--exclude '*.log' --exclude '*.tmp'`, the repeatability test passes if the archive uses only the first pattern and includes `cache.tmp`. It checks the parser’s list, and the archive test supplies a single pattern. — A regression that drops later exclusions during archive creation would pass the current suite. — Fix: Extend `test_main_leaves_excluded_files_out_of_the_archive` to exercise repeated flags.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.FdgVKuxoUy/review-pr.L5H2TE",
+  "head_sha": "9e9c9f7aeb39b0a6f21abd2005d199b6c54c4f80",
+  "base_sha": "c73ed3a1deff32e8b95143eca4886ea281ab3ab4",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "063ff9ca5f956f767446f4a4a164c71a1dc2f4f6"
+}

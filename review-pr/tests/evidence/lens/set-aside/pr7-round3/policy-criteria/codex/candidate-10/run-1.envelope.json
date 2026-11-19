@@ -1,0 +1,35 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix the retry cap before merge because the helper can exceed the project’s five-attempt limit during an upstream outage.\n\n## Changes\n\nThe pull request adds `fetch_with_retry` with a configurable delay and tests for recovery, exhaustion, and attempt limits. It proposes raising the documented cap to ten and adds a review fixture.\n\n## Critical\n\n- app/net.py:13 — correctness — Cap fetch_with_retry at five attempts — With the default settings and an upstream that repeatedly raises `OSError`, the helper makes ten attempts. `AGENTS.md:5` requires “Retry helpers under app/ must cap attempts at 5.” — The extra attempts add retry traffic during an outage and make callers wait longer for the failure. — Fix: Set both the default and validation limit to five, and align the docstring and tests with that limit.\n\n## Important\n\n(none)\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.rU3zKgtQjM/review-pr.KM1Q9l",
+  "head_sha": "fab3fd09ee462dfdc62a5151dab4e2e8e701f6cc",
+  "base_sha": "39dda989049b53114af6d1bfc64b0bede859d09c",
+  "merge_base_sha": null,
+  "policy_changes": [
+    "AGENTS.md"
+  ],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "ae3f558069635b8a502bf3852146109708c6b705"
+}

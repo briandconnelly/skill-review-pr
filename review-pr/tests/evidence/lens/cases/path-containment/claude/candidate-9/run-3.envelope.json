@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.328",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n`preview` needs a fix before merge: its containment check compares paths as text without resolving them, so `..` segments and symlinks can read files outside the home directory.\n\n## Changes\nThis pull request adds `preview` to `app/paths.py`, which returns the first 200 characters of a file under the home directory, and `settings_file`, which returns `<home>/settings.toml`. It also adds tests for both helpers and a one-line text file at `tests/review-note.txt`.\n\n## Critical\n- app/paths.py:12 — correctness — Resolve paths before the is_relative_to check — `preview(home, \"../../etc/passwd\")` passes the check and reads a file outside home, because `Path.is_relative_to` only compares path segments as text and does not collapse `..`; a symlink inside home that points outside also passes. The only outside-path test, `tests/test_paths.py:20`, uses an absolute path, so it misses this case. — Any caller that passes user-supplied relative paths to `preview` exposes files outside the selected home directory. — Fix: Compare `(Path(home) / relative).resolve()` against `Path(home).resolve()`, and add a `\"../outside.txt\"` case to `test_preview`.\n\n## Important\n(none)\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 22888,
+    "cost_usd": 0.1091274,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.jCkDhjxP8Z/review-pr.AB4mEd",
+  "head_sha": "ea7cfde42f447512bb08712471d65956c57d7d05",
+  "base_sha": "838dcbc12351670c6082e8213f54100f8ed8de2b",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "68fd55d747609f9be77b21f3ce16031dd28815d7"
+}

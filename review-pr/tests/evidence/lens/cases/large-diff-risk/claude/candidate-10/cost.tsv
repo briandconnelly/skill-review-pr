@@ -1,0 +1,4 @@
+snapshot	run	input_tokens	cached_tokens	output_tokens	cost_usd	turns	duration_ms	commands	skill_commands
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/large-diff-risk/claude/candidate-10	1	256698	212429	5054	0.4977	15	56573	NA	NA
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/large-diff-risk/claude/candidate-10	2	294478	259986	4194	0.4117	14	51411	NA	NA
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/large-diff-risk/claude/candidate-10	3	220755	183760	3971	0.4121	14	48453	NA	NA

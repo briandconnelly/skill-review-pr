@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nThe failure-report selector should match paths with a leading `./` so reruns include the requested failures.\n\n## Changes\n\nThe pull request adds selection from runner failure reports, refactors cached path filtering, and adds tests for explicit, cached, and failure-report selection.\n\n## Critical\n\n(none)\n\n## Important\n\n- app/selection.py:20 — correctness — Normalize failure paths before matching — A report containing `./tests/test_x.py` returns an empty selection when `tests/test_x.py` is requested. The filter compares the raw report path, while explicit selection normalizes the path before checking membership. — A rerun based on that report skips the requested failed test. — Fix: Use `normalize(path) in requested` for the membership check and keep `path` as the returned value.\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.KSlGDqD5E1/review-pr.WocdZL",
+  "head_sha": "4f12f1d56671103d458cb6bf56b9f78761481573",
+  "base_sha": "df512a59f9a37ae85f7d0ac6cac9d4f9ec34ad45",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "cdd711660672d7b3a3af7d235bc068a1b7c03f0b"
+}

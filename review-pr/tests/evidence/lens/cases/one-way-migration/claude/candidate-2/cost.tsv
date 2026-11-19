@@ -1,0 +1,4 @@
+snapshot	run	input_tokens	cached_tokens	output_tokens	cost_usd	turns	duration_ms	commands	skill_commands
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/one-way-migration/claude/candidate-2	1	48631	38185	2046	0.1321	11	23406	NA	NA
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/one-way-migration/claude/candidate-2	2	47218	42698	2005	0.0848	11	22345	NA	NA
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/one-way-migration/claude/candidate-2	3	47181	42681	2106	0.0866	11	24537	NA	NA

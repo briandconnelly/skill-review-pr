@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.328",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nThe rewritten `requirement_proven` now reports a requirement with no criteria as proven, which breaks the PR's stated \"No behavior change\" and lets an empty requirement pass release review, so it must be fixed before merge.\n\n## Changes\nThe PR replaces `typing.List`/`typing.Dict` with built-in generics and `Logger.warn` with `Logger.warning` across 181 handler modules. It also swaps a sort-key lambda for `operator.itemgetter`, rewrites the proof counting in `requirement_proven`, and adds a one-line `review.txt`.\n\n## Critical\n- app/handlers/h091_requirements.py:12 — correctness — Return False when the criteria list is empty — `requirement_proven([])` now returns `True`: `sum(...)` over no items is `0`, which equals `len([])`. The removed line `return bool(criteria) and all(item[\"proven\"] for item in criteria)` returned `False`, and the warning branch at line 9 still falls through. — Release review treats a requirement with no criteria as proven, while the log only shows a warning. — Fix: Restore `bool(criteria) and all(item[\"proven\"] for item in criteria)`, and add an empty-list case to `test_requirement_proof` in `tests/test_handlers.py:17`.\n\n## Important\n(none)\n\n## Suggestions\n(none)\n\n## Not reviewed\n- The 180 changed `app/handlers/h*_records.py` files were not read line by line; this review matched every added and removed line in them against the `List`/`Dict` → `list`/`dict` and `warn` → `warning` substitution pattern.\n- The repository declares no supported Python version (it has no `pyproject.toml`, `setup.cfg`, `setup.py`, `tox.ini` or `.python-version`), so this review could not confirm that the runtime is 3.9 or later, which built-in generic annotations require.",
+    "duration_ms": 74390,
+    "cost_usd": 0.2814776,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.BDRtuHnOIC/review-pr.oclNZ8",
+  "head_sha": "1fe56c9cae435288413da83a795065efa622e5bb",
+  "base_sha": "1450390a45bff1c441c5c631f9c66e4b0fb66419",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "183d90b38d9cf78b51dbf7726c7d58d8412b1a1a"
+}

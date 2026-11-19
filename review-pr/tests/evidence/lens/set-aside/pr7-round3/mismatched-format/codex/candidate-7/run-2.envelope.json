@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nUse the same revision identifier in running status and history so operators can match entries for the same deployment.\n\n## Changes\nThe pull request adds a running status line that displays an abbreviated revision and the attempt number.\n\n## Critical\n(none)\n\n## Important\n- app/display.py:14 — correctness — Use history’s revision identifier in running status — For revision `0123456789abcdef` on attempt 2, status shows `0123456` where history shows `0123456789ab`. The docstring promises “the same identifier as history,” but status uses `revision[:7]` and history uses `revision[:12]`. — Operators matching entries by the displayed identifier can miss the corresponding history entry for revisions longer than seven characters. — Fix: Use `revision[:12]` and extend `test_running_status_contains_attempt`.\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.Ms8k5xIXN4/review-pr.Yzagn2",
+  "head_sha": "e81c00afdc8decdb941f4e46ba018aada0c304d1",
+  "base_sha": "41ce9a672c2debe82e55b41079862acd36ed475b",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "cad08cc9de138009228e6f0180e33c6bf5e42d6f"
+}

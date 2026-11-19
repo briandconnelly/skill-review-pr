@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix the release gate before merge because it allows a release when the saved results file is missing.\n\n## Changes\n\nThe pull request adds missing-file fallbacks for saved release checks and display preferences. It adds tests for passing and failing saved checks, saved preferences, and the default light theme.\n\n## Critical\n\n- app/results.py:8 — correctness — Block releases when saved checks are missing — When `results.json` is missing, `release_allowed` returns `True`. The new fallback returns an empty list, so `all()` succeeds without evaluating a check. — A release can proceed without evidence that any required check ran or passed. — Fix: Preserve the `FileNotFoundError` from `load_results` so the gate cannot authorize the release.\n\n## Important\n\n(none)\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.bvhRizTtDZ/review-pr.mnssov",
+  "head_sha": "2e53f12e9b481eab00a3062528cce9cfe64a933a",
+  "base_sha": "4bb3bbaa2c6e20fa42098398ca4ce3b027787da8",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "ca85c612fb93e15518233ec36695ad4b0abe4f84"
+}

@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix the optional JSON argument before merge because placing bare `--json` before a valid `--junit` option aborts report generation. This review assessed coverage by reading the tests.\n\n## Changes\n\nThe pull request adds `--json` with a default destination of `results.json` or an explicit path, along with a helper that writes reports to the selected destinations.\n\n## Critical\n\n- app/cli.py:15 — correctness — Keep following flags out of the JSON path — `--json --junit report.xml` consumes `--junit` as the JSON path and then rejects `report.xml` as an unknown option. Without `report.xml`, the parser accepts `--junit` as a filename and skips JUnit path validation. — Putting bare `--json` before a valid `--junit` option prevents both reports from being written. — Fix: Apply the same `--` prefix check used for JUnit before consuming an explicit JSON path.\n\n## Important\n\n- app/cli.py:29 — tests — Cover writing both reports in one call — A `write_reports` call with explicit JSON and JUnit destinations has no test that exercises both loop iterations. The only writer test supplies one JSON destination. — A regression that writes only one report when both explicit destinations are supplied would pass the current tests.\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.a306XbJqsa/review-pr.WPsfDw",
+  "head_sha": "6d9ad69fc4cbb7788cf021b7fa87f1ac75cdba35",
+  "base_sha": "50eafdb035f16b8e653009aa2352f7376aff24b7",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "e90a3384801a951f97b9320cf9f7cc0f39c1fce4"
+}

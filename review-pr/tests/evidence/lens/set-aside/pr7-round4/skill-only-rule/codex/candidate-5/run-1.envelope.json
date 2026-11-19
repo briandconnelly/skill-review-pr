@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nThe flag should honor `ARCHIVE_EXCLUDE` so CI can omit matching files through its environment. Add coverage for literal basename patterns on nested files.\n\n## Changes\nThe CLI adds a repeatable `--exclude GLOB` option that filters files by basename before archiving and logs skipped paths at INFO level. The pull request also documents the option and adds parser, collection, and archive tests.\n\n## Critical\n(none)\n\n## Important\n- cli/main.py:17 — correctness — Read the default from ARCHIVE_EXCLUDE — With `ARCHIVE_EXCLUDE='*.log'` and no `--exclude` argument, the parser returns an empty pattern list. `.agents/skills/cli-flags/SKILL.md:11` says every new flag “must also take its default from an `ARCHIVE_<NAME>` environment variable”. — CI jobs that set only the environment variable still include matching log files in their archives.\n\n## Suggestions\n- cli/main.py:33 — tests — Test literal basename matching for nested files — The tests never exercise `--exclude debug.log` against `sub/debug.log`. Their leading-wildcard patterns also match full paths, so passing the full path to the matcher would pass the existing assertions. — A regression to full-path matching could leave nested files in archives despite a matching basename exclusion. — Fix: Extend `test_main_leaves_excluded_files_out_of_the_archive` with a nested file and a literal basename pattern.\n\n## Not reviewed\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.In9FKC62og/review-pr.NcQYoh",
+  "head_sha": "ebd7ad51051af50bd2701ac14d9859154c199772",
+  "base_sha": "ab2b2a88555357d8fc36178277feeebeb36141fd",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "328c2666be67944ab56b18bb5ee6cdcbafb8e8c5"
+}

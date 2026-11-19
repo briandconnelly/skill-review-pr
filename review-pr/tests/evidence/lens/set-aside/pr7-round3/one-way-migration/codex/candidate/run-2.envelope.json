@@ -1,0 +1,35 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.  \nBack up user rows before merge because migration 3 permanently drops legacy email values from the live table. Order recovery also needs to handle the schema change before replacing live rows.\n\n## Changes\nThe pull request adds SQLite migrations that drop `users.legacy_email` and `orders.coupon_code`. It adds a test that checks both columns are removed and the orders backup retains the original coupon code.\n\n## Critical\n- migrations/m0003_drop_legacy_email.py:7 — correctness — Back up users before dropping legacy email — A user whose legacy email was set after migration 2 loses that value when migration 3 drops the column without calling `backup_table`. The version 2 snapshot predates the update. — Operators cannot recover those legacy email values from the migration backups. — Fix: Follow the backup pattern in `migrations/m0002_drop_nickname.py:7` and extend `test_drop_retired_columns`.\n\n## Important\n- migrations/m0004_drop_coupon_code.py:8 — correctness — Restore the orders schema before replacing rows — After migration 4 drops `coupon_code`, `restore_table(conn, \"orders\", 4)` deletes the live orders, then fails at `migrations/safety.py:15` because the backup has four columns and the live table has three. — On an autocommit connection, a recovery attempt leaves the live orders table empty. — Fix: Restore the missing column before copying rows and make the replacement in `migrations/safety.py:13` atomic.\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.wSpYgiV86S/review-pr.xOUu0x",
+  "head_sha": "ea049bc6ad6c4f2de6f9cb6b50757d770a3e080a",
+  "base_sha": "0c519bf4b5e33a73dba98d88d48560e18dd42da6",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": false,
+  "schema_errors": [
+    "Summary must begin with the exact lenses-checked line"
+  ],
+  "diff_unavailable": false,
+  "collection_id": "9eb58f8f65643f2c5bf784623e21fdd82af653c0"
+}

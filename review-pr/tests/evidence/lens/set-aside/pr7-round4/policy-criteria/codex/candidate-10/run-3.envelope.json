@@ -1,0 +1,35 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nEnforce the five-attempt cap before merge because the new helper can exceed the project’s retry limit during an upstream outage.\n\n## Changes\n\nThe pull request adds `fetch_with_retry` with a ten-attempt limit and adds tests for retry success, exhaustion, and attempt limits. It also proposes raising the project limit to ten and adds a review fixture.\n\n## Critical\n\n- app/net.py:13 — correctness — Cap fetch attempts at five — With an unavailable upstream, a default call makes ten attempts, and the validation also accepts explicit counts from six through ten. `AGENTS.md:5` requires that “Retry helpers under app/ must cap attempts at 5.” — During an outage, the extra attempts add load to the failing upstream and delay the caller’s error. — Fix: Set the default and validation ceiling to five, and update the docstring and retry-limit tests.\n\n## Important\n\n(none)\n\n## Suggestions\n\n- app/net.py:14 — comments — Specify which failures trigger retries — A response body shorter than its declared `Content-Length` raises `IncompleteRead` on the first attempt and exits immediately. The docstring says “Call fetch until it succeeds or attempts calls have failed,” but the handler catches only `OSError`. — Callers relying on the documented retry behavior can receive an immediate error after a transient response truncation.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.63BeJPxx7I/review-pr.57PJPQ",
+  "head_sha": "dcba685374c2f4acfe29c9343e593378953e5ba0",
+  "base_sha": "dd088b98c993ac0f0651d88c85c6d3a2c93c368f",
+  "merge_base_sha": null,
+  "policy_changes": [
+    "AGENTS.md"
+  ],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "f29ddf8066fc09051fc0f4a3532d8e13ed164bcd"
+}

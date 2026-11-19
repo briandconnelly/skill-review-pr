@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix the proof check before merge because it accepts requirements with no criteria as proven.\n\n## Changes\n\nThe pull request replaces the requirement proof check with a count comparison and adds a batch helper that checks review status. It adds tests for nonempty criteria and for empty, fully reviewed, and partially reviewed batches.\n\n## Critical\n\n- app/proof.py:3 — correctness — Require criteria before marking a requirement proven — An empty criteria list returns `True` because the sum and list length are both zero. The previous check returned `False`. — Callers can treat a requirement as satisfied without any supporting evidence.\n\n## Important\n\n- app/proof.py:3 — correctness — Preserve support for criterion generators — A generator yielding `{\"proven\": True}` raises `TypeError` at `len(criteria)` after `sum()` consumes it. The previous check accepted that generator through `all()`. — Callers that stream criteria now get an exception instead of a proof status.\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.oJClusan0l/review-pr.LvUue9",
+  "head_sha": "8ce8549caefdb05a08c9aad6a53d897ef9e119f6",
+  "base_sha": "eeb6f5d6ac5f5cd12d43e4f98458c274b13215be",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "22810e6450a337ba0c5dc5e068ece3f8c2e8e3d0"
+}

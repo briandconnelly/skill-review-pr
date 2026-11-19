@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix the refresh before merge because adding files can erase the stored fingerprints that verification needs to detect edits.\n\n## Changes\n\nThe pull request adds two helpers that update the JSON fingerprint manifest. `refresh_fingerprints` writes a digest for every supplied name, while `register_new_files` writes digests only for unlisted names.\n\n## Critical\n\n- app/integrity.py:17 — correctness — Preserve tracked digests when adding files — Refreshing `[\"tracked.txt\", \"new.txt\"]` after `tracked.txt` was edited replaces its stored digest, so `verify()` reports success. The refresh loop assigns a new digest for every supplied name. — Adding a file can cause verification to accept edits to a tracked file that the refresh also includes. — Fix: Reuse the existing-entry check from `register_new_files`.\n\n## Important\n\n- app/integrity.py:25 — correctness — Keep the manifest out of its own fingerprint list — Passing `[\"fingerprints.json\"]` when the manifest is an unlisted file under the content root makes verification fail after either helper succeeds. Both helpers record the digest of the manifest before rewriting it. — A file scan that includes the manifest can cause verification to fail even when all other files are intact.\n- app/integrity.py:18 — correctness — Convert relative Path inputs to manifest keys — Passing `[Path(\"new.txt\")]` for an existing file makes either helper raise `TypeError` during JSON serialization. The file lookup accepts the `Path`, but the helper also uses it as a JSON object key. — Callers that pass root-relative `Path` objects cannot add those files to the manifest. — Fix: Convert each name to a string before lookup and insertion.\n\n## Suggestions\n\n- tests/test_integrity.py:18 — tests — Assert that an empty refresh preserves entries — With `names=[]`, the assertion passes even if refresh replaces the populated manifest with `{}`. `verify()` returns true when there are no entries to check. — The test would miss a regression that clears every stored fingerprint during an empty refresh. — Fix: Assert that the manifest entries are unchanged after the empty refresh.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.PVWY0wCaf3/review-pr.8lREEZ",
+  "head_sha": "f13df98ce8a478f243f06e99e6690f688f972ba9",
+  "base_sha": "da2f6e29410503a875eff8f0343c4266b183fb02",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "4e59d06e7f145ccdeaafd8f4d471a960bbc552d1"
+}

@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\n\nThe new `--exclude` flag should honor `ARCHIVE_EXCLUDE` so CI can configure exclusions through the environment as required by project policy.\n\n## Changes\n\nThe pull request adds a repeatable `--exclude GLOB` flag that matches file basenames, logs skipped paths, and leaves matching files out of the archive. It documents the flag and adds parser, file collection, and archive tests.\n\n## Critical\n\n(none)\n\n## Important\n\n- cli/main.py:17 — correctness — Read the default from `ARCHIVE_EXCLUDE` — With `ARCHIVE_EXCLUDE=*.log` and no `--exclude`, the archive still includes `debug.log` because the parser hard-codes `default=[]`. The CLI policy says every new flag “must also take its default from an `ARCHIVE_<NAME>` environment variable” (`.agents/skills/cli-flags/SKILL.md:11`). — CI jobs that set exclusions through the environment package files they intended to omit.\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.x33zUOMWki/review-pr.B2DbGT",
+  "head_sha": "50fc1f282b0125f1175611ef3dcd33c6f0f51257",
+  "base_sha": "cdbfc379e3802df811ced8e58aa701b980c67604",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "ffb866e6499d3892ac84f230a486daee62ade2c2"
+}

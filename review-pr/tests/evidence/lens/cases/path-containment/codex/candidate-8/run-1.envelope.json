@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix preview path containment before merge because the helper can disclose text from files outside the selected home directory.\n\n## Changes\n\nThe pull request adds a 200-character text preview, a helper that returns the path to `settings.toml`, and tests for both helpers.\n\n## Critical\n\n- app/paths.py:12 — correctness — Check resolved paths before reading previews — A relative path that traverses above `home` or a symlink inside `home` that points to an outside file passes the guard. `is_relative_to()` compares path components without resolving either case. — Either input can expose up to 200 characters from a file outside the selected home directory. — Fix: Resolve both paths before checking containment, then read from the resolved candidate.\n\n## Important\n\n- app/paths.py:14 — correctness — Limit how much text the preview reads — Previewing a valid text file larger than available memory can exhaust memory because `read_text()` loads the entire file before the 200-character slice. — A sufficiently large text file can cause the process to terminate when a user requests its preview. — Fix: Open the file with a context manager and read at most 200 characters.\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.IVhHCWaplp/review-pr.eSClBg",
+  "head_sha": "1f63b0f99bd5d2ead675f39b06158222513b1a8f",
+  "base_sha": "af457001fa670e05388e4b2805ea091a388439dc",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "b42940010ba26de03708c01a05eefcacfa2adcbc"
+}

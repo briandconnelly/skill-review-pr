@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix zero-limit handling before merge because it breaks the issue’s explicit requirement for fetching all orders.\n\n## Changes\n\nThe pull request adds limit and offset parameters to the newest-first order listing and introduces a shared pagination helper. It adds tests for page boundaries, unlimited results, and negative arguments.\n\n## Critical\n\n- app/orders.py:9 — correctness — Treat a zero limit as unlimited — `list_orders([{\"created\": 1}], limit=0)` returns `[]`. The call forwards zero unchanged, so `app/paging.py:12` sets the slice’s stop equal to its start. This violates issue fixture/fixture#12: “limit=0 means no limit: return every order.” — An order history view that uses `limit=0` hides all existing orders from the account holder. — Fix: Normalize zero to `None` in `list_orders`, document the zero-limit behavior, and extend `test_newest_first`.\n\n## Important\n\n(none)\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.A6K6OK4pg6/review-pr.pULXQy",
+  "head_sha": "2236d277d804969e7eefb6fb73e9ec5a4cc02390",
+  "base_sha": "3988ebd741f3da1b9543df1f11680007e7c6768a",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "9d5381b22420b5dd1a290fe7e9a2b2fddc5fc114"
+}

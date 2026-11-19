@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nNormalize keys on write so mixed-case entries can be retrieved, and expire entries when they reach their deadline.\n\n## Changes\n\nThe pull request adds `Cache.set` and raises the default TTL from 60 to 300 seconds. It adds tests for round-trip lookup, the default TTL constant, and expiry with a custom TTL.\n\n## Critical\n\n(none)\n\n## Important\n\n- app/cache.py:27 — correctness — Normalize keys before storing them — After `set(\"ALPHA\", 1)`, both `get(\"ALPHA\")` and `get(\"alpha\")` return `None`. `set` stores `\"ALPHA\"` as written, while `get` looks up `\"alpha\"`. — Callers that write mixed-case keys get cache misses immediately after a successful write. — Fix: Store the entry under `key.lower()` and extend `test_set_then_get_round_trip` with a mixed-case write.\n- app/cache.py:27 — correctness — Expire entries at their deadline — With `ttl=1`, a read exactly one second after `set(\"alpha\", 1)` still returns `1`. The new `set` records the deadline, and `get` removes the entry only when `expires < time.monotonic()`. — A caller reading at the deadline can treat stale data as a cache hit. — Fix: Use `expires <= time.monotonic()` at `app/cache.py:21` and extend `test_entries_expire`.\n\n## Suggestions\n\n- app/cache.py:7 — comments — Identify 300 seconds as the default TTL — An entry written with `Cache(ttl=1)` expires after one second, contrary to “Entries expire 300 seconds after they are written.” The write computes its deadline with `time.monotonic() + self._ttl`. — The comment gives maintainers the wrong retention period when a caller supplies a custom TTL.\n- tests/test_cache.py:18 — tests — Test the default lifetime through the cache API — If `Cache()` reverted to a 60-second lifetime while `Cache.DEFAULT_TTL` remained 300, `test_default_ttl_is_five_minutes` would still pass because it checks only the constant. — A regression in the lifetime callers get from `Cache()` would pass the test intended to protect it. — Fix: Use the controlled clock from `test_entries_expire` to exercise the default lifetime through `set` and `get`.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.BEwjymGbvt/review-pr.GiMczK",
+  "head_sha": "934fa848bb4da35222f6552d84240d3ed8cf9b4f",
+  "base_sha": "c6fb543a7858b01097a062925bc32345e3ddf093",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "c9ccbd3da0ba4109e41f81bd4db7ad505f6e09b6"
+}

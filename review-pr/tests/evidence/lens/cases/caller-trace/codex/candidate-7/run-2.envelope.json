@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix duplicate adoption output so the new plan records preserve the command’s existing progress behavior.\n\n## Changes\n\nThe planner now returns adoption records and an audit record with the incoming settings count. New tests check that empty and nonempty plans return audit records without printing them.\n\n## Critical\n\n(none)\n\n## Important\n\n- app/planner.py:9 — correctness — Emit adoption progress once per setting — When `theme` appears in both current and incoming settings, the planner emits `Adopted theme` immediately, then returns the same message in a record that `run` prints at `app/cli.py:9`. — Users see two apparent adoption events for each setting the command adopts. — Fix: Extend the filter at `app/cli.py:7` to skip adoption records and extend `test_adoption_progress` to cover `run`.\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.e5XjKevi1i/review-pr.epTpVO",
+  "head_sha": "8db0283263ad268199c16319f3d155d15393bcf2",
+  "base_sha": "f9f28db3e24bcbca8bd6d2b171bcb69183304b8e",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "f996f5b8e89d411b4b685143d0854c08056995c6"
+}

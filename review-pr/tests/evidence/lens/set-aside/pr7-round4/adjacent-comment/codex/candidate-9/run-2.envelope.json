@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nNormalize keys in `Cache.set` so callers can retrieve entries written with mixed-case keys.\n\n## Changes\n\nThe pull request adds `Cache.set`, raises the default TTL from 60 to 300 seconds, and adds tests for round trips, the default TTL constant, and expiry.\n\n## Critical\n\n(none)\n\n## Important\n\n- app/cache.py:27 — correctness — Normalize keys before storing entries — After `set(\"Alpha\", 1)`, both `get(\"Alpha\")` and `get(\"alpha\")` return `None`. The setter stores the original key, while `get` lowercases it before looking it up. — Callers who write a mixed-case key lose access to the cached value. — Fix: Store entries under `key.lower()` and extend `test_set_then_get_round_trip`.\n\n## Suggestions\n\n- app/cache.py:27 — correctness — Expire entries at their deadline — With a one-second TTL, an entry set at monotonic time `1000.0` still returns its value at `1001.0`. The setter records that deadline, and `get` uses a strict `<` comparison at `app/cache.py:21`. — A lookup at the exact expiry timestamp can return a value whose configured lifetime has elapsed. — Fix: Use `expires <= time.monotonic()` at `app/cache.py:21` and extend `test_entries_expire`.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.BEwjymGbvt/review-pr.f55f0W",
+  "head_sha": "934fa848bb4da35222f6552d84240d3ed8cf9b4f",
+  "base_sha": "c6fb543a7858b01097a062925bc32345e3ddf093",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "c9ccbd3da0ba4109e41f81bd4db7ad505f6e09b6"
+}

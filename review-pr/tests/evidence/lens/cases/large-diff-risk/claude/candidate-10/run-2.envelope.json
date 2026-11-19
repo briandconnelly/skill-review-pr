@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.328",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nThe release gate change must be fixed before merge: `approved` now blocks a release that has exactly the minimum number of approvals, which contradicts the module's own \"at least\" contract.\n\n## Changes\nThe pull request regenerates `aaa-generated/catalog.json`, renaming 1,500 `legacy-service-NNNN` entries to `production-service-NNNN` with ports moved from 10xxx to 20xxx, and adds a `review_note` key. It also rewrites `healthy` in `services/registry.py` as `not failures` and changes the approval comparison in `zzz-release/gate.py` from `>=` to `>`.\n\n## Critical\n- zzz-release/gate.py:5 — correctness — Restore `>=` in the approval comparison — `approved(2, minimum=2)` now returns `False`, because `approvals > minimum` replaced `approvals >= minimum`. The module docstring at line 1 says \"A release needs at least the configured number of approvals.\" The tests check only 3 and 1, so they still pass. — Releases that have exactly the required approvals are blocked, and the test suite does not catch the regression. — Fix: Revert to `approvals >= minimum`, and add an `approved(2, minimum=2)` case to `tests/test_release.py`.\n\n## Important\n(none)\n\n## Suggestions\n(none)\n\n## Not reviewed\n- This review read `aaa-generated/catalog.json` in full only for diff lines 1–2233 and 8960–9009; diff lines 2234–8959 were pattern-scanned for unexpected keys, `enabled` values and port prefixes, not read line by line.",
+    "duration_ms": 51411,
+    "cost_usd": 0.4117492,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.weLNd9KHQg/review-pr.hYIE5J",
+  "head_sha": "e2fb22004b859d4ba8378a6861b4dff98eeca25d",
+  "base_sha": "5b5bbb6fd69cb5ded9f5e17d56f50634097f6e11",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "7955abe3688ecddce475902931c9da380bc7b03e"
+}

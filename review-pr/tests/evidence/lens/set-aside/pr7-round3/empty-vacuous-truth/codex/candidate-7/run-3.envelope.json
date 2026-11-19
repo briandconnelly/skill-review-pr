@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix the empty-criteria regression before merge because it marks a requirement proven without evidence. Both helpers also need to handle iterator inputs consistently.\n\n## Changes\n\nThe pull request changes requirement proof evaluation from a nonempty check and `all()` to a sum-and-count comparison. It adds a batch review helper and tests for both helpers.\n\n## Critical\n\n- app/proof.py:3 — correctness — Require evidence before marking a requirement proven — `requirement_proven([])` now returns `True` because both the sum and the length are zero. The previous implementation returned `False`. — A requirement with no criteria is reported as proven.\n\n## Important\n\n- app/proof.py:3 — correctness — Preserve support for criterion iterators — A generator yielding one criterion with `proven=True` now raises `TypeError` at `len(criteria)`. The previous implementation accepted the generator through `all()`. — Callers that generate criteria lazily lose the proof result even when every criterion is proven.\n- app/proof.py:7 — correctness — Reject empty batch iterators — `reviewed_batch(iter([]))` returns `True` because the iterator is truthy and `all()` returns `True` without seeing an entry. An empty list triggers the intended `ValueError`. — A batch produced by a filter that yields no entries can be reported as fully reviewed.\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.IVzAuMts6a/review-pr.DZzOiD",
+  "head_sha": "42afbc35d6445d38fec8296c572767bd6dc41b6a",
+  "base_sha": "1a21534fcc80ef2297b9b3c317b58ff8b4538ef7",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "3191c362f0a874a2aa00a3a489560da068b961ca"
+}

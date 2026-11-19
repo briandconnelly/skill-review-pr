@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix the timestamp contract before merge because a process whose latest event is `started` is reported as finished.\n\n## Changes\n\nThe process model adds `finished_at` to its latest-event row for each process. The schema catalog documents the column and its null behavior.\n\n## Critical\n\n- models/processes.sql:10 — correctness — Align `finished_at` with the event it measures — For process 20, whose only event is `started`, the model returns the start time as `finished_at`. The source allows `created`, `started`, and `cleared` and defines no explicit completion event. — Consumers using `finished_at` to count completions will count processes whose latest event only records a start. — Fix: Name the column `started_at` if it represents starts, or derive it from a source event that records completion.\n\n## Important\n\n- models/schema.yml:17 — comments — Document why a previously started process returns NULL — Process 30 returns NULL after its `started` event is followed by `cleared`. The catalog says “NULL means the process has never been started,” while the model uses `case when event_type = 'started' then occurred_at end` on the latest event. — Consumers following the catalog will classify previously started processes as never started after a clear event.\n\n## Suggestions\n\n- models/schema.yml:12 — comments — Qualify the UTC guarantee — A latest `started` event with `occurred_at = '2026-01-01T01:00:00+01:00'` retains the `+01:00` offset. The catalog says “Stored in UTC using the source event timestamp,” while `then occurred_at` returns the source text directly. — Consumers sorting the advertised UTC strings can misorder events when source records use different offsets.\n- models/processes.sql:10 — tests — Cover the timestamp for a created-only process — The source fixture includes process 10 with only a `created` event, and no model test asserts that this input returns NULL for the new timestamp. — A regression that assigns timestamps to created-only processes has no test assertion to catch it.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.cUUnIbVR4O/review-pr.9jXlRS",
+  "head_sha": "bca51e439a95ca776380ad3fb6a71e9aa8574a80",
+  "base_sha": "b56f1a082bc6dc93dddcfbe5111b1f0cda0146ed",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "9c853951a04e64adb0c9dde39aef903f3896be06"
+}

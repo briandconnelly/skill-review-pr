@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix failure-report matching so it selects requested failed tests even when the report prefixes their paths with `./`.\n\n## Changes\n\nThe pull request adds a selector for failed paths in runner reports, rewrites the cached selector’s filter as a list comprehension, and adds tests for all three selectors.\n\n## Critical\n\n(none)\n\n## Important\n\n- app/selection.py:20 — correctness — Normalize report paths before matching — A report containing `./tests/test_x.py` yields an empty selection when `requested` contains `tests/test_x.py`. The report selector compares the raw path, while both existing selectors normalize paths before matching. — A rerun can omit a requested failed test solely because the runner wrote its path with a `./` prefix. — Fix: Use `normalize(path) in requested` and keep returning `path` to preserve the report’s spelling.\n\n## Suggestions\n\n- app/selection.py:15 — tests — Cover exclusion in cached selection — For a cache containing both a requested path and an unrequested path, no test exercises the filter’s exclusion branch. The cached selector test supplies only a path that matches after normalization. — A regression that returns every cached path would pass the current tests and could schedule unrequested tests. — Fix: Extend `test_cached_paths_are_normalized_by_caller` with an unrequested cached path.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.hBLtBHeAJp/review-pr.28DgHS",
+  "head_sha": "699dad53e80551e0cb97ba17f5b4ee029759ebb0",
+  "base_sha": "3b894320756dcb2c02d4960fd86c78b8351e8e29",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "30fb4481b985e3bb643bd87c2dd67c514524562c"
+}

@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix mixed-case writes so the new `Cache.set` method preserves case-insensitive lookups.\n\n## Changes\n\nThe pull request adds `Cache.set`, raises the default TTL from 60 to 300 seconds, and adds tests for round trips, the default TTL, and expiry.\n\n## Critical\n\n(none)\n\n## Important\n\n- app/cache.py:27 — correctness — Lowercase keys before storing entries — After `set(\"ALPHA\", 1)`, both `get(\"ALPHA\")` and `get(\"alpha\")` return `None` on a fresh cache. `set` stores `\"ALPHA\"` verbatim, while `get` looks up `\"alpha\"`. — Mixed-case writes produce cache misses and leave entries that lookup-driven expiry cannot remove. — Fix: Store entries under `key.lower()` and extend `test_set_then_get_round_trip` to write a mixed-case key.\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.Tf1aOSqstj/review-pr.QiOkHy",
+  "head_sha": "67b9fbc651d354830d81c58b3ab914cc7e4aa62d",
+  "base_sha": "cce99e97d600cc8fb6aa124f5985424fac2fd8f4",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "c3fddf61a5e90d9544a987b92a82bdcd013b59e2"
+}

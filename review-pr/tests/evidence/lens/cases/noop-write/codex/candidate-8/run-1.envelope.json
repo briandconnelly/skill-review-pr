@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\n\nAdd coverage for matching values in adoption mode and for existing keys in default mode. The current tests would miss a regression in whether those calls rewrite the configuration.\n\n## Changes\n\nThe pull request adds an `adopt` flag that records incoming keys already present in the configuration, even when their values match. Replacement still records only differing values, and the merger writes the file when it records a change.\n\n## Critical\n\n(none)\n\n## Important\n\n- app/config.py:15 — tests — Cover adoption when values already match — With `adopt=True` and stored and incoming `theme` both set to `\"dark\"`, no test verifies that adoption records the key. `test_adopt_updates_setting` uses differing values, so it would still pass if adoption skipped matches. — A regression could omit matching keys from the returned change list and skip the write when those are the only keys supplied.\n- app/config.py:18 — tests — Cover existing keys with both flags disabled — With a stored `theme` of `\"light\"` and an incoming value of `\"dark\"`, no test checks that the default merge preserves the stored setting. The only default-mode test starts with an empty configuration. — An accidental overwrite of existing user settings in default mode could pass the test suite.\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.FRenIQt5GU/review-pr.oIKel4",
+  "head_sha": "2751daaa14594c7e6ed72d3eaa7d32234275d34b",
+  "base_sha": "839c09ab3824195b701eaf185748da8b156e2e99",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "d38de903781c93dad8022b20a9bd7895f72b4b7e"
+}

@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix the refresh before merge because adding a file can make verification accept hand edits to tracked files.\n\n## Changes\n\nThe pull request adds helpers to refresh fingerprints and register new files, along with tests for adding files and handling existing entries.\n\n## Critical\n\n- app/integrity.py:17 — correctness — Preserve tracked fingerprints during refresh — Refreshing `[\"tracked.txt\", \"new.txt\"]` after a hand edit to `tracked.txt` makes `verify` accept the edited file. The loop replaces the stored fingerprint with one computed from the edited bytes. — Operators can miss hand edits to tracked files included in a refresh after adding files.\n\n## Important\n\n- app/integrity.py:17 — correctness — Exclude the manifest from its own entries — Passing `[\"fingerprints.json\"]` with that manifest inside the content root makes verification fail after refresh. Both refresh and registration hash the manifest before rewriting it, so the stored digest describes the previous contents. — A directory-wide file list that includes the manifest leaves operators with an integrity check that fails on otherwise unchanged content. — Fix: Reject paths that refer to the manifest in both helpers before updating it.\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.WOMvJEvbYv/review-pr.GdX5o1",
+  "head_sha": "4f588b556a3af4d3926ba37ef3cc6257a7fb115c",
+  "base_sha": "2758fbf4e7bc85d99a7fdd47fa4344460605149d",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "aadcd00410cd06ff4de1ecc7946f03e1e21c12c0"
+}

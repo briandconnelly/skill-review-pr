@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.327",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nThe release gate fails open and needs fixing before merge: when the saved results file is missing, `release_allowed` returns `True`, so a release can go out with no recorded checks.\n\n## Changes\nThe pull request makes `load_results` return an empty list when the results file is missing. It also adds `display_preferences`, which falls back to a light theme when the preferences file is missing, and adds tests for both functions.\n\n## Critical\n- app/results.py:8 — correctness — Make a missing results file block the release gate — If the results file does not exist, `load_results` returns `[]`. `release_allowed` then evaluates `all(...)` over an empty sequence (app/results.py:12), which is `True`. Before this change, the same input raised `FileNotFoundError`, which stopped the gate. — If saved checks are absent because of a typo in the path, a failed write or a deleted file, the release proceeds with no passing checks. — Fix: Let `FileNotFoundError` propagate from `load_results`, or have `release_allowed` return `False` when no results load, and add a missing-file case to `test_saved_checks_control_release`.\n\n## Important\n(none)\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 16088,
+    "cost_usd": 0.0638466,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.SjXdr31INw/review-pr.clBF6G",
+  "head_sha": "739a644efc454dbedab08097eddd2ccbb9453830",
+  "base_sha": "b27cd5dd93252b4570ddf0a3968a44c0e7401a72",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "3db1a63ff97e1fb8ec5712bc070dbdc933c85780"
+}

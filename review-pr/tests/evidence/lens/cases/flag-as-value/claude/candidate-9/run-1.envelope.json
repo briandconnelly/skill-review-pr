@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.328",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n`--json` placed before another flag takes that flag as its path, so `--json --junit x.xml` fails. This blocks the \"alongside --junit\" use that the PR body describes, and it needs fixing.\n\n## Changes\nThe pull request adds an optional-path `--json` option to `parse_args` and a `write_reports` helper that writes each parsed report to its destination. It also adds `tests/test_cli.py` with tests for the default and explicit JSON paths and for the required `--junit` path.\n\n## Critical\n(none)\n\n## Important\n- app/cli.py:15 — correctness — Don't consume a following flag as the --json path — `parse_args([\"--json\", \"--junit\", \"x.xml\"])` sets `json` to `\"--junit\"`, skips that token, then raises `ValueError(\"unknown option: x.xml\")`. Lines 15–16 take any next argument without the `startswith(\"--\")` check that `--junit` uses at line 7. The comment at line 12 says the default applies \"when no path is supplied\", but here it doesn't. — Users can't put `--json` with its default path before `--junit`, which is the combined use the PR body describes. — Fix: Take `args[i + 1]` only when it exists and doesn't start with `--`, matching line 7, and add the `[\"--json\", \"--junit\", \"x.xml\"]` case to `test_json_default_and_explicit_path`.\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 18868,
+    "cost_usd": 0.0982344,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.uERe8Gu2AK/review-pr.nPZs2Q",
+  "head_sha": "22787c64b5fb0f9ec1fc7cc5e0257e9f38a28ebf",
+  "base_sha": "7901146e4ee7c0e740ceeadb8a75b5aa698a3a21",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "492416a054e97ff55c007e3a59879ae6976891c4"
+}

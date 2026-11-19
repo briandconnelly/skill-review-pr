@@ -1,0 +1,11 @@
+{
+  "collection_id": "e1cd0123cfab8327cefe9c40b4692f82e3911491",
+  "runner": "codex",
+  "case": "path-containment",
+  "snapshot": "candidate-7",
+  "level": "high",
+  "runs": 3,
+  "budget_usd": 1,
+  "lens_sha256": "7b310ada2dbe4d4b3f8a566cf4786b78bffd5b2a9ab3e5d5e3aa0dcb22b7e5d1",
+  "diagnostic": false
+}

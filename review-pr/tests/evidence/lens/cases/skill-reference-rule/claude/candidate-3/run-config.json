@@ -1,0 +1,11 @@
+{
+  "collection_id": "5234cd4ccc8e7748a2b7366b2efc844a19bf4740",
+  "runner": "claude",
+  "case": "skill-reference-rule",
+  "snapshot": "candidate-3",
+  "level": "high",
+  "runs": 3,
+  "budget_usd": 1,
+  "lens_sha256": "97e599be92500984576328481fecb786a95457d3aa70ea3f6f8eb968cf577a56",
+  "diagnostic": false
+}

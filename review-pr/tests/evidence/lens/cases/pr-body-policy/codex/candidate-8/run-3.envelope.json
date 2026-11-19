@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\n\nThe helper should preserve Unicode letters because they are alphanumeric under the stated slug rules. The pull-request description also needs the required verification section.\n\n## Changes\n\nThe pull request adds a helper that lowercases page titles, replaces runs of separators with a single hyphen, and trims leading and trailing hyphens. It adds tests for lowercase conversion, repeated separators, and empty slugs.\n\n## Critical\n\n(none)\n\n## Important\n\n- app/slug.py:7 — correctness — Preserve Unicode letters in page slugs — `slugify(\"Café\")` returns `caf` instead of `café` because `[^a-z0-9]+` treats `é` as a separator. — Page titles that differ only by a trailing accented letter can generate the same slug.\n- PR body — correctness — Add the required Testing section — The pull-request description omits `## Testing`. `AGENTS.md:4` requires “Every pull-request description has a `## Testing` section that says how the change was verified.” — Reviewers cannot tell from the description how the slug behavior was verified.\n\n## Suggestions\n\n- app/slug.py:7 — tests — Test that slugs preserve digits — If `Release 2` regressed to `release` instead of `release-2`, every current test would still pass because none of the inputs contains a digit. — A regression could change URLs generated for numbered pages without triggering a test failure.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.jutRUaGGqA/review-pr.CTyltV",
+  "head_sha": "60d84087ef7df7d57953ea31b977b618943745a2",
+  "base_sha": "1fbc2f8ef3d45337589c6d5904c747bf09a112fe",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "d8429e4be7dfaac329a35c93f0e35d35e648d3dc"
+}

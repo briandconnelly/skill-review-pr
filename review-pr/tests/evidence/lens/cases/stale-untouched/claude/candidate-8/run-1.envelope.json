@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.328",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nThe change to the default timeout and its test are correct; the remaining fix is the README, which still says requests time out after 30 seconds.\n\n## Changes\nThis pull request raises `DEFAULT_TIMEOUT` in `app/cli.py` from 30 to 60 and changes `test_defaults` to expect 60. It also adds a one-line `review.txt` at the repository root.\n\n## Critical\n(none)\n\n## Important\n- app/cli.py:3 — comments — Update README default timeout to 60 seconds — With no `--timeout`, requests now wait 60 seconds, but `README.md:3` still says \"Requests time out after 30 seconds unless you pass `--timeout SECONDS`.\" — Users and operators who rely on the README will expect requests to fail after 30 seconds, not 60. — Fix: Change `README.md:3` to say 60 seconds.\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 19260,
+    "cost_usd": 0.1030132,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.es7OlRJAAU/review-pr.P2ll6E",
+  "head_sha": "f0badbe45ad904e712a78c5d68d9321607e40ad9",
+  "base_sha": "b4aed2a16c55c8d4b11939e11a89f947f5d047eb",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "e9f6229da727cba58f65beb07ebe551a4845e0e4"
+}

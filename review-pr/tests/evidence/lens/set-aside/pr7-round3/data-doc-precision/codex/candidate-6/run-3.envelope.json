@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix `finished_at` before merge because it reports a start time as a completion time.\n\n## Changes\n\nThe pull request adds a conditional `finished_at` column to the current-state model, documents it in the schema catalog, and retains one row per process based on its latest event.\n\n## Critical\n\n- models/processes.sql:10 — correctness — Align `finished_at` with the event it records — Process 20 has only a `started` event, yet `finished_at` returns that event’s `occurred_at` as the completion time. The source schema at `sources/process_events.sql:4` defines no completion event. — Consumers that treat a populated `finished_at` as evidence of completion can classify newly started processes as finished. — Fix: Use `started_at` for the start timestamp, or define a completion event and populate `finished_at` from it.\n\n## Important\n\n- models/schema.yml:17 — comments — Document when the timestamp is `NULL` — Process 30 has a `started` event followed by `cleared`, yet its timestamp is `NULL`. “NULL means the process has never been started” contradicts `case when event_type = 'started' then occurred_at end`, which evaluates only the latest event. — Consumers filtering for never-started processes by `NULL` will also select previously started processes whose latest event is `cleared`.\n\n## Suggestions\n\n- models/schema.yml:12 — comments — Document that the source offset is preserved — A latest `started` event with `occurred_at = '2026-01-01T01:00:00+01:00' retains its offset. “Stored in UTC using the source event timestamp” contradicts `then occurred_at`, which returns the source text unchanged. — Consumers sorting the timestamp as UTC text can get the wrong chronological order when source offsets vary.\n- models/processes.sql:10 — tests — Assert a null timestamp for a created-only process — No test asserts the `NULL` result for a process whose only event is `created`. The source data includes this input as process 10 without checking the model output. — A regression that populates the timestamp before a process starts would go undetected for this input.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.Bosa0R2AWu/review-pr.g7i0Cx",
+  "head_sha": "e612a9ea148bc7c77cdf9e732430b232b2ec67d4",
+  "base_sha": "fc6626d13de3af9d127fe510a0274546753649e3",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "d226de21dc9933ca4109ca313c19f069a1f15b72"
+}

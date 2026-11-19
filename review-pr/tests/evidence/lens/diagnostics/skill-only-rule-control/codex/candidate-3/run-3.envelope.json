@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nThis review found no defects in the reviewed scope. Reading the tests confirmed coverage of the default behavior, repeated patterns, and archive contents when a file is excluded.\n\n## Changes\n\nThe pull request adds and documents a repeatable `--exclude GLOB` flag that skips files by basename and logs skipped paths in verbose mode. It also adds tests and a review fixture.\n\n## Critical\n\n(none)\n\n## Important\n\n(none)\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.Zmt2HmmMOC/review-pr.xmpHs9",
+  "head_sha": "b7a28278171e063173569c0ed35066872d2d48bc",
+  "base_sha": "b3e659b7e2c348517276cd0d1460f9d6b32c4805",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "28b942e354dc0e12595f6472ba9938ca2ed58f5c"
+}

@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nThe order listing should honor the issue’s zero-limit requirement so callers can retrieve all orders.\n\n## Changes\n\nThe pull request adds limit and offset parameters to the newest-first order listing, delegates slicing to a pagination helper, and adds tests for both entry points.\n\n## Critical\n\n(none)\n\n## Important\n\n- app/orders.py:9 — correctness — Treat a zero order limit as unlimited — `list_orders(orders, limit=0)` returns an empty page for any nonempty order list because `paginate` slices from zero to zero. Issue fixture/fixture#12 requires “limit=0 means no limit: return every order.” — Callers using `limit=0` see no orders even when the account has orders. — Fix: Translate zero to `None` before calling `paginate` and extend `test_limit_caps_results` to cover zero.\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.A6K6OK4pg6/review-pr.pzqoyX",
+  "head_sha": "2236d277d804969e7eefb6fb73e9ec5a4cc02390",
+  "base_sha": "3988ebd741f3da1b9543df1f11680007e7c6768a",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "9d5381b22420b5dd1a290fe7e9a2b2fddc5fc114"
+}

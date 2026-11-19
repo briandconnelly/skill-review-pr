@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix refresh before merge because adding files can make verification accept an edited tracked file.\n\n## Changes\n\nThe pull request adds two helpers for updating the fingerprint manifest and tests for registering files and retaining existing fingerprints.\n\n## Critical\n\n- app/integrity.py:17 — correctness — Preserve tracked fingerprints during refresh — Refreshing with an edited `tracked.txt` and a new `new.txt` replaces the original digest for `tracked.txt`. `verify()` then compares the edited file with its newly recorded digest and returns `True`. — A user refreshing the manifest after adding files loses the ability to detect an existing edit. — Fix: Reuse `register_new_files()` to preserve existing digests and extend `test_refresh_registers_new_files_and_keeps_unchanged_entries` with an edited tracked file.\n\n## Important\n\n(none)\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.WOMvJEvbYv/review-pr.ITKYZk",
+  "head_sha": "4f588b556a3af4d3926ba37ef3cc6257a7fb115c",
+  "base_sha": "2758fbf4e7bc85d99a7fdd47fa4344460605149d",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "aadcd00410cd06ff4de1ecc7946f03e1e21c12c0"
+}

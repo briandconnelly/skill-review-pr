@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix refresh before merge because it can erase the saved fingerprint that verification needs to detect a hand edit.\n\n## Changes\n\nThe pull request adds helpers to refresh selected fingerprints and register unlisted files, with tests for both operations.\n\n## Critical\n\n- app/integrity.py:17 — correctness — Preserve existing fingerprints during refresh — Refreshing `[\"tracked.txt\", \"new.txt\"]` after a hand edit to `tracked.txt` overwrites its saved fingerprint with the edited file’s digest, so `verify` returns `True` when the other entries match. — A user adding `new.txt` can unknowingly accept the hand edit as part of the trusted baseline. — Fix: Reuse the insert-only behavior of `register_new_files` and extend `test_refresh_registers_new_files_and_keeps_unchanged_entries`.\n\n## Important\n\n(none)\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.3ToPgattKS/review-pr.k03u3i",
+  "head_sha": "9be3df21d44b3188bd7768f17fc7421cb7a2211c",
+  "base_sha": "0e1f668fbe0b7d759f7dc2989bfb9b0b558b699e",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "53afc380e2ab84cf041fbd595dc01c0ba46bba83"
+}

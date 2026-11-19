@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.328",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nAdoption mode rewrites and reports keys whose values are unchanged, so the Important finding needs fixing: an unchanged adopt merge reformats files that the module promises to leave untouched.\n\n## Changes\nThe pull request adds an `adopt` flag to `merge` in `app/config.py`. With the flag set, incoming values overwrite existing keys and those keys are recorded as changes. The `replace` path is restructured, and two tests cover adopting and replacing a value that differs.\n\n## Critical\n(none)\n\n## Important\n- app/config.py:13 — correctness — Skip adoption when the existing value is equal — With `adopt=True`, merging `{\"theme\": \"dark\"}` into a file containing `'{\"theme\":\"dark\"}\\n'` returns `[\"theme\"]` and rewrites the file as indented JSON, because lines 13–15 append the key without comparing `current[key]` to `value`. This contradicts the docstring \"Merge settings while preserving untouched configuration files\" at line 1 and the byte-preservation behavior that `test_unchanged_replacement_preserves_bytes` pins for `replace`. — Every adopt run on an already-matching config reformats the user's file and reports false changes to callers. — Fix: Apply the `if current[key] != value` guard from the `replace` branch at line 19, and add an adopt counterpart to `test_unchanged_replacement_preserves_bytes`.\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 16250,
+    "cost_usd": 0.06828500000000001,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.gJ7t97OTXX/review-pr.xZosDj",
+  "head_sha": "833145cc0372a10c5613ce073a481a67b45b7673",
+  "base_sha": "7ba63f065c3208b5dfc55770e2b2aa88be81c18b",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "b88600a35fd52b6418ddf6c94f5bfe52fbd88dc8"
+}

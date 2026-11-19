@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.327",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nFix the duplicate adoption output: any command run that adopts an existing setting now prints each \"Adopted\" line twice, because the new `adopt` entries reach a CLI loop that only skips `audit` entries.\n\n## Changes\n`plan` now returns an `adopt` entry for each setting that already exists, in addition to emitting progress, and adds a final `audit` entry recording how many settings were processed. The PR adds two CLI tests for the audit entry and a new `app/review.txt` file.\n\n## Critical\n(none)\n\n## Important\n- app/planner.py:9 — correctness — Stop the CLI from re-emitting adopt entries — When `run({\"theme\": \"dark\"}, {\"theme\": \"dark\"}, emit)` adopts a setting, `emit` receives `[\"Adopted theme\", \"Adopted theme\"]`. `plan` emits the progress line at `app/planner.py:8`, and the new `adopt` entry reaches `app/cli.py:6-9`, which emits every non-`audit` change. No test calls `run` with an existing setting. — Every adopted setting appears twice in command output, which contradicts the PR body's claim that the command renders only actionable changes. — Fix: Skip `kind == \"adopt\"` alongside `audit` at `app/cli.py:7`, and add a `run` adoption test next to `test_adoption_progress` that asserts `messages == [\"Adopted theme\"]`.\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 23604,
+    "cost_usd": 0.12468359999999999,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.8WspnzY9PG/review-pr.Gqw0RA",
+  "head_sha": "0e56f8b274b54c87be7e83f61c95a1488a65d4ce",
+  "base_sha": "93ca2c7ea1eb5c7da857f02603593c70fa50f71d",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "e065f0d17438a1f9ac7974ceeee5a8e55223abc6"
+}

@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.328",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n`Cache.set` needs fixing before merge: it stores keys without lower-casing them, so `get` can't find any entry written under a mixed-case key.\n\n## Changes\nThe pull request raises `Cache.DEFAULT_TTL` from 60 to 300 and updates the comment to match. It also adds a `Cache.set` method, plus tests for a set/get round trip, the default TTL value and expiry.\n\n## Critical\n(none)\n\n## Important\n- app/cache.py:27 — correctness — Lower-case the key in Cache.set — `c.set(\"Alpha\", 1); c.get(\"alpha\")` returns `None`, because `set` writes `self._store[key]` while `get` reads `key.lower()`. This breaks the rule at `app/cache.py:14`: \"every path into _store lower-cases the key first\". `test_set_then_get_round_trip` only sets the already-lowercase `\"alpha\"`, so it can't catch this. — Callers that set mixed-case keys get silent cache misses, and those entries are never evicted by `get`, so the store keeps growing. — Fix: use `self._store[key.lower()] = ...`, and extend `test_set_then_get_round_trip` to set a mixed-case key.\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 20961,
+    "cost_usd": 0.0692368,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.1pweHFHCul/review-pr.B7L7HL",
+  "head_sha": "6abbddbe7cc90ddf62711fa6d47e0a93450045c7",
+  "base_sha": "ec3c1e77268ebff162c814cc62fafc47425d1716",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "429dd806b3737ee57edb7f269120d9d6635b7239"
+}

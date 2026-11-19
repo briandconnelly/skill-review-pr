@@ -1,0 +1,4 @@
+snapshot	run	input_tokens	cached_tokens	output_tokens	cost_usd	turns	duration_ms	commands	skill_commands
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/skill-only-rule-60/claude/candidate-4	1	86486	69263	3362	0.2188	16	34590	NA	NA
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/skill-only-rule-60/claude/candidate-4	2	86721	74230	3380	0.1823	17	35225	NA	NA
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/skill-only-rule-60/claude/candidate-4	3	90632	77033	3111	0.1864	16	32627	NA	NA

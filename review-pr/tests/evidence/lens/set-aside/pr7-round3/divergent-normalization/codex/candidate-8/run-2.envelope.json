@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\n\nFailure-report selection should normalize paths before matching them. A leading `./` currently causes the selector to skip a requested failed test.\n\n## Changes\n\nThe pull request adds a selector for failed paths from runner reports, refactors cached selection, and adds tests for all three selectors.\n\n## Critical\n\n(none)\n\n## Important\n\n- app/selection.py:20 — correctness — Match normalized paths in failure reports — A report containing `./tests/test_x.py` returns an empty list when the request contains `tests/test_x.py`. The membership check uses the raw report path and bypasses the normalization both existing selectors apply. — A rerun can skip a requested failed test when the runner prefixes its path with `./`. — Fix: Reuse `select_explicit` to normalize paths for matching and preserve their report spelling in the result.\n\n## Suggestions\n\n- app/selection.py:15 — tests — Cover unrequested paths in cached selection — A cache containing both a requested path and an unrequested path leaves the rewritten exclusion branch untested. The cached-selector test supplies only a matching path. — A regression that includes unrequested cached tests would pass the current suite.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.NRbZJKRTXH/review-pr.DtxLbs",
+  "head_sha": "b9bd23ffd489c1e74d1e6c3738718e81493154fb",
+  "base_sha": "ecc7499655eb13f8a94f92bd219cfae75de5165a",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "84a34089a21ca451e224ded2f42e76dadca4db2a"
+}

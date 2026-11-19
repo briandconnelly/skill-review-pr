@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.326",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n`list_orders` accepts a `limit` but no `offset`, so the order listing can return only its first page even though the title describes pagination; this should be fixed. The text of issue #12 was unavailable, so this review could not confirm what the issue requires.\n\n## Changes\nThe pull request adds `paginate(items, limit, offset=0)` in `app/paging.py` and gives `list_orders` an optional `limit` that it passes to that helper after sorting. It adds one test for the limit in `tests/test_orders.py` and a new `tests/test_paging.py` covering offset, no limit, and negative arguments.\n\n## Critical\n(none)\n\n## Important\n- app/orders.py:9 — correctness — Expose offset on list_orders so later pages are reachable — A caller that needs orders 3–4 of five cannot get them: `list_orders(orders, limit=2)` always returns the newest two, because `paginate(ordered, limit)` leaves `offset` at its default of 0 and `list_orders` has no parameter to set it. — The order listing serves only its first page, so the pagination the title describes is unavailable to callers. — Fix: Add `offset=0` to `list_orders`, pass it as `paginate(ordered, limit, offset)`, and extend `test_limit_caps_results` in `tests/test_orders.py` with a second-page case.\n\n## Suggestions\n- app/paging.py:12 — tests — Add a test for limit=0 — `paginate([1, 2, 3], limit=0)` returns `[]` because line 12 tests `limit is None` rather than truthiness, but no test in `tests/test_paging.py` or `tests/test_orders.py` passes `limit=0`. — A later change to `if not limit` would return every item for `limit=0` without failing a test.\n\n## Not reviewed\n- The text of issue #12, which the pull-request body closes, was not available in the repository or in `../pr.json`, so conformance to it was not checked.",
+    "duration_ms": 44678,
+    "cost_usd": 0.3886774,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.n7Ja6kFuz0/review-pr.Te7IQT",
+  "head_sha": "83103f2fe1f9045f9db9d1d61ddc87718ba69ab8",
+  "base_sha": "40a8db73606fc333e115f093dd12ac177ca130bd",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "805e1a41a7b357def6820a1fae0a7b12a4729e78"
+}

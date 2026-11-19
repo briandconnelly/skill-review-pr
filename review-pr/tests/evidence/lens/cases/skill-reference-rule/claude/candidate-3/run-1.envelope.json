@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.328",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nThe new `--exclude` flag needs to read its default from `ARCHIVE_EXCLUDE`, because the project's CLI-flag rule requires every new flag to do this. Without it, CI cannot set exclusions through the environment.\n\n## Changes\nThe pull request adds a repeatable `--exclude GLOB` option to `cli/main.py`. `collect` now skips files whose basename matches any of the patterns. It also documents the flag in `docs/flags.md`, adds five tests, and adds an unreferenced text fixture.\n\n## Critical\n(none)\n\n## Important\n- cli/main.py:17 — correctness — Read the --exclude default from ARCHIVE_EXCLUDE — If you run the tool with `ARCHIVE_EXCLUDE='*.log'` set and no `--exclude` flag, it still archives `.log` files, because line 17 hard-codes `default=[]`. `.claude/skills/cli-flags/reference.md:5` requires: \"Every command-line flag added under `cli/` from now on must also take its default from an `ARCHIVE_<NAME>` environment variable\". — CI jobs that set options through the environment cannot exclude files, which breaks a documented project rule for new flags. — Fix: Choose a separator for several globs in one variable, such as `os.pathsep`. Also decide whether CLI values add to the environment default or replace it, because `action=\"append\"` adds to the default list. Then extend `test_exclude_defaults_to_nothing`.\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 43856,
+    "cost_usd": 0.2234548,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.RyHpG4nU5J/review-pr.VD6XNh",
+  "head_sha": "57cfee0777837fd1400f60ef88bbd8bb18741ae4",
+  "base_sha": "e7c5571bd033f7868273a4b6bb14a9f434e54a57",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "5234cd4ccc8e7748a2b7366b2efc844a19bf4740"
+}

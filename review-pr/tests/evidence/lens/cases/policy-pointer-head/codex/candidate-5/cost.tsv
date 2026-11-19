@@ -1,0 +1,4 @@
+snapshot	run	input_tokens	cached_tokens	output_tokens	cost_usd	turns	duration_ms	commands	skill_commands
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/policy-pointer-head/codex/candidate-5	1	187629	168704	2080	NA	1	NA	18	0
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/policy-pointer-head/codex/candidate-5	2	144920	130560	2006	NA	1	NA	13	0
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/policy-pointer-head/codex/candidate-5	3	145547	111488	1390	NA	1	NA	17	0

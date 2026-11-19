@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix refresh before merge because adding a file can make verification accept a hand-edited tracked file.\n\n## Changes\n\nThe pull request adds helpers that update the fingerprint manifest and tests for adding files, preserving tracked fingerprints during registration, and passing an empty list.\n\n## Critical\n\n- app/integrity.py:17 — correctness — Preserve tracked fingerprints during refresh — For a list containing a hand-edited tracked file and a new file, refresh replaces the tracked file’s stored digest with the digest of its edited contents. — Verification then accepts the hand edit when the user refreshes the manifest to add the new file. — Fix: Use `register_new_files` to preserve existing digests and extend `test_refresh_registers_new_files_and_keeps_unchanged_entries` with the edited-file case.\n\n## Important\n\n- app/integrity.py:18 — correctness — Replace the manifest atomically — If the disk fills while either helper rewrites the manifest, `write_text` can leave truncated JSON after opening the existing file for writing. — Verification and subsequent registration attempts can both fail to parse the manifest, leaving the user unable to retry the update. — Fix: Write the new contents to a temporary file in the manifest directory and replace the manifest only after the write succeeds.\n- app/integrity.py:25 — correctness — Exclude the manifest from its own entries — If `names` includes `fingerprints.json` and the manifest is inside the content root, either helper can record the manifest’s digest before rewriting it. — Verification fails immediately after the update because the manifest’s contents changed when its own entry was written.\n- PR body — correctness — Describe refresh as a Python helper — An operator following the description after adding files has no refresh command to invoke because the change defines a Python function with no command entry point. — Users expecting a shell command must write a Python caller to update the manifest.\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.YkzyriTw81/review-pr.LraddK",
+  "head_sha": "324366641c01c6b61e2ac0710dbacc0f16d8e9c4",
+  "base_sha": "2e7bbc8f8e0abe3c22868ac8d5c28a7841367633",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "56c9cd5658a2ebf1eb957f899f7e1235420d9708"
+}

@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.328",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nThe header check is correct and `test_rejects_unsupported_header_with_complete_report` covers it, so only an optional correction was found: `test_rejects_legacy_header` never reaches the version check.\n\n## Changes\n`parse_report` now accepts only the exact header `REPORT v1` instead of any header starting with `REPORT `. The pull request also adds two tests that check unsupported headers are rejected.\n\n## Critical\n(none)\n\n## Important\n(none)\n\n## Suggestions\n- tests/test_report.py:11 — tests — Make the legacy-header test reach the version check — Line 11 builds `\"REPORT v1\\nversion=v0\"`. It replaces the body's `v1` and leaves the header as `REPORT v1`. The input has no `END` line, so `parse_report` returns `None` at `app/report.py:3` before the header check on line 5 runs. Line 9 says it changes \"the fixture's version to v0\", but the header never changes. — This test still passes if the version check is removed, so it gives no regression protection beyond the adjacent test. — Fix: Use a complete report with a `REPORT v0` header, or delete the test because `test_rejects_unsupported_header_with_complete_report` already covers this case.\n\n## Not reviewed\n(none)",
+    "duration_ms": 20409,
+    "cost_usd": 0.0717488,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.A69WJAeRW7/review-pr.C3Rvjs",
+  "head_sha": "668895b6465b503e34f36a4e69fcf21c068c81c8",
+  "base_sha": "bb167ed39f51f898fc097d7be6a43db122d67ace",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "9519e4e42a5a96637e305dcc7eac82211a5e59b1"
+}

@@ -1,0 +1,11 @@
+{
+  "collection_id": "f996f5b8e89d411b4b685143d0854c08056995c6",
+  "runner": "codex",
+  "case": "caller-trace",
+  "snapshot": "candidate-7",
+  "level": "high",
+  "runs": 3,
+  "budget_usd": 1,
+  "lens_sha256": "97e599be92500984576328481fecb786a95457d3aa70ea3f6f8eb968cf577a56",
+  "diagnostic": false
+}

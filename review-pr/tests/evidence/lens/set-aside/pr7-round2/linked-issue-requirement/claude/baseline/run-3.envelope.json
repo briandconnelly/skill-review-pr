@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.326",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n`list_orders` should take an offset, because the listing the title calls paginated can only return its first page. Issue #12 was not available, so that requirement is read from the pull-request title alone.\n\n## Changes\nThe pull request adds `paginate(items, limit, offset=0)` in `app/paging.py` and gives `list_orders` an optional `limit` that it passes to that helper after sorting. It adds one limit test for `list_orders` and three tests for `paginate`.\n\n## Critical\n(none)\n\n## Important\n- app/orders.py:9 — correctness — Pass an offset through list_orders — A caller that needs orders 3 and 4 of 5 cannot get them: `list_orders(orders, limit=2)` always returns the newest two. Line 9 calls `paginate(ordered, limit)` with no offset, and `list_orders` has no parameter for one. — Clients of the order listing can cap results but cannot fetch any page after the first, so the pagination the title names is unreachable. — Fix: Add `offset=0` to `list_orders`, pass it to `paginate`, and extend `test_limit_caps_results` in `tests/test_orders.py` with a second-page case.\n\n## Suggestions\n- app/paging.py:12 — tests — Cover limit=0 in the paginate tests — `paginate([1, 2, 3], limit=0)` must return `[]`, but no test passes `limit=0` to `paginate` or `list_orders`; the tests use limits of 2, `None` and -1. Line 12 separates `0` from `None` only through `is None`. — A later change to a truthiness check would return every order for `limit=0` and no test would fail.\n\n## Not reviewed\n- The text of issue #12, which the pull-request body says this change closes, was not available in the checkout or in `../pr.json`.",
+    "duration_ms": 44464,
+    "cost_usd": 0.2512556,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.n7Ja6kFuz0/review-pr.hkLlnj",
+  "head_sha": "83103f2fe1f9045f9db9d1d61ddc87718ba69ab8",
+  "base_sha": "40a8db73606fc333e115f093dd12ac177ca130bd",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "805e1a41a7b357def6820a1fae0a7b12a4729e78"
+}

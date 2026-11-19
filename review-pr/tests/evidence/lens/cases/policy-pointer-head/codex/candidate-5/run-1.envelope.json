@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nThe legacy fetcher must follow the existing retry cap before merge because prolonged outages can tie up worker threads.\n\n## Changes\n\nThe pull request adds a legacy inventory fetcher with eight attempts and a health probe with three. It adds shared tests for success, retry exhaustion, and immediate HTTP errors, and proposes exempting legacy modules from the retry cap.\n\n## Critical\n\n- app/legacy/fetch.py:7 — correctness — Cap legacy inventory requests at three attempts — When the inventory endpoint keeps timing out, the fetcher makes eight attempts. `docs/review-rules.md:5` requires “Code that retries a network call must stop after at most 3 attempts.” — When each attempt reaches the 10-second timeout, the five extra attempts and delays keep the caller waiting another 55 seconds. — Fix: Update the legacy case in `tests/test_retries.py` to expect three attempts.\n\n## Important\n\n(none)\n\n## Suggestions\n\n- app/health.py:21 — tests — Test retries after a response body times out — The shared tests would pass if either helper stopped retrying when `resp.read()` raises `TimeoutError` after the response opens. The retry fixture raises only from `urlopen`. — A stalled response body can lose retry protection in either helper without a test failure. — Fix: Extend `test_returns_body` with a response whose `read()` times out before a later attempt succeeds.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.pUslXpJ0ak/review-pr.5seBDc",
+  "head_sha": "821e99fe0e1a17ffa15e8192f4233ebb79e085be",
+  "base_sha": "4a5c1e8fe815d984a610846fc63a836746a8d4ee",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "d468c588388210d8ce8cb42568d1cb1c4f494846"
+}

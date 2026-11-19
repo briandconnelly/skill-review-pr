@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nFix the empty-criteria case before merge so a requirement cannot be marked proven without evidence.\n\n## Changes\nThe pull request replaces the requirement proof check with a count comparison, adds a helper that checks whether every entry in a nonempty batch was reviewed, and adds tests for both functions.\n\n## Critical\n- app/proof.py:3 — correctness — Require criteria before marking a requirement proven — `requirement_proven([])` returns `True` because the sum and length are both zero. The previous `bool(criteria)` guard returned `False` for an empty list. — Proof summaries can overstate how many requirements have supporting evidence when a requirement has no criteria. — Fix: Restore the nonempty guard and extend `test_requirement_with_evidence` to cover an empty list.\n\n## Important\n(none)\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.IVzAuMts6a/review-pr.gDD4Au",
+  "head_sha": "42afbc35d6445d38fec8296c572767bd6dc41b6a",
+  "base_sha": "1a21534fcc80ef2297b9b3c317b58ff8b4538ef7",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "3191c362f0a874a2aa00a3a489560da068b961ca"
+}

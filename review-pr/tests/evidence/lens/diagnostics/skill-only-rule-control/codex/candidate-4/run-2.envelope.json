@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\n\nOnly optional test corrections were found in the reviewed scope. The tests leave basename matching in subdirectories unprotected and tie the omitted flag to a specific parser representation.\n\n## Changes\n\nThe pull request adds a repeatable `--exclude GLOB` option that matches file basenames and logs skipped files at INFO level. It also adds flag documentation, tests, and a review fixture.\n\n## Critical\n\n(none)\n\n## Important\n\n(none)\n\n## Suggestions\n\n- cli/main.py:33 — tests — Cover basename matching in subdirectories — For `nested/debug.log` with `--exclude 'debug*.log'`, no test checks that the file is skipped. Every exclusion test uses a leading-wildcard glob that would also match a full path. — A regression that matches full paths could silently include nested files while all exclusion tests still pass.\n- tests/test_main.py:24 — tests — Test archive behavior when `--exclude` is omitted — With `--exclude` omitted, this assertion would reject an empty tuple even though `collect` accepts it and archives the same files. — A change to the parser’s default container could fail the test while preserving the documented CLI behavior.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.mPb7sBgAOu/review-pr.RRp7Be",
+  "head_sha": "b3eebf9fc94e0bc6810b36a1d602a4a90ceb3fb1",
+  "base_sha": "b57e53dd7d9d9409aef55f425616bd1a6bac0958",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "5d5f5eee07cc7601d9fdd3e25ea4b4e0ad0afe22"
+}

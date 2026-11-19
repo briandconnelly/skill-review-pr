@@ -1,0 +1,11 @@
+{
+  "collection_id": "c808c60bf24e616c3955a2c197cc7654869dee88",
+  "runner": "codex",
+  "case": "config-option",
+  "snapshot": "candidate-6",
+  "level": "high",
+  "runs": 3,
+  "budget_usd": 1,
+  "lens_sha256": "7b310ada2dbe4d4b3f8a566cf4786b78bffd5b2a9ab3e5d5e3aa0dcb22b7e5d1",
+  "diagnostic": false
+}

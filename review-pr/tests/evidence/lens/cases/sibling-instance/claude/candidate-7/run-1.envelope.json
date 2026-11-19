@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.326",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nThe invite validator still accepts eight-character passwords, so the twelve-character policy is enforced only for signup and reset. This should be fixed before the change can deliver what its description promises.\n\n## Changes\nThe pull request raises `MIN_PASSWORD_LENGTH` from 8 to 12 in `app/signup.py` and `app/reset.py` and moves the boundary tests to 11, 12 and 13. It also adds a one-line `review.txt`.\n\n## Critical\n(none)\n\n## Important\n- app/signup.py:1 — correctness — Raise MIN_PASSWORD_LENGTH to 12 in app/invite.py — An invited user who sets an 8-character password is still accepted, because `app/invite.py:1` keeps `MIN_PASSWORD_LENGTH = 8` while this change sets signup and reset to 12. The PR body says this \"raises the minimum in the password validators\" and that the policy \"now requires passwords of at least twelve characters\", but `tests/test_invite.py:6-8` still checks for `length >= 8`. — Accounts created through invites can still get passwords shorter than the required twelve characters. — Fix: Set `app/invite.py:1` to 12 and update `tests/test_invite.py:6` and `tests/test_invite.py:8` to the same boundaries used in `tests/test_signup.py`.\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 27312,
+    "cost_usd": 0.14576180000000002,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.3qOqosBr9C/review-pr.iNIp9t",
+  "head_sha": "314b8e083a724fffb6bf18faa15ff6df936f1331",
+  "base_sha": "2fa64f95b8ad773837f085e97681e75a1f7d028a",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "cdd8927ac7cf723eac57130754276caca930bb32"
+}

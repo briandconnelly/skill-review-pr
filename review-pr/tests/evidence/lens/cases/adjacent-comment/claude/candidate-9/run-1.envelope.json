@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.328",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n`Cache.set` stores keys without lower-casing them, so `get` cannot find any value set under a mixed-case key. Fix this before merging.\n\n## Changes\nThe pull request adds a `Cache.set` method and raises `Cache.DEFAULT_TTL` from 60 to 300 seconds, with the comment updated to match. It also adds tests for the set/get round trip, the default TTL value and expiry.\n\n## Critical\n- app/cache.py:27 — correctness — Lower-case the key in Cache.set — `c.set(\"Alpha\", 1)` stores the value under `\"Alpha\"`, but `c.get(\"Alpha\")` looks up `\"alpha\"` and returns `None`. This breaks the rule at `app/cache.py:14`: \"every path into _store lower-cases the key first\". — Values set under mixed-case keys can never be read and are never removed from `_store`. — Fix: write `self._store[key.lower()] = ...`, and change `test_set_then_get_round_trip` to call `set` with a mixed-case key.\n\n## Important\n(none)\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 20927,
+    "cost_usd": 0.1160532,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.1pweHFHCul/review-pr.E87bTr",
+  "head_sha": "6abbddbe7cc90ddf62711fa6d47e0a93450045c7",
+  "base_sha": "ec3c1e77268ebff162c814cc62fafc47425d1716",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "429dd806b3737ee57edb7f269120d9d6635b7239"
+}

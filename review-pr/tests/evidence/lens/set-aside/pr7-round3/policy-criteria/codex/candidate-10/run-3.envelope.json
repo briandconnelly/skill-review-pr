@@ -1,0 +1,37 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.  \nFix the retry limit before merge because the helper exceeds the project’s required cap when an upstream stays down.\n\n## Changes\n\nThe pull request adds `fetch_with_retry` with a configurable attempt count and delay, adds tests for its retry and validation paths, and proposes raising the project cap from five attempts to ten.\n\n## Critical\n\n- app/net.py:13 — correctness — Cap fetch retries at five attempts — A default call against an upstream that always raises `OSError` makes ten attempts, and the guard also accepts explicit counts from six through ten. `AGENTS.md:5` states, “Retry helpers under app/ must cap attempts at 5.” — During an outage, each default call sends five extra requests to the failing upstream and takes longer to report the failure. — Fix: Set both the default and the validation ceiling to five, and update the default-count and range-validation tests.\n\n## Important\n\n(none)\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.rU3zKgtQjM/review-pr.YNYQOa",
+  "head_sha": "fab3fd09ee462dfdc62a5151dab4e2e8e701f6cc",
+  "base_sha": "39dda989049b53114af6d1bfc64b0bede859d09c",
+  "merge_base_sha": null,
+  "policy_changes": [
+    "AGENTS.md"
+  ],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": false,
+  "schema_errors": [
+    "Summary must begin with the exact lenses-checked line"
+  ],
+  "diff_unavailable": false,
+  "collection_id": "ae3f558069635b8a502bf3852146109708c6b705"
+}

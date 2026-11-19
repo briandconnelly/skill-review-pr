@@ -1,0 +1,4 @@
+snapshot	run	input_tokens	cached_tokens	output_tokens	cost_usd	turns	duration_ms	commands	skill_commands
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/resign-tampered/claude/candidate-7	1	34547	25759	1916	0.1138	7	19957	NA	NA
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/resign-tampered/claude/candidate-7	2	34889	30618	2218	0.0846	7	23520	NA	NA
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/resign-tampered/claude/candidate-7	3	34018	30598	2086	0.0752	7	22832	NA	NA

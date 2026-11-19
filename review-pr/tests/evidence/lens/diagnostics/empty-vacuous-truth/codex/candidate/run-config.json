@@ -1,0 +1,11 @@
+{
+  "collection_id": "cb7f97c093f89cb800ff7dfe1689ca910857c39e",
+  "runner": "codex",
+  "case": "empty-vacuous-truth",
+  "snapshot": "candidate",
+  "level": "high",
+  "runs": 3,
+  "budget_usd": 1,
+  "lens_sha256": "97e599be92500984576328481fecb786a95457d3aa70ea3f6f8eb968cf577a56",
+  "diagnostic": true
+}

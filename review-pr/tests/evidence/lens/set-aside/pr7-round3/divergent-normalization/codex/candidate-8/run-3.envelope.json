@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix failure-report matching so a leading `./` in a reported path does not cause a requested failed test to be skipped.\n\n## Changes\nThe pull request adds a selector for failed paths in runner reports, refactors cached selection, and adds tests for explicit, cached, and failure-report selection.\n\n## Critical\n(none)\n\n## Important\n- app/selection.py:20 — correctness — Normalize failure paths when matching requests — A report containing `./tests/test_x.py` returns an empty selection when `tests/test_x.py` is requested. The failure selector compares the raw path, while both existing selectors strip `./` before matching. — A rerun based on the report can omit a requested failed test when the runner prefixes its path with `./`. — Fix: Reuse `select_explicit` to match normalized paths while preserving the report’s spelling, and extend `test_failure_report_selection`.\n\n## Suggestions\n- app/selection.py:15 — tests — Cover unrequested paths in cached selection — For cached paths `[\"./tests/test_x.py\", \"./tests/test_y.py\"]` with only `tests/test_x.py` requested, the cached-selection test would miss an incorrect result that also includes `tests/test_y.py`. Its sole input is a matching path. — An accidental removal of the cached filter could pass the test and cause runs to include unrequested tests. — Fix: Extend `test_cached_paths_are_normalized_by_caller`.\n\n## Not reviewed\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.NRbZJKRTXH/review-pr.BCd1LX",
+  "head_sha": "b9bd23ffd489c1e74d1e6c3738718e81493154fb",
+  "base_sha": "ecc7499655eb13f8a94f92bd219cfae75de5165a",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "84a34089a21ca451e224ded2f42e76dadca4db2a"
+}

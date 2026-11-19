@@ -1,0 +1,39 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.326",
+    "status": "error",
+    "result": "",
+    "duration_ms": 108861,
+    "cost_usd": 1.0733434000000002,
+    "subtype": "error_max_budget_usd",
+    "errors": [
+      "Reached maximum budget ($1)"
+    ],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 1,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.bCbLm6QrtT/review-pr.hTdTrJ",
+  "head_sha": "6f9fb08c969c3c64a646e2614513779f6a9945eb",
+  "base_sha": "0a973008c535bb85d24c5dc5281d4476b1d7898f",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": false,
+  "schema_errors": [
+    "only 0 of 6 headings present",
+    "Summary must begin with the exact lenses-checked line",
+    "Summary must include prose after the lenses-checked line"
+  ],
+  "diff_unavailable": false,
+  "collection_id": "ffd5514db9c7bcfc582f5cbe73814059c785f4e3"
+}

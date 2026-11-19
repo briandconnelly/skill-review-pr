@@ -1,0 +1,11 @@
+{
+  "collection_id": "0f955703b77d4b1bea864de5b82b9305a6ffa27b",
+  "runner": "claude",
+  "case": "swallowed-default",
+  "snapshot": "candidate-8",
+  "level": "high",
+  "runs": 3,
+  "budget_usd": 1,
+  "lens_sha256": "97e599be92500984576328481fecb786a95457d3aa70ea3f6f8eb968cf577a56",
+  "diagnostic": false
+}

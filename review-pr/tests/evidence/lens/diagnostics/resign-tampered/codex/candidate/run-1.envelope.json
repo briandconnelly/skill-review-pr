@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\nFix refresh before merge because adding a file can make verification accept an earlier edit to a tracked file.\n\n## Changes\n\nThe pull request adds two helpers for updating the integrity manifest. Refresh fingerprints every supplied file, while registration fingerprints only unlisted files. Tests cover both helpers.\n\n## Critical\n\n- app/integrity.py:17 — correctness — Preserve tracked fingerprints during refresh — When refresh receives a hand-edited `tracked.txt` alongside a new `new.txt`, it replaces the tracked file’s original digest. If the other entries match, `verify` returns `True` against the replacement digest. — Adding a new file can erase the evidence that verification uses to detect an earlier edit. — Fix: Reuse `register_new_files` in refresh and extend `test_refresh_registers_new_files_and_keeps_unchanged_entries`.\n\n## Important\n\n- app/integrity.py:18 — correctness — Write manifest updates atomically — If the filesystem runs out of space while recording `new.txt`, either helper can leave the manifest truncated. Both `write_text` calls truncate the current file before the replacement is fully written. — A failed update can destroy existing fingerprints and cause subsequent verification to fail while parsing the manifest. — Fix: Write the complete replacement to a temporary file in the same directory, then atomically replace the manifest.\n- app/integrity.py:25 — correctness — Exclude the manifest from its own entries — If a caller supplies `fingerprints.json` from a scan of the content root, both helpers can record the manifest’s digest and then change its contents by writing that entry. — Verification fails immediately after the update even when every content file matches its recorded fingerprint. — Fix: Skip candidates that resolve to the manifest path in both helpers.\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.bwDdINgNoT/review-pr.xCnIeM",
+  "head_sha": "cb87c719fc639fa52c14e7889c3b4178f3af7d59",
+  "base_sha": "ce2a8a26f2a2e5ea999b2954baf5cebc079b270e",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "275ae23b13ea238136484becb28dedb72a3e7fa7"
+}

@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix mixed-case writes so the new setter preserves the cache’s case-insensitive lookup contract.\n\n## Changes\n\nThe pull request adds `Cache.set`, raises the default TTL from 60 to 300 seconds, and adds tests for round trips, the default TTL, and expiry.\n\n## Critical\n\n(none)\n\n## Important\n\n- app/cache.py:27 — correctness — Normalize keys in `Cache.set` — On a fresh cache, `set(\"ALPHA\", 2)` followed by `get(\"ALPHA\")` returns `None`. The setter stores `key` unchanged, while `get` looks up `key.lower()`. — A mixed-case update can also leave callers reading an older value stored under the lowercase key.\n\n## Suggestions\n\n- app/cache.py:27 — correctness — Expire entries at their deadline — With `ttl=1`, an entry written by `set` at monotonic time `1000.0` remains readable at `1001.0`. The setter records `1001.0` as the deadline, but `app/cache.py:21` treats equality as unexpired. — A lookup at the configured deadline can serve a value whose TTL has elapsed. — Fix: Use `expires <= time.monotonic()` in `app/cache.py:21`.\n- app/cache.py:8 — tests — Verify the default TTL through cache lookups — The tests never look up an entry from `Cache()` after 61 seconds, when it should still be available. The default TTL test checks the class constant, and the expiry test supplies `ttl=1`. — A regression that restores 60-second expiry for default-constructed caches could pass the suite. — Fix: Extend `test_default_ttl_is_five_minutes` to check expiry through `Cache()` with a mocked clock.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.UTHBICNfSd/review-pr.dYkfiB",
+  "head_sha": "5e35d22e74625b2808e631a1071336495cee9692",
+  "base_sha": "f1d39324c969d87d87dd09c6a8656a42421668c8",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "1f74790621162ee3e75479a8b90bc149f9774d37"
+}

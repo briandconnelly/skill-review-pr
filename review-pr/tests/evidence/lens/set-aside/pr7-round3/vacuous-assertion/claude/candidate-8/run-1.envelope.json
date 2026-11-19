@@ -1,0 +1,38 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.326",
+    "status": "error",
+    "result": "You've hit your 5-hour limit · resets 4:20pm (America/Los_Angeles)",
+    "duration_ms": 511,
+    "cost_usd": 0,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 1,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.lVi3zA5COF/review-pr.FvXXbB",
+  "head_sha": "2164699c537a0c1090f16dcec983fe2850a9355b",
+  "base_sha": "b5bda8f900b1884d35ac100124731fd44d9a599f",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": false,
+  "schema_errors": [
+    "only 0 of 6 headings present",
+    "text before ## Summary",
+    "Summary must begin with the exact lenses-checked line",
+    "Summary must include prose after the lenses-checked line"
+  ],
+  "diff_unavailable": false,
+  "collection_id": "6f32c4ccd6ed02b94389fcd0a9c9e5d71e1a6db9"
+}

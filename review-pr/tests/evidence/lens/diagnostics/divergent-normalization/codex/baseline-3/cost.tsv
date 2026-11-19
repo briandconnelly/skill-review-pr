@@ -1,0 +1,4 @@
+snapshot	run	input_tokens	cached_tokens	output_tokens	cost_usd	turns	duration_ms	commands	skill_commands
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/diagnostics/divergent-normalization/codex/baseline-3	1	101510	72320	715	NA	1	NA	7	0
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/diagnostics/divergent-normalization/codex/baseline-3	2	121282	91136	1326	NA	1	NA	9	0
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/diagnostics/divergent-normalization/codex/baseline-3	3	121100	88832	836	NA	1	NA	10	0

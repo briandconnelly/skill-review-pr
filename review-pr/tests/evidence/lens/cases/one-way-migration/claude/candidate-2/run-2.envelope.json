@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.328",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nDropping `users.legacy_email` without a backup needs fixing before merge, because the column's data is lost permanently and cannot be recovered by rolling back the deploy.\n\n## Changes\nThis pull request adds migration `m0003`, which drops `users.legacy_email`, and migration `m0004`, which backs up `orders` and then drops `orders.coupon_code`. It also adds one test that runs both migrations.\n\n## Critical\n- migrations/m0003_drop_legacy_email.py:7 — correctness — Back up users before dropping legacy_email — On any database where `users` holds rows, `upgrade` runs `ALTER TABLE users DROP COLUMN legacy_email` without first calling `backup_table(conn, \"users\", VERSION)`, so no `users_backup_3` table exists for `restore_table` to read. `migrations/safety.py:3-5` requires that \"each destructive migration first calls backup_table\", and `m0002` and `m0004` both do this. — Every user's `legacy_email` value is destroyed permanently, and operators cannot restore it after a rollback. — Fix: Add `backup_table(conn, \"users\", VERSION)` before the `ALTER`, as `migrations/m0002_drop_nickname.py:7` does, and extend `test_drop_retired_columns` to insert a user and check `users_backup_3`.\n\n## Important\n(none)\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 22345,
+    "cost_usd": 0.0847676,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.9XxmHSbQrX/review-pr.KFcYcX",
+  "head_sha": "c2a307bd0e468e8034eb42edec27126cfde59db8",
+  "base_sha": "9b40ab45772c27b89e0454a72f1dd7f9a7cfa54d",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "72266cd71d29e1a8421c37fde93cef3aa6ef48e5"
+}

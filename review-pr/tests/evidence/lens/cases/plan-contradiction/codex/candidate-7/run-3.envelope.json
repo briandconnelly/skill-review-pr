@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nPreserve `--wait` for the documented transition release so existing scripts can keep running while they migrate to `--timeout`.\n\n## Changes\n\nThe pull request renames `--wait` to `--timeout` in the argument parser and its tests. It adds an architecture decision describing a one-release transition and retains the 30-second default and JSON and CSV output options.\n\n## Critical\n\n(none)\n\n## Important\n\n- app/cli.py:6 — correctness — Keep `--wait` as a deprecated alias — Passing `--wait 12` now exits with status 2 because the parser registers only `--timeout`. The decision at `docs/adr/007-timeout.md:5` says, “Accept `--wait` as an alias for one release and emit a deprecation warning when it is used.” — Existing scripts that pass `--wait` stop at argument parsing before they can produce output. — Fix: Route both flags to `args.timeout`, emit a deprecation warning only for `--wait`, and extend `test_explicit_options` to cover the alias.\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.wbfsZ73oWp/review-pr.j8XHt0",
+  "head_sha": "ee9e4d6aecfb1fd1779500292af2127fe40786fd",
+  "base_sha": "da726a4fc08e4c35e2cc2c0942c51464b5dbe942",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "e975c5b23cd4cbd5ab0a4568586667eb2647f18d"
+}
