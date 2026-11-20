@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.326",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nThis review found no defects in the changed code or in its tests, which were read and not run. Whether the change meets the requirements of issue #12 is unchecked.\n\n## Changes\nThe pull request adds a `paginate(items, limit, offset=0)` helper in `app/paging.py` that slices a sequence and raises `ValueError` for a negative limit or offset. `list_orders` gains optional `limit` and `offset` parameters that it passes to the helper after sorting, and tests are added for both.\n\n## Critical\n(none)\n\n## Important\n(none)\n\n## Suggestions\n(none)\n\n## Not reviewed\n- Issue #12, which the pull-request body says this change closes, was not available, so the change was not checked against its requirements.",
+    "duration_ms": 28061,
+    "cost_usd": 0.2003726,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.KVVtBD11d5/review-pr.lEuBl0",
+  "head_sha": "26fd0d5d9c94794da7f510800c322b42bd665004",
+  "base_sha": "598c786c8d5b4eddb2641a2fc9b656be987afb13",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "77c0b5ea63d10eaa842dfc7e844792ec1d75e2f5"
+}

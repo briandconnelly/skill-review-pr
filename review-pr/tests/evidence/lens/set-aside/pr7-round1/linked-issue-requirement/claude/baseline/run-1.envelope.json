@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.326",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n`paginate` validates `offset` but not `limit`, so a negative limit silently drops the oldest orders instead of raising an error. That gap is the main fix needed.\n\n## Changes\nThis pull request adds `app/paging.py` with a `paginate(items, limit, offset=0)` helper and gives `list_orders` an optional `limit` that caps the newest-first result. It also adds one test for the capped listing.\n\n## Critical\n(none)\n\n## Important\n- app/paging.py:12 — correctness — Reject negative limit as offset already does — `list_orders(orders, limit=-1)` returns every order except the oldest instead of raising. `stop = start + limit` becomes `-1` and `items[0:-1]` drops the last element, but lines 9–10 reject only a negative `offset`. — A caller that passes -1 as a \"no limit\" sentinel or forwards an unchecked request value gets an incomplete listing without any error. — Fix: Add `if limit is not None and limit < 0: raise ValueError(\"limit must be non-negative\")` next to the existing offset check.\n\n## Suggestions\n- app/orders.py:6 — correctness — Should list_orders accept offset to reach later pages? — `list_orders(orders, limit=2)` can only ever return the two newest orders. The function does not accept or forward `offset`, so the third and fourth orders cannot be retrieved even though the `paginate` docstring at app/paging.py:7 says \"offset lets a caller fetch later pages.\" — Callers of the order listing get only the first page, which may not meet the pagination asked for in the linked issue. — Fix: Add an `offset=0` parameter and pass it through as `paginate(ordered, limit, offset)`, unless issue #12 asks only for a cap.\n- app/paging.py:9 — tests — Cover paginate's offset slicing and negative-offset error — No test calls `paginate` with `offset > 0` or `offset < 0`. The only added test reaches `paginate` through `list_orders` with the default offset of 0, so line 11's slice start and the `ValueError` on line 10 are never run. — A regression in later-page slicing or in negative-offset validation would pass the test suite. — Fix: Add `tests/test_paging.py` cases for a non-zero offset and for a negative offset that raises `ValueError`.\n\n## Not reviewed\n- Issue #12, which the pull-request body says this change closes, was not available in the checkout, so this review could not confirm the required pagination behavior.",
+    "duration_ms": 24773,
+    "cost_usd": 0.1305654,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.hg2qnvXUso/review-pr.BnBZHc",
+  "head_sha": "4ae59e347f1e7ef82e1bcb0f26a08f321caae3e1",
+  "base_sha": "3ee1aaaf97629439d22fbbbc30a995a83f3318e6",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "68c6833c7edcba95bd093b3e1fc4cd484d651977"
+}

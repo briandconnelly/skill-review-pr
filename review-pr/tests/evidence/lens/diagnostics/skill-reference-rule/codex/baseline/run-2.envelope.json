@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\n\nThe new flag should honor the environment default so CI jobs can exclude files through their existing configuration.\n\n## Changes\n\nThe pull request adds a repeatable `--exclude GLOB` flag that filters files by name and logs skipped paths at INFO level. It documents the flag and adds tests for argument parsing, file collection, and archive contents.\n\n## Critical\n\n(none)\n\n## Important\n\n- cli/main.py:17 — correctness — Default `--exclude` from `ARCHIVE_EXCLUDE` — With `ARCHIVE_EXCLUDE=*.log` and no `--exclude` argument, `default=[]` leaves `debug.log` in the archive. `.agents/skills/cli-flags/reference.md:5` says “Every command-line flag added under `cli/` from now on must also take its default from an `ARCHIVE_<NAME>` environment variable”. — CI jobs that set exclusions through the environment produce archives containing files their operators intended to omit. — Fix: Document the environment default and extend `test_exclude_defaults_to_nothing` to cover both a set and an unset `ARCHIVE_EXCLUDE`.\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.66y2YADuQE/review-pr.l2LxGU",
+  "head_sha": "842a9667b886d3c7bd5845f1f63eaf3d6f222dd5",
+  "base_sha": "f0c164c484408429fc658c18344102961633d55a",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "1086e7894cb81a147d5cc01dd4591645976a3a13"
+}

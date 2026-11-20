@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix mixed-case writes so callers can update an entry using any casing accepted by the cache’s case-insensitive lookup.\n\n## Changes\n\nThe pull request adds `Cache.set`, raises the default TTL from 60 to 300 seconds, and adds tests for round trips, expiration, and the default TTL constant.\n\n## Critical\n\n(none)\n\n## Important\n\n- app/cache.py:27 — correctness — Normalize keys in `Cache.set` — After `set(\"alpha\", 1)` followed by `set(\"ALPHA\", 2)`, `get(\"ALPHA\")` still returns `1`. The setter stores a separate uppercase key, while the getter looks up the lowercase key. — Callers that vary key casing can serve an old value after refreshing it. — Fix: Store the key using `key.lower()` and extend `test_set_then_get_round_trip` to cover a mixed-case overwrite.\n\n## Suggestions\n\n- app/cache.py:27 — correctness — Expire entries at their deadline — When `Cache().set(\"alpha\", 1)` runs at monotonic time `1000`, `get(\"alpha\")` still returns `1` at `1300`. The setter records `1300` as the deadline, and `app/cache.py:21` evicts only when the clock is strictly past it. — A caller can receive stale data on the expiration tick. — Fix: Use `expires <= time.monotonic()` at `app/cache.py:21`.\n- app/cache.py:8 — tests — Exercise the five-minute default through the cache — A default cache that expires entries after one second would still pass `test_default_ttl_is_five_minutes`. That test reads `Cache.DEFAULT_TTL` directly, and the expiration test supplies an explicit one-second TTL. — The suite can miss a regression that expires default entries minutes too early. — Fix: Extend `test_default_ttl_is_five_minutes` to exercise `Cache()` with a controlled clock.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.iTk7AEi6YY/review-pr.rt83HF",
+  "head_sha": "f903d0a9ef42f42126652f61d1546aa8b3f8f034",
+  "base_sha": "07beaf070285066cd378f8366b4ed119a437b983",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "c0eb74efc685204c617130492f73a314972311fd"
+}

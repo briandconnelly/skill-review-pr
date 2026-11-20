@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix `finished_at` before merge because the new column reports a start time as a completion time.\n\n## Changes\nThe pull request adds `finished_at` to the current-state model and documents it in the schema catalog. The model derives the new value from each process’s latest event.\n\n## Critical\n- models/processes.sql:10 — correctness — Use a completion event for `finished_at` — Process 20 has only a `started` event, yet `finished_at` reports `2026-01-01T00:01:00Z` as its finish time. The SQL takes the timestamp exclusively from `started` events. — Consumers that treat a populated `finished_at` as evidence of completion will count processes that have only started. — Fix: Define which source event represents completion and use its timestamp, or rename and document the column as a start timestamp.\n\n## Important\n- models/schema.yml:17 — comments — Correct the documented meaning of NULL — Process 30 has a `started` event followed by `cleared`, so it returns NULL despite the catalog’s claim that “NULL means the process has never been started.” The latest-event expression is `case when event_type = 'started' then occurred_at end`. — Consumers following the documented NULL rule will classify previously started processes as never started after a `cleared` event.\n\n## Suggestions\n- models/schema.yml:12 — comments — Align the UTC claim with stored values — A latest `started` event with `2026-01-01T00:30:00+01:00` retains its offset despite the claim “Stored in UTC using the source event timestamp.” The expression `then occurred_at` passes through the source text. — Consumers grouping that value by its date prefix will assign it to January 1 even though its UTC date is December 31. — Fix: Normalize the value to UTC or document that it preserves the source representation.\n\n## Not reviewed\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.jNXs3irnDo/review-pr.Zo5vko",
+  "head_sha": "6b6e8f09bb2b55bd61d8be15412cecec66663e84",
+  "base_sha": "ab5b94f8b8362c0c4b15e2f4f3873b45c9baea94",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "876600037ba8801fbc7d18c1b82d1153d1cb45fd"
+}

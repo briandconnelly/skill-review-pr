@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix refresh before merge because it can erase the fingerprint that verification needs to detect a hand-edited tracked file.\n\n## Changes\n\nThe pull request adds two helpers that update the integrity manifest, along with tests for registration and verification.\n\n## Critical\n\n- app/integrity.py:17 — correctness — Preserve tracked fingerprints during refresh — If you refresh an edited `tracked.txt` alongside `new.txt`, the unconditional assignment replaces the saved digest for `tracked.txt` with the digest of its edited contents. — If the other files match their recorded fingerprints, verification reports success despite the hand edit. — Fix: Reuse `register_new_files` in the refresh helper and extend `test_refresh_registers_new_files_and_keeps_unchanged_entries` to cover an edited tracked file.\n\n## Important\n\n(none)\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.YkzyriTw81/review-pr.yadba7",
+  "head_sha": "324366641c01c6b61e2ac0710dbacc0f16d8e9c4",
+  "base_sha": "2e7bbc8f8e0abe3c22868ac8d5c28a7841367633",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "56c9cd5658a2ebf1eb957f899f7e1235420d9708"
+}

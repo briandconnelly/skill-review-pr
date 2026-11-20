@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.328",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nOne Important defect needs fixing: `refresh_fingerprints` overwrites the stored fingerprint of a tracked file that was edited by hand. This removes the tamper detection that the pull-request description gives as the reason the existing fingerprints are kept.\n\n## Changes\nThe pull request adds `refresh_fingerprints` and `register_new_files` to `app/integrity.py`, which rewrite the JSON integrity manifest for the names they are given. It also adds `tests/test_integrity.py`, which covers both helpers.\n\n## Critical\n(none)\n\n## Important\n- app/integrity.py:17 — correctness — Keep existing fingerprints in refresh_fingerprints — If you call `refresh_fingerprints` with a tracked name whose file was hand-edited, `entries[name] = fingerprint(root / name)` replaces the original digest with the edited one, so `verify` then passes. The description says \"Existing fingerprints let verification detect hand-edited tracked files,\" and `register_new_files` keeps those fingerprints, but this function does not. The added refresh test only passes an unchanged `tracked.txt`, so it cannot catch this. — Running the refresh command over all files after adding new ones silently accepts any tampered tracked file. — Fix: Either skip names already in `entries`, as `register_new_files` does at `app/integrity.py:24`, or document that refresh re-accepts current content, and extend `test_refresh_registers_new_files_and_keeps_unchanged_entries` with an edited tracked file.\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 22832,
+    "cost_usd": 0.07517560000000001,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.Sbjsr8lVq9/review-pr.PileRr",
+  "head_sha": "4ed41ad812d992d53f408cf0b30cdf9f266eac43",
+  "base_sha": "1ad060046d2dbf7fdaea9b519b77f61a3e6a62ba",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "39e0c0961f41f39dbbcf17f7e0b272615d78c495"
+}

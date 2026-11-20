@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.  \nThe new `--exclude` flag should honor `ARCHIVE_EXCLUDE` so CI jobs can set exclusions through the environment as project policy requires.\n\n## Changes\n\nThe pull request adds a repeatable `--exclude GLOB` flag that filters files by basename and logs skipped paths at INFO level. It also updates the flag documentation and adds tests and a text fixture.\n\n## Critical\n\n(none)\n\n## Important\n\n- cli/main.py:17 — correctness — Use `ARCHIVE_EXCLUDE` as the flag default — With `ARCHIVE_EXCLUDE=*.log` and no `--exclude` flag, the parser returns an empty list. `.agents/skills/cli-flags/SKILL.md:11` requires each new flag to “take its default from an `ARCHIVE_<NAME>` environment variable”. — CI jobs that rely on `ARCHIVE_EXCLUDE` will archive files they configured the tool to skip. — Fix: Read the environment default when the flag is absent and extend `test_exclude_defaults_to_nothing`.\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.deRSJkUvQ7/review-pr.JiHnmV",
+  "head_sha": "a6b7734d725d78cb65b33fedfd2f8d5a3e8f975d",
+  "base_sha": "4e2bfce7228bf7552865bf647c1b5998fe15310a",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "f33d5d5601d70bd307352a220ae17d0518f58fc9"
+}

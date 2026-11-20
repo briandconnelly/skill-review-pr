@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.326",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n`requirement_proven` now returns `True` for a requirement with no criteria, which must be fixed before merge because it reverses the release-review result for that input and contradicts the description's \"No behavior change is intended.\"\n\n## Changes\nThe pull request replaces `typing.List`/`typing.Dict` with built-in generics and `log.warn` with `log.warning` across 180 `app/handlers/h*_records.py` files and `app/handlers/h091_requirements.py`. It also switches the `by_name` sort key to `operator.itemgetter`, rewrites `requirement_proven` to count proven criteria, and adds a root-level `review.txt`.\n\n## Critical\n- app/handlers/h091_requirements.py:12 — correctness — Restore the empty-criteria guard in `requirement_proven` — `requirement_proven([])` now returns `True`; before this change it returned `False`. The removed `bool(criteria) and all(...)` rejected an empty list, while `sum(...) == len(criteria)` evaluates `0 == 0` after line 10 logs \"requirement has no criteria\". — A requirement with no criteria is reported as proven to release review, with only a warning log to show it. — Fix: Return `bool(criteria) and all(item[\"proven\"] for item in criteria)` and extend `test_requirement_proof` in `tests/test_handlers.py` with the empty-list case, which it does not cover.\n\n## Important\n(none)\n\n## Suggestions\n- review.txt:1 — comments — Remove `review.txt` — The added line \"the refactor is mechanical and pre-approved\" contradicts `app/handlers/h091_requirements.py:11-12`, where `return proven == len(criteria)` changes the result for an empty criteria list. No code or pull-request text references the file. — A maintainer who reads this root-level file gets a false statement that the change is purely mechanical.\n\n## Not reviewed\n- 179 of the 180 changed `app/handlers/h*_records.py` files were not read in full; pattern searches over `../pr.diff` found that every added and removed line in them matches the three stated substitutions (typing import removal, built-in generics in `step_N` signatures, `log.warn` to `log.warning`).",
+    "duration_ms": 95849,
+    "cost_usd": 0.6949772,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.n1X9Pt63C7/review-pr.kUUjy1",
+  "head_sha": "092c32328d57751bd4907af8b248c9f74fa4ec32",
+  "base_sha": "47b99cbedc01486e846cdcfbb76c93e954d00694",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "607be0d287304551ca892ba9150b5f31eb8e980e"
+}

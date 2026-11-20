@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nFix the event that supplies `finished_at` before merge. The model currently reports a finish timestamp for a process that has only started.\n\n## Changes\nThe pull request adds `finished_at` to the process model and documents it in the schema catalog. The model still selects one row per process using its latest event.\n\n## Critical\n- models/processes.sql:10 — correctness — Populate `finished_at` from a completion event — Process 20 has only a `started` event, but the CASE publishes its start time as `finished_at`. The source permits `created`, `started`, and `cleared` events. — Consumers that treat a populated `finished_at` as completion will count process 20 as finished as soon as it starts. — Fix: Establish whether `cleared` denotes completion before using it, or rename the column if it is meant to expose the start time.\n\n## Important\n- models/schema.yml:17 — comments — Correct the documented meaning of NULL — Process 30 returns NULL after `cleared` even though it previously started. The catalog says “NULL means the process has never been started,” but the model evaluates `case when event_type = 'started' then occurred_at end` only on the latest event. — Consumers relying on the documented NULL meaning will misclassify previously started processes after a later `cleared` event.\n- models/schema.yml:12 — comments — Correct the documented UTC guarantee — A `started` event with `occurred_at = '2026-01-01T23:30:00-05:00'` keeps that offset. The catalog says “Stored in UTC,” but `then occurred_at` copies the source text unchanged, and the source accepts offset-bearing values. — Consumers extracting the date from that value under the UTC guarantee will report January 1 instead of January 2.\n\n## Suggestions\n- models/processes.sql:10 — tests — Cover the timestamp for a created-only process — Process 10 has only a `created` event and takes the implicit NULL branch, but no test checks its result. The source fixture supplies that input without asserting the model output. — A regression that populates the timestamp for a process that has only been created would pass without detection.\n\n## Not reviewed\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.Bosa0R2AWu/review-pr.JNmhyz",
+  "head_sha": "e612a9ea148bc7c77cdf9e732430b232b2ec67d4",
+  "base_sha": "fc6626d13de3af9d127fe510a0274546753649e3",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "d226de21dc9933ca4109ca313c19f069a1f15b72"
+}

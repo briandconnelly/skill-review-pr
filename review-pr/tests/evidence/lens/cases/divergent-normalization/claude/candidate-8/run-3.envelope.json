@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.328",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n`select_failures` compares report paths without normalizing them, so a failure report that spells a path as `./tests/x.py` selects nothing. The tests do not cover that case. This should be fixed before the selector is used with real runner reports.\n\n## Changes\nThe pull request adds `select_failures`, which picks requested paths out of a runner report's `failed` list. It also rewrites `select_cached` and `_select_normalized` without changing their behaviour, and adds `tests/test_selection.py` with one test for each selector.\n\n## Critical\n(none)\n\n## Important\n- app/selection.py:20 — correctness — Normalize report paths before checking membership — A report with `{\"failed\": [\"./tests/test_x.py\"]}` and `requested={\"tests/test_x.py\"}` returns `[]`, because `path in requested` compares the raw spelling. `select_explicit` at `app/selection.py:6` compares `normalize(path)` and keeps the original spelling, which is what the docstring promises. The only test, `tests/test_selection.py:43`, uses paths without the `./` prefix. — Failed tests that the runner reports with a `./` prefix are silently left out of the rerun selection. — Fix: Use `normalize(path) in requested` as `select_explicit` does, and add a `./`-prefixed case to `test_failure_report_selection`.\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 18069,
+    "cost_usd": 0.0615876,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.lAR3IeccCi/review-pr.V5PxrY",
+  "head_sha": "56a90e6cfbfcd520044133bca92013c64016b21f",
+  "base_sha": "6733a206bec8843d6d5db8ba9a1e7837b35fa140",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "062919d28f8214199599d1172a4bb635c62572b8"
+}

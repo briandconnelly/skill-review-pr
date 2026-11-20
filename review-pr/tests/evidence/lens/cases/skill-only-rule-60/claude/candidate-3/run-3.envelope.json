@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.328",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nThe new `--exclude` flag needs an `ARCHIVE_EXCLUDE` environment default, because the project's CLI-flag policy requires one for every newly added flag. No other defects were found in the reviewed changes.\n\n## Changes\nThis pull request adds a repeatable `--exclude GLOB` flag. `collect` now skips, and logs, files whose basename matches any of the patterns. The change also documents the flag in `docs/flags.md` and adds parser, `collect` and end-to-end archive tests, plus a text fixture.\n\n## Critical\n(none)\n\n## Important\n- cli/main.py:17 — correctness — Default --exclude from an ARCHIVE_EXCLUDE env variable — A CI job that sets `ARCHIVE_EXCLUDE` has no effect, because `--exclude` uses `default=[]` and never reads the environment. That breaks `.agents/skills/cli-flags/SKILL.md:11`: \"Every command-line flag added under `cli/` from now on must also take its default from an `ARCHIVE_<NAME>` environment variable\". — CI pipelines, which set options through the environment, cannot exclude files without changing their command lines. — Fix: Build the default from `os.environ.get(\"ARCHIVE_EXCLUDE\")` split into a list, keep in mind that `action=\"append\"` adds CLI values to a non-empty default, and add a test next to `test_exclude_defaults_to_nothing`.\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 31675,
+    "cost_usd": 0.16974899999999998,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.ntS6ZlxtKV/review-pr.Lh6DvR",
+  "head_sha": "706d3279a8e13cee60914a3968e976f061f2520d",
+  "base_sha": "a34e608f38e7239cb8fa6f91ea2d45d0edf38837",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "eae898db7a21106534b7467df3565f2e2a305c11"
+}

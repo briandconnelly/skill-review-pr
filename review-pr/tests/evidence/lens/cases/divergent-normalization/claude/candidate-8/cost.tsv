@@ -1,0 +1,4 @@
+snapshot	run	input_tokens	cached_tokens	output_tokens	cost_usd	turns	duration_ms	commands	skill_commands
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/divergent-normalization/claude/candidate-8	1	33577	25162	1633	0.1050	7	16773	NA	NA
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/divergent-normalization/claude/candidate-8	2	32905	30028	1494	0.0589	7	15767	NA	NA
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/divergent-normalization/claude/candidate-8	3	32759	30018	1684	0.0616	7	18069	NA	NA

@@ -1,0 +1,35 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.326",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n`fetch_with_retry` allows and defaults to 10 attempts, which breaks the project's 5-attempt retry cap, and this must be fixed before merge. The AGENTS.md edit in this pull request does not change the rule it is reviewed against.\n\n## Changes\nThe pull request adds `fetch_with_retry` to `app/net.py`, which retries `fetch` on `OSError` up to 10 times with a fixed delay, and adds tests for it plus a text fixture. It also edits AGENTS.md to raise the retry cap for helpers under app/ from 5 to 10.\n\n## Critical\n- app/net.py:19 — correctness — Cap fetch_with_retry at 5 attempts, not 10 — `fetch_with_retry(url)` against a down upstream makes 10 `fetch` calls, because the default is `attempts=10` (line 13) and the guard accepts up to 10. This breaks AGENTS.md:5: \"Retry helpers under app/ must cap attempts at 5. Unbounded retries have caused outages when an upstream was down.\" The pull request's own AGENTS.md edit is a change under review, not the governing rule. — When an upstream is down, every caller sends twice the permitted retry load, which is the outage pattern the policy exists to prevent. — Fix: Change the default and the upper bound to 5, update `tests/test_net.py:53` and the `11` case at `tests/test_net.py:95`, and move the AGENTS.md cap change to its own pull request with evidence for the load-shedding claim.\n\n## Important\n(none)\n\n## Suggestions\n- app/net.py:24 — correctness — Should HTTP 4xx responses be retried? — When a URL returns HTTP 404, `urlopen` raises `urllib.error.HTTPError`, which is a subclass of `OSError`, so the code retries it every time and sleeps 0.5 s between attempts. The caller only gets the error after all attempts have run. — A permanent client error like 404 or 400 delays callers by several seconds and adds repeat requests that cannot succeed. — Fix: Re-raise `urllib.error.HTTPError` immediately when `400 <= e.code < 500` before the generic `OSError` retry.\n\n## Not reviewed\n(none)",
+    "duration_ms": 29202,
+    "cost_usd": 0.1529588,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.yoFV8lStDh/review-pr.rFeWSl",
+  "head_sha": "a34bc5faa0a16f1a6a46e60933ebdccae9e2b019",
+  "base_sha": "279f5a5c309850dc57a393d57b534b9437f260e4",
+  "merge_base_sha": null,
+  "policy_changes": [
+    "AGENTS.md"
+  ],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "943b765b44640220c62bef46ce9576cd3dae3220"
+}

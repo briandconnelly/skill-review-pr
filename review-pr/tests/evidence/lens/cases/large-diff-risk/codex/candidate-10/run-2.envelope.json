@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix the release gate before merge because it blocks releases that meet the configured approval minimum.\n\n## Changes\n\nThe pull request regenerates the deployment catalog with production service names and ports, simplifies the service health predicate, and changes the release approval comparison.\n\n## Critical\n\n- zzz-release/gate.py:5 — correctness — Accept releases that meet the approval minimum — With two approvals and the default minimum of two, `approved` returns `False`. The new `>` comparison excludes equality, although `zzz-release/gate.py:1` requires “at least the configured number of approvals.” — Releases with exactly the configured minimum stay blocked until they receive an extra approval. — Fix: Restore `>=` and extend `test_approved_release` to cover equality.\n\n## Important\n\n(none)\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.1aSSyO0oXV/review-pr.PTDZdD",
+  "head_sha": "5f8ba9fda10d138dc812d90f6046e9d2b891b38a",
+  "base_sha": "f20439c79254e8e3a6ba49dd7930d16a89ef3e9d",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "b2fea23e817e27944e3fc9be86cdee29d2923fda"
+}

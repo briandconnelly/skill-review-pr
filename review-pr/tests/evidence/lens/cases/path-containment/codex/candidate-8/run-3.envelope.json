@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nFix the home-directory escape before merge because previews can disclose files outside the selected directory. Bound the preview read so large files can be previewed without loading them in full.\n\n## Changes\nThe pull request adds a helper that returns the first 200 characters of a file under the selected home directory and a helper that returns the path to `settings.toml`. It adds tests for short and long previews, rejection of an absolute path outside home, and the settings path.\n\n## Critical\n\n- app/paths.py:12 — correctness — Enforce home containment before reading previews — A path with a parent-directory component or a symlink inside home can pass the check and open a file outside home. `is_relative_to()` compares path components lexically, while `read_text()` follows the filesystem path. — A caller who controls the preview path can disclose contents of readable text files outside the selected directory. — Fix: Resolve the home directory and candidate before checking containment, then open the resolved candidate.\n\n## Important\n\n- app/paths.py:14 — correctness — Read only the previewed characters — Previewing a readable log larger than the process’s available memory can fail because `read_text()[:200]` loads the entire file before slicing it. — Previewing a large log can exhaust memory and disrupt other file-browsing operations. — Fix: Open the file in text mode and read at most 200 characters.\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.IVhHCWaplp/review-pr.QzwcgZ",
+  "head_sha": "1f63b0f99bd5d2ead675f39b06158222513b1a8f",
+  "base_sha": "af457001fa670e05388e4b2805ea091a388439dc",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "b42940010ba26de03708c01a05eefcacfa2adcbc"
+}

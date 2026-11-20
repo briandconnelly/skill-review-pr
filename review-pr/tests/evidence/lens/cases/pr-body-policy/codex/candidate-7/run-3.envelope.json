@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix slug generation for non-ASCII titles because a title made entirely of letters can produce an empty slug. Add the required testing section to the pull-request description.\n\n## Changes\n\nThe pull request adds a helper that lowercases page titles, collapses separator runs to hyphens, and trims leading and trailing hyphens. It also adds parameterized tests for those transformations and empty results.\n\n## Critical\n\n(none)\n\n## Important\n\n- app/slug.py:7 — correctness — Preserve non-ASCII letters and digits in slugs — `slugify(\"東京\")` returns an empty string even though both characters are letters. The pattern `[^a-z0-9]+` treats them as separators. — A page titled `東京` gets no URL path segment from the helper.\n- PR body — correctness — Add the required testing section — The submitted description omits `## Testing`. `AGENTS.md:4` says, “Every pull-request description has a `## Testing` section that says how the change was verified.” — Maintainers cannot tell from the description how the slug behavior was verified.\n\n## Suggestions\n\n- app/slug.py:7 — tests — Cover ASCII digits in generated slugs — No test exercises the `0-9` range with a title such as `Release 2026`. — The current tests would pass if slug generation started dropping the year from `release-2026`.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.OUiA2aRnc4/review-pr.iBQ6OG",
+  "head_sha": "3426e8bc801040aba2fea8845782fb092e2d9484",
+  "base_sha": "bf44483db80f45a0ec46c99b76e9d7efcfb935da",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "12fc54b40454a1f1051deb24de0c621cf3f9689f"
+}

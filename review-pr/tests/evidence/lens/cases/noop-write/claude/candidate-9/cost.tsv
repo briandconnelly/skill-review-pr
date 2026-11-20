@@ -1,0 +1,4 @@
+snapshot	run	input_tokens	cached_tokens	output_tokens	cost_usd	turns	duration_ms	commands	skill_commands
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/noop-write/claude/candidate-9	1	34165	25325	1658	0.1089	8	16917	NA	NA
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/noop-write/claude/candidate-9	2	33712	30165	1695	0.0683	7	16250	NA	NA
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/noop-write/claude/candidate-9	3	34276	30175	1796	0.0747	8	18138	NA	NA

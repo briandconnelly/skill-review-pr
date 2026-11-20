@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix mixed-case writes so entries remain retrievable under the cache’s case-insensitive key contract.\n\n## Changes\nThe pull request adds `Cache.set` and raises the default TTL from 60 to 300 seconds. It adds tests for round trips, the default TTL constant, and expiration with a custom TTL.\n\n## Critical\n(none)\n\n## Important\n- app/cache.py:27 — correctness — Normalize cache keys before storing them — After `set(\"ALPHA\", 1)`, `get(\"ALPHA\")` returns `None`. The setter stores the key as supplied, while `get` lowercases it for lookup and expiration cleanup. — Mixed-case writes can leave unreachable entries in memory after their TTL expires.\n\n## Suggestions\n- app/cache.py:8 — tests — Test expiration with the default TTL — If `Cache()` expires entries after 60 seconds while `DEFAULT_TTL` remains 300, `test_default_ttl_is_five_minutes` still passes. It checks the constant, and the expiration test supplies `ttl=1`. — The suite can miss a regression that expires default entries four minutes early.\n\n## Not reviewed\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.Tf1aOSqstj/review-pr.0Nc87z",
+  "head_sha": "67b9fbc651d354830d81c58b3ab914cc7e4aa62d",
+  "base_sha": "cce99e97d600cc8fb6aa124f5985424fac2fd8f4",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "c3fddf61a5e90d9544a987b92a82bdcd013b59e2"
+}

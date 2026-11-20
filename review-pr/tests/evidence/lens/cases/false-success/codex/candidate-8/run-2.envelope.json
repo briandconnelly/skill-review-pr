@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix failed-write handling before merge because callers cannot rely on the save command’s success status.\n\n## Changes\n\nThe pull request adds a report save command that prints the destination and a cleanup helper that tolerates an already absent temporary report. It also adds tests for saving and cleanup.\n\n## Critical\n\n- app/reports.py:8 — silent-failure — Signal failed report writes — When the destination’s parent directory is missing, `save_report` discards the `FileNotFoundError`, prints “Report saved,” and returns `0`. — Callers can proceed as though the report exists when the save created no file. — Fix: Report the destination and write error, return a nonzero status, and extend `test_save_with_unavailable_destination`.\n\n## Important\n\n(none)\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.HcbEHp4Qdn/review-pr.gJUDY0",
+  "head_sha": "92f37d7dac0883c61d59bc34fc7f04c32eaa5417",
+  "base_sha": "051dff0e62c62c9e23377636302aa6b017c663db",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "b672df77d9829a7483c7688cf562c32c3e8ab843"
+}

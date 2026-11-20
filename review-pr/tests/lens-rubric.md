@@ -237,6 +237,33 @@ A proposed criterion for [review-lens.md](../references/review-lens.md) earns it
 4. Collect a `candidate` snapshot of the new case and of every other committed case, on every runner.
    The gate and the evidence test, above, define what those snapshots must show for the edit to land.
 
+The linked-issue criterion (RC16 in [the runner adapter contract](../references/runner-contract.md)) was the first added this way, with the `linked-issue-requirement` case.
+Its baselines passed the gate and missed recall: claude 0/3 and codex 1/3.
+The first wording asked for changed code that implements an issue requirement "wrongly or only in part" and recalled 3/3 on both runners, but on codex it raised decoy hits on cases without issues: `divergent-normalization` 5 of 6 runs, `empty-vacuous-truth` 2 of 6, and `resign-tampered` 3 of 6, against 1 of 6, 0 of 3, and 0 of 3 under the unedited lens.
+Those snapshots are under `evidence/lens/set-aside/pr7-round3/`.
+The shipped wording reports only code that contradicts a requirement a `fetched` issue states, and recalls 3/3 on both runners with no decoys.
+Claude's candidates pass every gate on every committed case.
+Codex 0.169.1, which replaced the 0.167 that collected the earlier evidence, failed ten cells; their snapshots are under `evidence/lens/set-aside/pr7-round4/`.
+Codex controls under the unedited lens, the `baseline-N` snapshots under `evidence/lens/diagnostics/<case>/codex/`, show which failures predate the edit:
+
+| Case | Unedited lens | Shipped wording | Failure |
+| --- | --- | --- | --- |
+| `adjacent-comment` | 2 of 3 | 3 of 3 | decoy |
+| `data-doc-precision` | 2 of 3 | 2 of 3 | wrong lens |
+| `divergent-normalization` | 1 of 9 | 1 of 6 | decoy |
+| `one-way-migration` | 1 of 3 | 1 of 3 | decoy |
+| `policy-file-edit` | 3 of 3 | 2 of 3 | miscite |
+| `skill-only-rule-60` | 1 of 3 | 1 of 3 | decoy |
+| `policy-criteria` | 0 of 3 | 2 of 3 | wrong lens |
+| `skill-only-rule` | 0 of 3 | 3 of 6 | decoy |
+| `skill-reference-rule` | 0 of 3 | 2 of 3 | decoy |
+| `resign-tampered` | 1 of 6 | 4 of 6 | decoy |
+
+The first six fail as often under the unedited lens, so the runner, not the edit, fails them.
+The last four have no linked issues, so the new clauses do not apply to them; their extra findings are test gaps beside the decoy line, a `comments` finding where `correctness` alone is allowed, and a manifest that fingerprints itself, none citing an issue.
+Three to six runs per arm cannot separate a wording effect from sampling noise, so the owner shipped the criterion with these ten codex cells missing from `REVIEW_PR_LENS_MATRIX=1` coverage.
+The next lens edit should collect codex again; a cell that still fails under both wordings needs its case repaired for the current runner.
+
 ## Changing the reading procedure
 
 A change to how the child reads policy, such as reading skill bodies on demand (#231) instead of every listed file, must keep recall while it saves cost, so it is measured differently from a criterion.

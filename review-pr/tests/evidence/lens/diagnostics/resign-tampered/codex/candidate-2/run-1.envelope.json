@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nPreserve existing fingerprints during refresh before merging. Adding a file can otherwise clear an integrity failure for an edited tracked file.\n\n## Changes\nThe pull request adds two helpers for updating the integrity manifest and tests for adding files, preserving fingerprints during registration, and passing an empty file list.\n\n## Critical\n\n- app/integrity.py:17 — correctness — Preserve tracked fingerprints during refresh — Refreshing with an edited `tracked.txt` and a new `new.txt` replaces the saved digest for `tracked.txt` with a digest of the edited contents. `verify` then accepts both files. — An operator adding a file can lose the ability to detect a prior edit to a tracked file. — Fix: Reuse `register_new_files` and extend `test_refresh_registers_new_files_and_keeps_unchanged_entries` with an edited tracked file.\n\n## Important\n\n- app/integrity.py:25 — correctness — Reject the manifest itself as a fingerprint input — With `fingerprints.json` inside the content root, passing its name to either helper records a digest of the current manifest and then rewrites that same file. The saved digest is stale as soon as the write completes. — An operator registering all regular files under the content root can make verification fail immediately after a successful update.\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.YkzyriTw81/review-pr.7lF8WH",
+  "head_sha": "324366641c01c6b61e2ac0710dbacc0f16d8e9c4",
+  "base_sha": "2e7bbc8f8e0abe3c22868ac8d5c28a7841367633",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "56c9cd5658a2ebf1eb957f899f7e1235420d9708"
+}

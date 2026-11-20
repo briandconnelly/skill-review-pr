@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.326",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nOne fix is needed before merge: the parser drops `--wait` with no replacement, which breaks existing invocations that the PR's own ADR says should keep working for one release.\n\n## Changes\nThe pull request renames the CLI option `--wait` to `--timeout` in `parse_args` and updates the tests to match. It also adds ADR 007 describing the option transition and adds a top-level `review.txt` file.\n\n## Critical\n- app/cli.py:6 — correctness — Keep `--wait` as a deprecated alias for `--timeout` — Running `parse_args([\"--wait\", \"12\"])` now fails with an argparse usage error (exit code 2), because only `--timeout` is registered. The ADR you added says the opposite at `docs/adr/007-timeout.md:5`: \"Accept `--wait` as an alias for one release and emit a deprecation warning when it is used.\" — Existing scripts that pass `--wait` stop working immediately instead of getting the one-release deprecation period the ADR promises. — Fix: Register `--wait` with `dest=\"timeout\"`, emit a deprecation warning when it is used (for example from a custom argparse action), and extend `test_explicit_options` in `tests/test_cli.py` to cover `--wait`.\n\n## Important\n(none)\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 21201,
+    "cost_usd": 0.0751274,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.QMNIyDICJJ/review-pr.abKxKx",
+  "head_sha": "b7f104fb3895695e3a9a85f264c05e2d2889932b",
+  "base_sha": "e2b97fb5da4fe2a0da80404ee5ceefc28f84a15c",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "c8c02a3e2277be6b10de6785f497021b9b6b496f"
+}

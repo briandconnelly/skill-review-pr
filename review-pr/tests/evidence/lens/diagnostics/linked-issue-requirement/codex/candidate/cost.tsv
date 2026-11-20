@@ -1,0 +1,4 @@
+snapshot	run	input_tokens	cached_tokens	output_tokens	cost_usd	turns	duration_ms	commands	skill_commands
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/diagnostics/linked-issue-requirement/codex/candidate	1	125022	115840	1045	NA	1	NA	12	0
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/diagnostics/linked-issue-requirement/codex/candidate	2	104668	96256	1299	NA	1	NA	8	0
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/diagnostics/linked-issue-requirement/codex/candidate	3	107986	82816	1052	NA	1	NA	13	0

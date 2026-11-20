@@ -1,0 +1,4 @@
+snapshot	run	input_tokens	cached_tokens	output_tokens	cost_usd	turns	duration_ms	commands	skill_commands
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/diagnostics/one-way-migration/codex/baseline-2	1	121315	95232	1236	NA	1	NA	15	0
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/diagnostics/one-way-migration/codex/baseline-2	2	120467	107904	1613	NA	1	NA	13	0
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/diagnostics/one-way-migration/codex/baseline-2	3	123140	104576	1833	NA	1	NA	12	0

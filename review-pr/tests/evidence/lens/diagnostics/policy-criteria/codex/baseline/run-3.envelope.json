@@ -1,0 +1,35 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nThe retry cap must be fixed before merge because an upstream outage can trigger more attempts than project policy allows.\n\n## Changes\n\nThe pull request adds `fetch_with_retry`, unit tests, and a text fixture. It also raises the documented retry cap from five to ten attempts.\n\n## Critical\n\n- app/net.py:19 — correctness — Enforce the five-attempt retry cap — When an upstream keeps returning HTTP 503, a default call makes ten attempts, exceeding `AGENTS.md:5`, which says “Retry helpers under app/ must cap attempts at 5.” The range check also accepts explicit counts from six through ten. — During a sustained outage, each extra attempt adds load and delays the error the caller needs to handle. — Fix: Set the default and upper bound to five, align the documentation, and update `test_fetch_with_retry_default_attempt_count` and `test_fetch_with_retry_rejects_attempts_outside_range`.\n\n## Important\n\n(none)\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.4x7YOsTnIW/review-pr.qY04H5",
+  "head_sha": "4c5f32c26608e5582fe99233895d1c84b377893b",
+  "base_sha": "df00c3eee285619338f596738b5a43f4ddf9f414",
+  "merge_base_sha": null,
+  "policy_changes": [
+    "AGENTS.md"
+  ],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "c587de745960ecab70991dd739768632ba8a6a4f"
+}

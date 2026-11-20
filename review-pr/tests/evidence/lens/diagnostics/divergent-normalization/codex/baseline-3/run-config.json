@@ -1,0 +1,11 @@
+{
+  "collection_id": "cdd711660672d7b3a3af7d235bc068a1b7c03f0b",
+  "runner": "codex",
+  "case": "divergent-normalization",
+  "snapshot": "baseline-3",
+  "level": "high",
+  "runs": 3,
+  "budget_usd": 1,
+  "lens_sha256": "481012da835849d0676f6c9c4797b831d876ba106edc458afc083ae09f4c864b",
+  "diagnostic": true
+}

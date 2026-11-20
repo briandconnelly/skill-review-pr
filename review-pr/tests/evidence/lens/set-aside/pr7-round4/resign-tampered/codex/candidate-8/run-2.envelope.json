@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix the refresh operation before merge because it can make verification pass after a tracked file was edited by hand.\n\n## Changes\n\nThe pull request adds two helpers for updating the fingerprint manifest and tests for their behavior. `refresh_fingerprints` writes a digest for every supplied path, while `register_new_files` adds digests only for unlisted paths.\n\n## Critical\n\n- app/integrity.py:17 — correctness — Preserve tracked fingerprints during refresh — When you refresh a hand-edited `tracked.txt` alongside a new `new.txt`, the refresh replaces the original digest for `tracked.txt` with the digest of its edited contents. `verify` then compares the file against that replacement. — After refreshing a list that includes an edited tracked file, users lose the ability to detect that edit through verification. — Fix: Reuse the existing-entry guard in `register_new_files` and extend `test_refresh_registers_new_files_and_keeps_unchanged_entries`.\n\n## Important\n\n(none)\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.wZlIOu5oOB/review-pr.IprBpl",
+  "head_sha": "8cb40ddfc28a08308d454c4ec8132865af3bbecb",
+  "base_sha": "6d07f71b82101eaaa04e2cf1db83f9e7d8069362",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "b923cbdd599fb5ed5fe99a184059746812def9a2"
+}

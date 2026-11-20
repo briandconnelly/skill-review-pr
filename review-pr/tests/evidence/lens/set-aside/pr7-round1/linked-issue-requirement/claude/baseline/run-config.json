@@ -1,0 +1,11 @@
+{
+  "collection_id": "68c6833c7edcba95bd093b3e1fc4cd484d651977",
+  "runner": "claude",
+  "case": "linked-issue-requirement",
+  "snapshot": "baseline",
+  "level": "high",
+  "runs": 3,
+  "budget_usd": 1,
+  "lens_sha256": "481012da835849d0676f6c9c4797b831d876ba106edc458afc083ae09f4c864b",
+  "diagnostic": false
+}

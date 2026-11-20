@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.327",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nAdopted settings are now printed twice by the command, so fix the duplicate adoption output before merge.\n\n## Changes\n`plan` now adds an `adopt` entry for each setting that already exists, and adds one `audit` entry at the end of every plan. Two tests cover the audit entry when `run` adds a setting and when the input is empty.\n\n## Critical\n(none)\n\n## Important\n- app/planner.py:9 — correctness — Stop the command printing each adoption twice — `run({\"theme\": \"dark\"}, {\"theme\": \"dark\"}, emit)` now emits `[\"Adopted theme\", \"Adopted theme\"]`. `plan` already emits the progress message at `app/planner.py:8`, and `app/cli.py:6-9` emits again for every non-audit change, which now includes the new `adopt` entry. No test calls `run` with an existing setting: `test_adoption_progress` calls only `plan`. — Every adopted setting appears twice in command output, which contradicts the PR body's claim that progress output is retained unchanged. — Fix: Skip `adopt` entries in `app/cli.py:7` the way `audit` entries are skipped, or drop the `emit` call in `plan`; then add a `run` test with an existing setting.\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 21916,
+    "cost_usd": 0.0836056,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.8WspnzY9PG/review-pr.eEyhQp",
+  "head_sha": "0e56f8b274b54c87be7e83f61c95a1488a65d4ce",
+  "base_sha": "93ca2c7ea1eb5c7da857f02603593c70fa50f71d",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "e065f0d17438a1f9ac7974ceeee5a8e55223abc6"
+}

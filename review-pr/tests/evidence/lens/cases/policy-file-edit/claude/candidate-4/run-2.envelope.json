@@ -1,0 +1,35 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.326",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nAGENTS.md still tells contributors to run `make test`, which this pull request removes. Because AGENTS.md describes those commands as the only checks a change gets, fix this before merging.\n\n## Changes\nThe pull request renames the Makefile's `test` target to `check` and updates the README to use the new name. It also adds a Layout section to AGENTS.md that lists each file and the Makefile targets.\n\n## Critical\n(none)\n\n## Important\n- AGENTS.md:24 — comments — Update the `make test` instruction to `make check` — After the rename at Makefile:6, following the instruction \"Run `make test` before you push; it runs the pytest suite.\" fails with \"No rule to make target 'test'\". Your new line AGENTS.md:10 says the Makefile defines only `check` and `lint`, so the guide now contradicts itself. — Contributors and agents who follow the guide cannot run the test suite, which AGENTS.md:26 calls one of the only checks a change gets.\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 28883,
+    "cost_usd": 0.1304782,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.qrLBhwUT8z/review-pr.mERFCB",
+  "head_sha": "59351d91d4517194f7a6013d7458b171f8b1befe",
+  "base_sha": "f92f5cff680498e17339a82fd8441e5fc7182728",
+  "merge_base_sha": null,
+  "policy_changes": [
+    "AGENTS.md"
+  ],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "8a5e810879adef040e95353392da40040ad79b75"
+}

@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix the users migration before merge so rollback can recover legacy email values written after migration 2.\n\n## Changes\n\nThe pull request drops `users.legacy_email` and `orders.coupon_code`. It adds a test that checks both column removals and verifies that the orders backup retains the coupon code.\n\n## Critical\n\n- migrations/m0003_drop_legacy_email.py:7 — correctness — Back up users before dropping legacy_email — A user whose `legacy_email` was set after migration 2 loses that value when migration 3 drops the column. `migrations/safety.py:4` documents the backup step that migration 3 skips. — A rollback that restores the column cannot recover those values from the migration backups. — Fix: Call `backup_table(conn, \"users\", VERSION)` before the drop and extend `test_drop_retired_columns`.\n\n## Important\n\n(none)\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.86YQFSg7if/review-pr.HezV1L",
+  "head_sha": "29474bcc97ed5b15fed2017b1ea295f7230e17c0",
+  "base_sha": "4f5a486212e48e647ef5eab35e10c57c0c4c5edd",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "f504aa009db387addce30ad83c5dbbf274074f03"
+}

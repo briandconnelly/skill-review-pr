@@ -1,0 +1,4 @@
+snapshot	run	input_tokens	cached_tokens	output_tokens	cost_usd	turns	duration_ms	commands	skill_commands
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/diagnostics/skill-only-rule/codex/candidate	1	145868	118400	1107	NA	1	NA	13	2
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/diagnostics/skill-only-rule/codex/candidate	2	172272	133888	2059	NA	1	NA	16	3
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/diagnostics/skill-only-rule/codex/candidate	3	NA	NA	NA	NA	0	NA	0	0

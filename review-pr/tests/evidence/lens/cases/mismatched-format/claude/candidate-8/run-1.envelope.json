@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.326",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n`status()` should be fixed to show the same 12-character revision as `history()` and `completed()`: its docstring promises the same identifier, but the code truncates to 7 characters, and the added test does not check the revision.\n\n## Changes\nThe pull request adds `status(revision, attempt)` and `attempt_label(attempt)` to `app/display.py` to render a \"Running\" status line with the revision and attempt number, plus an unused `REVIEW_HINT` string constant. It adds two tests in `tests/test_display.py`.\n\n## Critical\n(none)\n\n## Important\n- app/display.py:14 — correctness — Truncate the status revision to 12 characters like history — For revision `0123456789abcdef0123456789abcdef01234567`, `status()` returns `Running: 0123456 (attempt 2)` while `history()` returns `History: 0123456789ab`. The docstring says \"using the same identifier as history\", but the code uses `revision[:7]` where `history()` and `completed()` use `revision[:12]`. — An operator who matches the running status identifier against history or completion output finds no exact match for the same deployment. — Fix: Use `revision[:12]` and extend `test_running_status_contains_attempt` to assert the full status string, since it currently checks only the prefix and suffix.\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 29481,
+    "cost_usd": 0.258914,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.eJ4kpVO5Lx/review-pr.gXDbVL",
+  "head_sha": "f4d7c5e0aafcdd2f61fe76373f4696fc7dd8a3c2",
+  "base_sha": "86fa0622d31b175f7d16290d575986e90e9e8963",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "792c999062c72a2f8d9adaab075a160bdb06346e"
+}

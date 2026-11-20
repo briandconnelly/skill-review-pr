@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.328",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nThe release gate change needs fixing before merge: `approved` now rejects a release with exactly the minimum number of approvals, and the existing tests use only 3 and 1 approvals, so they pass with either operator.\n\n## Changes\nThe pull request regenerates `aaa-generated/catalog.json` with `production-service-NNNN` entries on ports 20000–21499 and adds a top-level `review_note` key. It also rewrites `healthy` as `not failures` and changes the release approval comparison from `>=` to `>`.\n\n## Critical\n- zzz-release/gate.py:5 — correctness — Restore `>=` in the approval comparison — `approved(2, minimum=2)` now returns `False` because `approvals > minimum` requires one more approval than configured. The module docstring at `zzz-release/gate.py:1` states \"A release needs at least the configured number of approvals.\" — Releases that have exactly the required number of approvals are blocked from shipping. — Fix: Return `approvals >= minimum` and add an `approved(2, minimum=2)` case to `tests/test_release.py`, because `test_approved_release` (3) and `test_blocked_release` (1) pass under both operators.\n\n## Important\n(none)\n\n## Suggestions\n- aaa-generated/catalog.json:6002 — correctness — Remove the hand-added `review_note` key from the catalog — A consumer that reads `catalog[name][\"port\"]` for every top-level key fails on `review_note` because its value is a string, not a service object. Every other top-level value in the file is a `{port, enabled}` object, and the key does not follow the generated `production-service-NNNN` naming. — Any tool that loads this generated catalog as a service map will hit a type error on this entry.\n\n## Not reviewed\n- This review did not read all of the `aaa-generated/catalog.json` diff: lines 2234–8979 of `../pr.diff` were checked only by a line-shape pattern search, so it did not confirm that each service name matches its port in that range.",
+    "duration_ms": 56573,
+    "cost_usd": 0.49766180000000004,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.weLNd9KHQg/review-pr.hGVmPm",
+  "head_sha": "e2fb22004b859d4ba8378a6861b4dff98eeca25d",
+  "base_sha": "5b5bbb6fd69cb5ded9f5e17d56f50634097f6e11",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "7955abe3688ecddce475902931c9da380bc7b03e"
+}

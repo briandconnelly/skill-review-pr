@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix case-insensitive writes before merge. A mixed-case key written through the new API cannot be read back.\n\n## Changes\n\nThe pull request adds `Cache.set`, raises the default TTL from 60 to 300 seconds, and adds tests for lookups and expiry.\n\n## Critical\n\n- app/cache.py:27 — correctness — Normalize keys before storing them — After `set(\"Alpha\", 1)`, `get(\"Alpha\")` returns `None` because `set` stores `\"Alpha\"` and `get` looks up `\"alpha\"`. — Callers using mixed-case keys get cache misses immediately after a successful write.\n\n## Important\n\n- tests/test_cache.py:27 — tests — Verify the entry can be read before expiry — With `ttl=1`, an implementation that expires the entry immediately passes `test_entries_expire` because the test first reads it two seconds after writing it. — The test can pass even when callers never get a cache hit during the configured lifetime.\n\n## Suggestions\n\n- app/cache.py:27 — correctness — Expire entries at the TTL deadline — If `set` writes an entry at time `1000.0` with `ttl=1`, `get` returns it at `1001.0` because the expiry check uses a strict less-than comparison. — A lookup at the deadline can return stale data after the configured TTL has elapsed. — Fix: Use `expires <= time.monotonic()` at `app/cache.py:21`.\n- app/cache.py:7 — comments — Identify 300 seconds as the default TTL — For `Cache(ttl=1)`, the comment says “Entries expire 300 seconds after they are written,” but `set` computes the deadline with `time.monotonic() + self._ttl`. — The comment gives callers using a custom TTL the wrong retention period.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.UTHBICNfSd/review-pr.M9N0yC",
+  "head_sha": "5e35d22e74625b2808e631a1071336495cee9692",
+  "base_sha": "f1d39324c969d87d87dd09c6a8656a42421668c8",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "1f74790621162ee3e75479a8b90bc149f9774d37"
+}

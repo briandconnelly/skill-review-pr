@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix `finished_at` before merge because the new field reports a start time as a finish time for a process whose only event is `started`.\n\n## Changes\n\nThe pull request adds `finished_at` to the current-state model and documents it in the schema catalog. The model still returns one row per process from its latest event.\n\n## Critical\n\n- models/processes.sql:10 — correctness — Stop reporting start times as finish times — For process 20, whose only event is `started`, `finished_at` returns that event’s `occurred_at` even though no finish was recorded. The source permits `created`, `started`, and `cleared` events and defines no distinct finish event. — Consumers using `finished_at` to identify completed processes will count this process as finished as soon as it starts. — Fix: Define which source event represents completion, or rename the field and its description to match the event it exposes.\n\n## Important\n\n- models/schema.yml:17 — comments — Correct the documented meaning of NULL — Process 30 has a `started` event followed by `cleared`, so `case when event_type = 'started' then occurred_at end` returns NULL for its latest row, contradicting “NULL means the process has never been started.” — Consumers who use NULL to identify processes that never started will also include previously started processes whose latest event is `cleared`.\n\n## Suggestions\n\n- models/schema.yml:12 — comments — Document that the source offset is preserved — If a latest `started` event supplies `2026-01-01T01:00:00+01:00`, `then occurred_at` returns that text verbatim, contradicting “Stored in UTC using the source event timestamp.” The source column accepts text without an offset constraint. — Consumers expecting UTC strings receive mixed offsets when source writers supply them.\n- models/processes.sql:10 — tests — Test the timestamp for a created-only process — Process 10 has only a `created` event and takes the new expression’s NULL branch. The source fixture seeds that input, but no test asserts the model result. — A regression that populates `finished_at` for a created-only process would go undetected.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.bEkEeFCSrj/review-pr.BRI4vG",
+  "head_sha": "53e010a5f68ace2570c2f3292cc35f70eba6ad7c",
+  "base_sha": "ffbd850a15952cfe670301f0ebd699ad70dbd684",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "389c9b3af273d0b16bca61c3ad7bb4432ae4c318"
+}

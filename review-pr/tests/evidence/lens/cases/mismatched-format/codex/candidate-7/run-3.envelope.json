@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\n\nThe running status should use the same revision identifier as deployment history so operators can distinguish revisions that share a seven-character prefix.\n\n## Changes\n\nThe pull request adds a running deployment status line with a shortened revision and an attempt number. It adds tests for the status prefix and attempt label.\n\n## Critical\n\n(none)\n\n## Important\n\n- app/display.py:14 — correctness — Use the history revision identifier in running status — For revision `0123456789abcdef0123456789abcdef01234567`, status shows `0123456` while history shows `0123456789ab`. The docstring promises “the same identifier as history,” but status uses `revision[:7]` and history uses `revision[:12]`. — Revisions that share their first seven characters can display the same identifier while running even when their history entries distinguish them.\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.TJX3kj7zut/review-pr.jKQQkl",
+  "head_sha": "6173d1b7df845c69e0a11f7a0a79a77ca3aa21c8",
+  "base_sha": "335c0c4fecf7bd86260c0b82e88ec0ae8461597c",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "a3c2850752afee3b07b7aaab28eb4e6773e5db1e"
+}

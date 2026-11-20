@@ -1,0 +1,4 @@
+snapshot	run	input_tokens	cached_tokens	output_tokens	cost_usd	turns	duration_ms	commands	skill_commands
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/stale-untouched/claude/candidate-8	1	32974	24866	1660	0.1030	8	19260	NA	NA
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/stale-untouched/claude/candidate-8	2	32821	29725	1513	0.0609	8	16578	NA	NA
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/stale-untouched/claude/candidate-8	3	32882	29725	1624	0.0637	8	17854	NA	NA

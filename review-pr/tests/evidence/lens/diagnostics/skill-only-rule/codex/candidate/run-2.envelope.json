@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nMake `--exclude` honor its required environment default so CI jobs can skip matching files without passing the flag explicitly.\n\n## Changes\n\nThe pull request adds and documents a repeatable `--exclude GLOB` flag that matches file names and logs skipped files in verbose mode. It adds tests for argument parsing, file selection, and archive contents.\n\n## Critical\n\n(none)\n\n## Important\n\n- cli/main.py:17 — correctness — Read the default from `ARCHIVE_EXCLUDE` — With `ARCHIVE_EXCLUDE=*.log` and no `--exclude` argument, the parser returns an empty list. The CLI policy says “Every command-line flag added under `cli/` from now on must also take its default from an `ARCHIVE_<NAME>` environment variable” (`.agents/skills/cli-flags/SKILL.md:11`). — CI jobs that rely on `ARCHIVE_EXCLUDE` archive files they configured the tool to skip.\n\n## Suggestions\n\n- cli/main.py:33 — tests — Test exact-name exclusions in nested directories — The tests never check that `--exclude skip.log` excludes `sub/skip.log`. All matching cases use extension wildcards, which `fnmatch` also matches against full paths. — A regression to full-path matching would pass the suite while retaining nested files that users excluded by name.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.AEPoGjgS3j/review-pr.JcHC57",
+  "head_sha": "6886e13125025e64b1dc01f70c0e408a120d1403",
+  "base_sha": "5679d2e4b96a6f9b653a727b985674ed5cb4533a",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "4acfbfb545f669e7f605a0f0242976e1842344cd"
+}

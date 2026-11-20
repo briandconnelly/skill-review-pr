@@ -1,0 +1,4 @@
+snapshot	run	input_tokens	cached_tokens	output_tokens	cost_usd	turns	duration_ms	commands	skill_commands
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/empty-vacuous-truth/codex/candidate-7	1	121969	97792	1083	NA	1	NA	10	0
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/empty-vacuous-truth/codex/candidate-7	2	120626	96000	1170	NA	1	NA	10	0
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/empty-vacuous-truth/codex/candidate-7	3	103619	91392	1476	NA	1	NA	9	0

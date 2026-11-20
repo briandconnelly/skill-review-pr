@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix the proof check before merge because it marks requirements with no criteria as proven.\n\n## Changes\n\nThe pull request adopts built-in type annotations and `Logger.warning` across the handlers, uses `itemgetter` for name sorting, and replaces the requirement proof check with a count comparison. It also adds `review.txt`.\n\n## Critical\n\n- app/handlers/h091_requirements.py:12 — correctness — Require criteria before accepting proof — With `criteria=[]`, `requirement_proven` logs a warning and returns `True`. Both the sum and the length are zero, so the equality passes where the previous nonempty check returned `False`. — Release reviewers can receive a passing proof result for a requirement with no criteria to verify. — Fix: Return `False` immediately after the empty-criteria warning and extend `test_requirement_proof` to cover that case.\n\n## Important\n\n(none)\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.lyZ32UiGPQ/review-pr.shz9Hp",
+  "head_sha": "166a868ae0ed673baeb458a190dc64e6221686d3",
+  "base_sha": "c710b0e349fcd8de8ad19aa57c10251ed0356a5b",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "dd426bfaed025e5d9f8b4e2942fdb08c86da18b0"
+}

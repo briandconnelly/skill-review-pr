@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.326",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nFix \"Reject a negative limit in paginate\" first: a negative `limit` silently returns a truncated listing where the code should raise an error, and the new helper's offset and error branches have no tests.\n\n## Changes\nThis pull request adds an `app/paging.py` module with a `paginate(items, limit, offset=0)` helper. It also gives `list_orders` an optional `limit` that is passed through `paginate`, and adds one test that caps results at two orders.\n\n## Critical\n(none)\n\n## Important\n- app/paging.py:12 — correctness — Reject a negative limit in paginate — `list_orders(orders, limit=-1)` on five orders returns four of them, because `stop = start + limit` becomes `-1` and `items[0:-1]` drops the last item. The guard at line 9 rejects a negative `offset`, but nothing rejects a negative `limit`. — A caller passing a negative or miscomputed limit gets a silently truncated order list instead of an error. — Fix: Add `if limit is not None and limit < 0: raise ValueError(\"limit must be non-negative\")` next to the offset check.\n\n## Suggestions\n- app/paging.py:9 — tests — Add tests for paginate's offset and error paths — No test exercises a non-zero `offset` or the `ValueError` raised for `offset < 0`. The only added test, `test_limit_caps_results`, reaches `paginate` through `list_orders`, which always passes the default `offset=0`. — A regression in the slice start or the offset guard would pass the suite unnoticed. — Fix: Add direct `paginate` tests in a new `tests/test_paging.py` covering `offset=2` and `offset=-1`.\n\n## Not reviewed\n- Issue #12, which the pull-request body says this change closes, was not available, so this review did not check whether `list_orders` needs an `offset` to meet it.",
+    "duration_ms": 22387,
+    "cost_usd": 0.0848374,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.hg2qnvXUso/review-pr.OYp2lq",
+  "head_sha": "4ae59e347f1e7ef82e1bcb0f26a08f321caae3e1",
+  "base_sha": "3ee1aaaf97629439d22fbbbc30a995a83f3318e6",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "68c6833c7edcba95bd093b3e1fc4cd484d651977"
+}

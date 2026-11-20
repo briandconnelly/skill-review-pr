@@ -1,0 +1,35 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.  \nFix duplicate command output for adopted settings so each adoption produces one progress message.\n\n## Changes\n\nSettings plans now return adoption records and an audit record with the number of incoming settings. The pull request adds tests for audit records in empty and nonempty plans and for their omission from command output.\n\n## Critical\n\n(none)\n\n## Important\n\n- app/planner.py:9 — correctness — Emit one progress message per adopted setting — When `theme` appears in both inputs, the new `adopt` record reaches `app/cli.py:9`, which emits `Adopted theme` after the planner has already emitted the same message. — Command users see two progress lines for each adopted setting. — Fix: Skip rendering `adopt` records alongside `audit` records at `app/cli.py:7` and extend `test_adoption_progress` to cover `run`.\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.a6WH2U58Ye/review-pr.02icVT",
+  "head_sha": "c7103917339c1d4a8b067749a110e5896965aef1",
+  "base_sha": "6538f84ed5d015f8760a2711677b0eb5dda2a275",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": false,
+  "schema_errors": [
+    "Summary must begin with the exact lenses-checked line"
+  ],
+  "diff_unavailable": false,
+  "collection_id": "284c764d2d3c4a79f32c29ee50d0529ac59eba3c"
+}

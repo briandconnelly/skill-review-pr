@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix the legacy inventory retry limit before merge because it exceeds the project’s three-attempt cap and keeps workers occupied longer during upstream outages.\n\n## Changes\n\nThe pull request adds a legacy inventory fetcher and a health probe with retry logic and tests for success, HTTP errors, and retry exhaustion. It also adds a legacy-module exemption to the review rules.\n\n## Critical\n\n- app/legacy/fetch.py:7 — correctness — Cap legacy inventory fetches at three attempts — When the legacy endpoint times out on every call, `fetch_inventory` makes eight attempts. `docs/review-rules.md:5` states “Code that retries a network call must stop after at most 3 attempts.” — During an outage, a worker can wait through five extra network timeouts and five extra one-second pauses before reporting failure. — Fix: Set the legacy limit to three and update its expected attempt count in `tests/test_retries.py`.\n\n## Important\n\n(none)\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.hMBdomQsum/review-pr.jbJAoI",
+  "head_sha": "bc2556eabb5fab72190bd9d79e70b2dfcdebc82e",
+  "base_sha": "25a83fcefaee5e110c9cc52989ba6c9f12f9880d",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "5a12afb0065bcfafe0a7193f1004b4998bb3bcb0"
+}

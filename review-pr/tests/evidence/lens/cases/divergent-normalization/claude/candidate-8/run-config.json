@@ -1,0 +1,11 @@
+{
+  "collection_id": "062919d28f8214199599d1172a4bb635c62572b8",
+  "runner": "claude",
+  "case": "divergent-normalization",
+  "snapshot": "candidate-8",
+  "level": "high",
+  "runs": 3,
+  "budget_usd": 1,
+  "lens_sha256": "97e599be92500984576328481fecb786a95457d3aa70ea3f6f8eb968cf577a56",
+  "diagnostic": false
+}

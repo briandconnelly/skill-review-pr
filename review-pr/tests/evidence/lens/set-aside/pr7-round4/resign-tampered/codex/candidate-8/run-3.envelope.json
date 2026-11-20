@@ -1,0 +1,35 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\n\nPreserve existing fingerprints before merge. Refreshing the manifest after adding a file can make a hand-edited tracked file pass verification.\n\n## Changes\n\nThe pull request adds two Python helpers that update the integrity manifest. Refresh hashes every supplied path, while registration hashes only paths that lack an entry. The added tests exercise both helpers.\n\n## Critical\n\n- app/integrity.py:17 — correctness — Preserve tracked fingerprints during refresh — Refreshing with an edited `tracked.txt` and a new `new.txt` replaces the saved digest for `tracked.txt` with the digest of its edited contents. `verify()` then accepts the edited file. — Adding a file can erase the verification baseline for a tracked file and hide an unauthorized edit. — Fix: Reuse `register_new_files()` in the refresh path.\n\n## Important\n\n- PR body — correctness — Expose the advertised refresh command — A user trying to run the advertised refresh command has no command entry point. The pull request adds only Python functions. — Users must write Python code to perform the refresh that the description presents as a command. — Fix: Add a command entry point or describe the Python API in the pull-request body.\n- app/integrity.py:18 — correctness — Replace the manifest atomically — If the filesystem runs out of space during refresh or registration, `write_text()` can leave the existing manifest empty or truncated. Both helpers rewrite it in place. — A failed update can destroy saved fingerprints and leave later verification unable to parse the manifest. — Fix: Write the complete update to a temporary file in the manifest directory and replace the manifest after the write succeeds.\n- app/integrity.py:17 — correctness — Exclude the manifest from its own entries — If the manifest lives under the content root and a caller includes `fingerprints.json` in the file list, both helpers can hash it before rewriting it. The rewrite invalidates the saved digest. — Verification fails immediately after the update even when nobody has edited the content. — Fix: Exclude the manifest path from both helpers before hashing.\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.wZlIOu5oOB/review-pr.JhtxMD",
+  "head_sha": "8cb40ddfc28a08308d454c4ec8132865af3bbecb",
+  "base_sha": "6d07f71b82101eaaa04e2cf1db83f9e7d8069362",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": false,
+  "schema_errors": [
+    "Summary must begin with the exact lenses-checked line"
+  ],
+  "diff_unavailable": false,
+  "collection_id": "b923cbdd599fb5ed5fe99a184059746812def9a2"
+}

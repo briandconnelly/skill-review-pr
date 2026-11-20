@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\n\nMake `--exclude` honor `ARCHIVE_EXCLUDE` so CI can omit matching files without passing the flag explicitly.\n\n## Changes\n\nThe pull request adds a repeatable `--exclude GLOB` flag that matches file basenames during archive collection. It logs skipped paths in verbose mode and adds flag documentation and tests.\n\n## Critical\n\n(none)\n\n## Important\n\n- cli/main.py:17 — correctness — Read the default from `ARCHIVE_EXCLUDE` — With `ARCHIVE_EXCLUDE=*.log` and no `--exclude` argument, the parser supplies an empty list and archives `build.log`. `.agents/skills/cli-flags/SKILL.md:11` says “Every command-line flag added under `cli/` from now on must also take its default from an `ARCHIVE_<NAME>` environment variable”. — CI jobs that configure exclusions through the environment produce archives containing files they intended to omit.\n\n## Suggestions\n\n- cli/main.py:45 — tests — Test repeated exclusions in the written archive — For `--exclude '*.log' --exclude '*.tmp'`, no archive test would fail if `main` forwarded only the first pattern. The parser and collector tests exercise both patterns separately, while the archive test passes one flag. — A regression that archives files matched only by the second flag would pass the current tests.\n- tests/test_main.py:24 — tests — Assert archive contents when exclusions are unset — With no flag and `ARCHIVE_EXCLUDE` unset, this test would fail if the parser returned `None` and `main` normalized it to an empty pattern list, even though the resulting archive would contain the same files. — The assertion ties regression protection to the parser’s internal representation.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.In9FKC62og/review-pr.tdQi9o",
+  "head_sha": "ebd7ad51051af50bd2701ac14d9859154c199772",
+  "base_sha": "ab2b2a88555357d8fc36178277feeebeb36141fd",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "328c2666be67944ab56b18bb5ee6cdcbafb8e8c5"
+}

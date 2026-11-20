@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix the parser before merge because `--json --junit junit.xml` fails when it should produce both reports.\n\n## Changes\n\nThe pull request adds `--json` with an optional path and a default of `results.json`. It also adds a helper that writes reports to the parsed destinations.\n\n## Critical\n\n- app/cli.py:15 — correctness — Stop `--json` from consuming the next flag — With `--json --junit junit.xml`, the parser takes `--junit` as the JSON path and rejects `junit.xml` as an unknown option. — Users who put `--json` before `--junit` and omit the JSON path get neither report. — Fix: Use the `--junit` branch’s `startswith(\"--\")` check to detect the next option and leave it for the parser.\n\n## Important\n\n- app/cli.py:30 — correctness — Reject a shared JSON and JUnit destination — With `--junit report.xml --json report.xml`, `write_reports` succeeds after the second write replaces the JUnit XML with JSON. — When both options name the same file, downstream JUnit consumers cannot read the requested test results. — Fix: Check that the destinations resolve to distinct paths before writing either report.\n\n## Suggestions\n\n- app/cli.py:29 — tests — Test writing JSON and JUnit together — No test exercises the writer’s second iteration for `--junit junit.xml --json report.json`. The JSON test writes one file, and the JUnit test only parses arguments. — A regression that skips the second write could pass the tests while dropping JSON from a valid two-report invocation.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.Nqbm78w4AU/review-pr.LLZrX6",
+  "head_sha": "bbcfa3e6f0481eec8dbf6bda7b2c18cc29575688",
+  "base_sha": "0b77351b62311f294b7a992e12ff279af759d6af",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "cd4cee356a55d6ed51c22bc30f9eadbcbaacad9b"
+}

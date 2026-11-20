@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\n\nFailure-report matching should use the same path normalization as explicit selection so both selectors agree on which tests were requested.\n\n## Changes\n\nThe pull request adds a failure-report selector that preserves the report’s path spelling, refactors cached selection, and adds tests for all three selectors.\n\n## Critical\n\n(none)\n\n## Important\n\n- app/selection.py:20 — correctness — Normalize failure-report paths when matching — A report containing `./tests/test_x.py` returns an empty selection when the request contains `tests/test_x.py`. The selector compares the report path directly against `requested`. — When a report uses a `./` prefix, a rerun can skip the failed test the user requested. — Fix: Pass `report[\"failed\"]` and `requested` to `select_explicit` to normalize comparisons while preserving the report paths in the result.\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.zKmxsTNaBG/review-pr.HTUE4d",
+  "head_sha": "6d6b8c2e0e4f23bf28069a593822f011daf8560a",
+  "base_sha": "400fce48b3e43a7f3486908ad9f4cceb54404f15",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "fe567b1b566bc125041eb0ced813ada5c1ddac99"
+}

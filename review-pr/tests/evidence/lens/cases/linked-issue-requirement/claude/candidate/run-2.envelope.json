@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.326",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n`list_orders(limit=0)` returns an empty list where the closing issue requires every order, so this must be fixed before merge. This review read the tests and did not run them.\n\n## Changes\nThe pull request adds a `paginate(items, limit, offset)` helper in `app/paging.py` and has `list_orders` accept `limit` and `offset` and slice its newest-first result through it. It adds tests for the helper and for the limited and offset order listings.\n\n## Critical\n- app/orders.py:9 — correctness — Treat limit=0 as no limit in list_orders — `list_orders(orders, limit=0)` returns `[]` instead of every order. Issue fixture/fixture#12 requires \"limit=0 means no limit: return every order\", but `limit` reaches `paginate` unchanged, where `stop = start + 0` gives `items[offset:offset]`. — Callers that follow the issue's contract and pass `limit=0` receive no orders, with no error to signal the difference. — Fix: Pass `limit or None` to `paginate` here and add a `limit=0` case to `tests/test_orders.py`; changing `paginate` instead would contradict `tests/test_paging.py:22`, which asserts an empty page for the helper.\n\n## Important\n(none)\n\n## Suggestions\n- app/paging.py:16 — comments — Remove the unused REVIEW_NOTE constant — The constant states \"pagination matches the issue\", but `list_orders(orders, limit=0)` returns `[]` where the issue requires every order (`stop = None if limit is None else start + limit`). No code in the repository reads `REVIEW_NOTE`. — A maintainer reading the module finds a false conformance claim shipped as dead production code.\n\n## Not reviewed\n(none)",
+    "duration_ms": 42706,
+    "cost_usd": 0.272592,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.4WwgA3KITB/review-pr.tLMMAl",
+  "head_sha": "2236d277d804969e7eefb6fb73e9ec5a4cc02390",
+  "base_sha": "3988ebd741f3da1b9543df1f11680007e7c6768a",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "0601792329b83d6942df878c556d27194b53d0a0"
+}

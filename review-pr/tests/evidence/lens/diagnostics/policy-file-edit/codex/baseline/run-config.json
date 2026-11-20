@@ -1,0 +1,11 @@
+{
+  "collection_id": "bac887dd13377dc915727521ac563667af058a37",
+  "runner": "codex",
+  "case": "policy-file-edit",
+  "snapshot": "baseline",
+  "level": "high",
+  "runs": 3,
+  "budget_usd": 1,
+  "lens_sha256": "481012da835849d0676f6c9c4797b831d876ba106edc458afc083ae09f4c864b",
+  "diagnostic": true
+}

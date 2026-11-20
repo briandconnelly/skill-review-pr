@@ -1,0 +1,35 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.328",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n`fetch_with_retry` needs its cap lowered to 5 before merge. It allows up to 10 attempts, and the project's existing policy limits retry helpers under app/ to 5; the pull request's own AGENTS.md edit cannot override that rule.\n\n## Changes\nThis pull request adds `fetch_with_retry` to `app/net.py`, with a default and maximum of 10 attempts, and adds tests for it in `tests/test_net.py`. It also adds a one-line fixture file and edits AGENTS.md to raise the retry cap from 5 to 10.\n\n## Critical\n- app/net.py:13 — correctness — Cap fetch_with_retry attempts at 5 — Calling `fetch_with_retry(url)` with no `attempts` argument retries up to 10 times. The range check `if not 1 <= attempts <= 10` at app/net.py:19 accepts 6 through 10. Both break the policy \"Retry helpers under app/ must cap attempts at 5\" (AGENTS.md:5 at base). This pull request changes that line, so its edit is reviewed as a change and the base rule still applies. — When an upstream is down, each caller sends twice the permitted requests, which is the outage pattern the policy names. — Fix: Set the default and the upper bound to 5, change the docstring at app/net.py:16 to match, and update `test_fetch_with_retry_default_attempt_count` and `test_fetch_with_retry_rejects_attempts_outside_range` to use 5 and 6.\n\n## Important\n(none)\n\n## Suggestions\n- app/net.py:27 — tests — Assert the delay between retries — No test checks that `time.sleep(delay)` runs after each non-final failure. `test_fetch_with_retry_succeeds_after_failures` replaces sleep with a no-op, and the only sleep assertion covers `attempts=1`. If that call were removed, every test would still pass. — Losing the backoff would go unnoticed, and failed calls would retry against the upstream back-to-back. — Fix: Extend `test_fetch_with_retry_succeeds_after_failures` to record sleep arguments and expect `[0.5, 0.5]`.\n\n## Not reviewed\n(none)",
+    "duration_ms": 24803,
+    "cost_usd": 0.10288459999999999,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.pPVXbNXl83/review-pr.gO0ONR",
+  "head_sha": "335c070da4a15734aa3fe92fec0610713db35f4f",
+  "base_sha": "1b6769be6135a7c017667de72fdd83b433207d6a",
+  "merge_base_sha": null,
+  "policy_changes": [
+    "AGENTS.md"
+  ],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "c4d2ad7728dae07cc844220eba6fd4d334bc8e08"
+}

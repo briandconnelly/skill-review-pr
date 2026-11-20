@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix save failure reporting before merge because the new save operation can report success without creating a report.\n\n## Changes\n\nThe pull request adds functions to save a generated report, announce its destination, and remove optional temporary reports. It also adds tests for saving and cleanup.\n\n## Critical\n\n- app/reports.py:9 — silent-failure — Report write failures to the caller — When the destination’s parent directory is missing, `save_report` discards the `FileNotFoundError`, prints “Report saved,” and returns `0`. — A caller can skip a retry after receiving a success status for a report that was never created. — Fix: Return a nonzero status with an error that identifies the destination and the write failure, and extend `test_save_with_unavailable_destination`.\n\n## Important\n\n(none)\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.HcbEHp4Qdn/review-pr.Hdytl8",
+  "head_sha": "92f37d7dac0883c61d59bc34fc7f04c32eaa5417",
+  "base_sha": "051dff0e62c62c9e23377636302aa6b017c663db",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "b672df77d9829a7483c7688cf562c32c3e8ab843"
+}

@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix duplicate adoption output so the command reports each adopted setting once.\n\n## Changes\nSettings plans now return adoption records and an audit entry with the number of incoming settings. The planner still emits progress as it adopts each setting.\n\n## Critical\n(none)\n\n## Important\n- app/planner.py:9 — correctness — Emit progress once per adopted setting — When `theme` is present in both settings maps, the new `adopt` record makes `run` emit `Adopted theme` a second time. The planner already emits that message, and `run` skips only `audit` records. — Duplicate progress lines make one adopted setting appear to have been processed twice. — Fix: Skip `adopt` entries alongside `audit` in `app/cli.py:7` while retaining both in the returned plan.\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.a6WH2U58Ye/review-pr.W31Cji",
+  "head_sha": "c7103917339c1d4a8b067749a110e5896965aef1",
+  "base_sha": "6538f84ed5d015f8760a2711677b0eb5dda2a275",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "284c764d2d3c4a79f32c29ee50d0529ac59eba3c"
+}

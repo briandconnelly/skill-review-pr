@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nInvite validation should enforce the stated twelve-character minimum so users cannot set shorter passwords through invitations.\n\n## Changes\n\nThe pull request raises the signup and reset password minimum from eight to twelve characters and updates the boundary tests for both validators.\n\n## Critical\n\n(none)\n\n## Important\n\n- PR body — correctness — Apply the twelve-character minimum to invites — An 11-character invite password still passes validation despite the PR body’s stated twelve-character requirement. `app/invite.py:1` still sets the minimum to eight. — Users accepting an invitation can set passwords of eight to eleven characters. — Fix: Raise the minimum in `app/invite.py:1` and update `test_password_boundaries` in `tests/test_invite.py`.\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.II4eFkCmWn/review-pr.3juB4Y",
+  "head_sha": "94250f1165c20bae58debe17c929634f1c6af698",
+  "base_sha": "b10e01673d2738e271085f63582834e59e67a1ad",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "d2cb4dfb28cbe71e7efc8f8780a9561a9de1a2ae"
+}

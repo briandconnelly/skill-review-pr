@@ -1,0 +1,4 @@
+snapshot	run	input_tokens	cached_tokens	output_tokens	cost_usd	turns	duration_ms	commands	skill_commands
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/path-containment/codex/candidate-8	1	102234	91136	1486	NA	1	NA	9	0
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/path-containment/codex/candidate-8	2	102501	90624	1777	NA	1	NA	9	0
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/path-containment/codex/candidate-8	3	121762	85120	1405	NA	1	NA	10	0

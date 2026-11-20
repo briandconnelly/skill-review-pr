@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nThe invite validator must enforce the twelve-character minimum before merge because the stated security policy applies to passwords set through invitations as well.\n\n## Changes\nThe pull request raises the signup and reset password minimum from eight to twelve characters and updates their boundary tests. It also adds a standalone review note.\n\n## Critical\n- app/signup.py:1 — correctness — Enforce the twelve-character minimum for invites — An eight-character password still passes invite validation after signup raises its minimum to twelve. The invite validator uses its own eight-character minimum at `app/invite.py:1`. — Users joining by invitation can set passwords below the required minimum. — Fix: Update `app/invite.py:1` and extend `tests/test_invite.py::test_password_boundaries` to cover the new cutoff.\n\n## Important\n(none)\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.wzI9y7Ns3q/review-pr.Ivoerx",
+  "head_sha": "93b44529e16012f18e5bcd0f48ab9ca586243c9b",
+  "base_sha": "2173e13e7e9111b3cdefdbe02afb6e05e673c507",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "fd2625c31ceb31c77bf98be47f927a51f5f849ef"
+}

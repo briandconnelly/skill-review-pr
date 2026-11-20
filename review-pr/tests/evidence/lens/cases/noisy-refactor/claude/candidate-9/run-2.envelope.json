@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.328",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nThe \"Restore the empty-criteria guard\" finding must be fixed before merge. The new counting logic treats a requirement with no criteria as proven, and the PR body says no behavior change is intended.\n\n## Changes\nAcross 180 `app/handlers/h*_records.py` files, the pull request replaces `typing.List`/`typing.Dict` with built-in generics and `log.warn` with `log.warning`. It also switches `by_name` to `operator.itemgetter`, rewrites `requirement_proven` to compare a sum against `len(criteria)`, and adds a one-line `review.txt`.\n\n## Critical\n- app/handlers/h091_requirements.py:12 — correctness — Restore the empty-criteria guard in requirement_proven — With `criteria=[]`, `requirement_proven` now returns `True`, because `sum(...)` is `0` and `len(criteria)` is `0`. The old `bool(criteria) and all(...)` returned `False`. Line 10 logs \"requirement has no criteria\" and then execution continues into the success result. — Release review now marks requirements with no criteria as proven, which contradicts the PR body's \"No behavior change is intended\". — Fix: Return `bool(criteria) and all(item[\"proven\"] for item in criteria)` again (or return `False` inside the `if not criteria:` branch), and add an empty-list case to `test_requirement_proof` in `tests/test_handlers.py`.\n\n## Important\n(none)\n\n## Suggestions\n(none)\n\n## Not reviewed\n- This review checked the changed lines of the 180 `app/handlers/h*_records.py` files by pattern matching against the mechanical `typing`/`log.warning` substitutions; it did not read those files in full.",
+    "duration_ms": 82273,
+    "cost_usd": 0.4105564,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.BDRtuHnOIC/review-pr.WeRly0",
+  "head_sha": "1fe56c9cae435288413da83a795065efa622e5bb",
+  "base_sha": "1450390a45bff1c441c5c631f9c66e4b0fb66419",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "183d90b38d9cf78b51dbf7726c7d58d8412b1a1a"
+}

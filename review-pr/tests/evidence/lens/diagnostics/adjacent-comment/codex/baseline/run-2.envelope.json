@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix mixed-case writes so callers can retrieve and expire entries using the cache’s case-insensitive keys.\n\n## Changes\n\nThe pull request adds `Cache.set`, raises the default TTL from 60 to 300 seconds, and adds tests for retrieval, expiration, and the default TTL constant.\n\n## Critical\n\n(none)\n\n## Important\n\n- app/cache.py:27 — correctness — Normalize keys before storing entries — After `set(\"Alpha\", 1)`, `get(\"Alpha\")` returns `None` because `set` stores `\"Alpha\"` and `get` looks up `\"alpha\"`. — Mixed-case writes are unreachable through the public API, and lookups never remove those entries after expiration.\n\n## Suggestions\n\n- app/cache.py:27 — correctness — Expire entries at their deadline — An entry written by `Cache().set(\"alpha\", 1)` at monotonic time 1000 is still returned at 1300 because `get` checks `expires < time.monotonic()`. — A lookup at the expiration timestamp returns a stale value. — Fix: Use `<=` at `app/cache.py:21` and extend `test_entries_expire` to exercise the deadline.\n- tests/test_cache.py:18 — tests — Verify the default TTL through cache behavior — If `Cache()` expires entries after 60 seconds while `Cache.DEFAULT_TTL` remains 300, `test_default_ttl_is_five_minutes` still passes because it only checks the constant. — The suite would miss a regression that shortens the default cache lifetime. — Fix: Extend `test_default_ttl_is_five_minutes` to observe expiration using the clock control in `test_entries_expire`.\n- app/cache.py:7 — comments — Qualify the five-minute TTL as the default — For `Cache(ttl=1)`, the comment “Entries expire 300 seconds after they are written” gives the wrong lifetime because `set` computes the deadline with `time.monotonic() + self._ttl`. — Callers reading the comment get the wrong expiration interval for caches configured with a custom TTL.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.iTk7AEi6YY/review-pr.gCzFvp",
+  "head_sha": "f903d0a9ef42f42126652f61d1546aa8b3f8f034",
+  "base_sha": "07beaf070285066cd378f8366b4ed119a437b983",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "c0eb74efc685204c617130492f73a314972311fd"
+}

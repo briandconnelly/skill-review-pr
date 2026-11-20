@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.328",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nThe removed `--wait` option is a release-blocking break: scripts that pass `--wait` now fail at argument parsing, and the ADR this pull request adds says `--wait` stays accepted as an alias for one release.\n\n## Changes\nThe pull request renames the CLI option `--wait` to `--timeout` in `app/cli.py` and updates the tests to match. It also adds ADR 007 describing the transition, plus a one-line `review.txt` file at the repository root.\n\n## Critical\n- app/cli.py:6 — correctness — Keep `--wait` as a deprecated alias for `--timeout` — An existing invocation such as `parse_args([\"--wait\", \"12\"])` now exits with status 2 (\"unrecognized arguments\"), because `--wait` is no longer registered. This contradicts `docs/adr/007-timeout.md:5`: \"Accept `--wait` as an alias for one release and emit a deprecation warning when it is used.\" No test covers the alias or the warning. — Any user script or automation that passes `--wait` stops working on upgrade, with no deprecation period. — Fix: Register `--wait` with `dest=\"timeout\"` and emit a `DeprecationWarning` when it is used, then add a `--wait` case to `test_explicit_options` and a test that asserts the warning.\n\n## Important\n(none)\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 18900,
+    "cost_usd": 0.071985,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.y90gL9w9aV/review-pr.X8XTZD",
+  "head_sha": "720d5148d95cb0b674ef3bc8a4e5f5cb4e8df4f0",
+  "base_sha": "0bedf6162a1685ea5da6f197bea0777de62602d7",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "5ab92ee6354ff520c39f542d3985f213bd848b1c"
+}

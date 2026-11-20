@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix failure-report matching so a `./` prefix cannot silently exclude a requested failed test from a rerun.\n\n## Changes\n\nThe pull request adds a selector for failed paths in runner reports, refactors cached selection, and adds tests for all three selectors.\n\n## Critical\n\n(none)\n\n## Important\n\n- app/selection.py:20 — correctness — Match failure-report paths with a `./` prefix — A report containing `./tests/test_x.py` returns an empty selection when `requested` contains `tests/test_x.py`. The failure selector compares the raw path, while both existing selectors strip `./` before matching. — Users rerunning failures can skip a requested test when the runner reports it with a `./` prefix. — Fix: Match on `normalize(path)` while returning the original path, and extend `test_failure_report_selection`.\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.GLcHmLTXCb/review-pr.J1u79I",
+  "head_sha": "ece458733526e9eeb6118e76b050242d70c24de7",
+  "base_sha": "4ab96a67bd249909c523d1ed9341933da5f03606",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "21be3b59eba7d647d0bf0a4aa44a81dd991776c5"
+}

@@ -1,0 +1,35 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.326",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n`fetch_with_retry` must be capped at 5 attempts, not 10: the base-branch AGENTS.md product requirement still sets 5, and this pull request's own change to that rule does not count as policy for this review.\n\n## Changes\nThe pull request adds `fetch_with_retry` to `app/net.py`, with a default and maximum of 10 attempts and a sleep between failures. It adds tests for that function and a text fixture, and changes the retry cap in AGENTS.md from 5 to 10.\n\n## Critical\n- app/net.py:19 — correctness — Cap fetch_with_retry attempts at 5 per AGENTS.md — When an upstream is down, `fetch_with_retry(url)` makes 10 attempts by default (line 13), and `1 <= attempts <= 10` accepts up to 10. AGENTS.md:5 on the base branch says \"Retry helpers under app/ must cap attempts at 5. Unbounded retries have caused outages when an upstream was down.\" — Every caller using the default sends twice the allowed retry load to a failing upstream, which is the outage the policy guards against. — Fix: Change the default, the range check, the docstring and the ValueError message to 5, and update `test_fetch_with_retry_default_attempt_count` and `test_fetch_with_retry_rejects_attempts_outside_range` to match; raising the cap needs a policy change reviewed separately from this code.\n\n## Important\n(none)\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 23297,
+    "cost_usd": 0.0932332,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.yoFV8lStDh/review-pr.Df7NPO",
+  "head_sha": "a34bc5faa0a16f1a6a46e60933ebdccae9e2b019",
+  "base_sha": "279f5a5c309850dc57a393d57b534b9437f260e4",
+  "merge_base_sha": null,
+  "policy_changes": [
+    "AGENTS.md"
+  ],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "943b765b44640220c62bef46ce9576cd3dae3220"
+}

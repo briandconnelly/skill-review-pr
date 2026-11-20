@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.328",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nEmpty criteria now count as proven: the rewrite of `requirement_proven` makes an empty criteria list return `True`, so the release-review gate passes requirements it used to reject. The pull request says no behavior change is intended, so this needs fixing before merge.\n\n## Changes\nThe pull request replaces `typing.List`/`Dict` with built-in generics and `Logger.warn` with `Logger.warning` across 180 handler modules. It switches `by_name` to `operator.itemgetter`, rewrites the proof count in `requirement_proven`, and adds a one-line `review.txt`.\n\n## Critical\n- app/handlers/h091_requirements.py:12 — correctness — Return False for an empty criteria list — With `criteria=[]`, `sum(...)` is `0` and `len(criteria)` is `0`, so `proven == len(criteria)` returns `True`. The removed `bool(criteria) and all(...)` returned `False`, and line 10 still warns \"requirement has no criteria\" before the call reports the requirement as proven. — Release review treats a requirement with no criteria as proven, which contradicts the stated \"No behavior change is intended.\" — Fix: Restore `bool(criteria) and all(item[\"proven\"] for item in criteria)`, and add an empty-list case to `test_requirement_proof` in `tests/test_handlers.py`, which currently has none.\n\n## Important\n(none)\n\n## Suggestions\n(none)\n\n## Not reviewed\n- 179 of the 180 changed `app/handlers/h*_records.py` files were not read line by line; this review confirmed that each of their changed lines matches the mechanical typing-import, signature or `log.warning` pattern.",
+    "duration_ms": 64086,
+    "cost_usd": 0.3006124,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.BDRtuHnOIC/review-pr.KqFaFg",
+  "head_sha": "1fe56c9cae435288413da83a795065efa622e5bb",
+  "base_sha": "1450390a45bff1c441c5c631f9c66e4b0fb66419",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "183d90b38d9cf78b51dbf7726c7d58d8412b1a1a"
+}

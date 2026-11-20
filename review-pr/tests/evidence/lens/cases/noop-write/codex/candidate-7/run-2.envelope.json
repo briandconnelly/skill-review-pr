@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\nAdd coverage for adopting a setting whose value already matches, since callers rely on the change list to identify adopted keys.\n\n## Changes\n\nThe pull request adds an adoption mode that records existing incoming keys in the change list and writes the merged configuration whenever that list is nonempty. It retains replacement behavior and adds tests for adoption and replacement when the incoming value differs.\n\n## Critical\n\n(none)\n\n## Important\n\n- app/config.py:15 — tests — Cover adoption when the value already matches — When stored and incoming `theme` are both `dark` and `adopt=True`, no test verifies that `merge` records `theme` and writes the file. The added adoption test changes `light` to `dark`. — A regression that skips matching values could omit adopted keys from the change list and skip the write without failing any test.\n\n## Suggestions\n\n- app/config.py:18 — tests — Cover existing keys with both modes disabled — With stored `theme` set to `light`, incoming `theme` set to `dark`, and both flags omitted, no test exercises the false branch of `elif replace` to verify that the stored value is preserved. — An accidental overwrite of an existing setting during a default merge could pass the current suite.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.aPMqvn9Hk3/review-pr.Q8KhRU",
+  "head_sha": "bcc97d9ccea10752680d3dd11fd739239230df83",
+  "base_sha": "bde91ee1f73701de58aead9e4fef9c472fb63bcf",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "7ae8cce93757e47dc2a7aa8b2c3062b53655ea27"
+}

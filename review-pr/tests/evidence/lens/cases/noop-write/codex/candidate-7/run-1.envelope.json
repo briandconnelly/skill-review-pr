@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\n\nAdd coverage for adoption when the incoming value matches the stored value so the tests catch regressions that drop those keys from the change list.\n\n## Changes\n\nThe settings merger adds an `adopt` flag that records existing keys even when their values already match, and writes the configuration when it records changes. The pull request adds tests for adoption and replacement with differing values.\n\n## Critical\n\n(none)\n\n## Important\n\n- app/config.py:15 — tests — Cover adoption of matching values — A merge that skips recording `theme` when `adopt=True` and both values are `\"dark\"` would satisfy every test assertion. The adoption test uses different values. — Callers could lose confirmation that a matching setting was adopted without triggering a test failure.\n\n## Suggestions\n\n- app/config.py:18 — tests — Cover preserving existing settings by default — A merge that overwrites a stored `\"light\"` theme with incoming `\"dark\"` when both flags are omitted would satisfy every test assertion. The default-mode test starts with an empty configuration. — A regression could overwrite a user's existing setting during an ordinary merge without triggering a test failure.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.aPMqvn9Hk3/review-pr.7rm2qg",
+  "head_sha": "bcc97d9ccea10752680d3dd11fd739239230df83",
+  "base_sha": "bde91ee1f73701de58aead9e4fef9c472fb63bcf",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "7ae8cce93757e47dc2a7aa8b2c3062b53655ea27"
+}

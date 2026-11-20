@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nOnly optional test corrections were found in the reviewed scope. The tests leave nested basename matching unverified and assert internal parser values for the default and repeated flag cases.\n\n## Changes\n\nThe CLI adds a repeatable `--exclude GLOB` flag that filters files by basename and logs skips in verbose mode. The pull request documents the flag and adds tests for parsing, filtering, and archive contents.\n\n## Critical\n\n(none)\n\n## Important\n\n(none)\n\n## Suggestions\n\n- cli/main.py:33 — tests — Cover exact-name exclusions in nested directories — For `--exclude skip.log`, a regression that matches relative paths would archive `nested/skip.log` because `nested/skip.log` does not match `skip.log`. Every exclusion test places matching files at the source root. — Users who exclude files by basename have no regression coverage for matches below the source root.\n- tests/test_main.py:20 — tests — Verify repeated exclusions in the archive — With `--exclude '*.log' --exclude '*.tmp'`, this assertion rejects a tuple containing both patterns. The archive test passes only one flag. — The suite can reject a compatible parser refactor and miss a CLI wiring regression that applies only one of two flags. — Fix: Extend `test_main_leaves_excluded_files_out_of_the_archive` to exercise both flags in one invocation.\n- tests/test_main.py:24 — tests — Verify archive contents with no exclusion flag — An invocation without `--exclude` would fail this assertion if the parser returned `()` as the empty pattern set. `collect` already accepts that value. — The assertion constrains the parser’s internal default and leaves archive membership unverified when users omit the flag.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.Zmt2HmmMOC/review-pr.z1VMcI",
+  "head_sha": "b7a28278171e063173569c0ed35066872d2d48bc",
+  "base_sha": "b3e659b7e2c348517276cd0d1460f9d6b32c4805",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "28b942e354dc0e12595f6472ba9938ca2ed58f5c"
+}

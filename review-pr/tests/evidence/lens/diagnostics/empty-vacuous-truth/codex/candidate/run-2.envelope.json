@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\nFix empty-criteria handling before merge because proof status must require evidence.\n\n## Changes\n\nThe pull request replaces the requirement proof predicate with a count comparison and adds a helper that checks whether every entry in a nonempty batch was reviewed. It adds tests for both functions.\n\n## Critical\n\n- app/proof.py:3 — correctness — Require at least one criterion for proof — `requirement_proven([])` returns `True` because the sum and length are both zero. The previous nonempty guard returned `False`. — Callers can mark a requirement as proven before any criteria have been recorded. — Fix: Restore the nonempty guard and extend `test_requirement_with_evidence` to cover the empty list.\n\n## Important\n\n(none)\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.SD8lFKJZR6/review-pr.FgzlN0",
+  "head_sha": "44a29a4cefb9853ead847644bf68d30b8c507f32",
+  "base_sha": "b775d7bbec83d3ab85a8b367155cd248dc28a597",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "cb7f97c093f89cb800ff7dfe1689ca910857c39e"
+}

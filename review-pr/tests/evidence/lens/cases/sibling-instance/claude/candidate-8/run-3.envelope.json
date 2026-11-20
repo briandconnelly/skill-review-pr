@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.328",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nThe invitation flow still accepts passwords of eight to eleven characters, so the pull request does not fully apply the twelve-character minimum it describes; see \"Raise the invite validator minimum to twelve\".\n\n## Changes\nThe pull request raises `MIN_PASSWORD_LENGTH` from 8 to 12 in `app/signup.py` and `app/reset.py`, and updates their boundary tests to cover lengths 11, 12 and 13. It also adds a one-line `review.txt` file.\n\n## Critical\n(none)\n\n## Important\n- app/signup.py:1 — correctness — Raise the invite validator minimum to twelve — An 11-character password such as `\"x\" * 11` is still accepted by `accepts_password` in the stale `app/invite.py:1`, which keeps `MIN_PASSWORD_LENGTH = 8`, while signup and reset now reject it. The PR body says the change \"raises the minimum in the password validators\", but only two of the three validators change. — Invited users can still set passwords shorter than the twelve characters the security policy requires. — Fix: Set `MIN_PASSWORD_LENGTH = 12` in `app/invite.py:1` and extend `test_password_boundaries` in `tests/test_invite.py:6` in the same way as the signup and reset tests.\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 16970,
+    "cost_usd": 0.0677198,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.EQeiylnsF2/review-pr.a7Czj4",
+  "head_sha": "1bf932fa21ec78a66dc394ac86e947e5a44b87e8",
+  "base_sha": "31bc9f4f08bfe2171cd92fa04cb07daab24a40b9",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "ac46effb00cc4fd8defede757e0c93869a28d7b7"
+}

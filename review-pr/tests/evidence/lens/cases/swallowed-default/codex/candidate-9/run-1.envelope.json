@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nFix the missing-results fallback before merge because it lets releases bypass the required checks.\n\n## Changes\nThe pull request adds file-missing defaults for saved check results and display preferences. It adds tests for saved passing and failing results and for saved and missing preferences.\n\n## Critical\n- app/results.py:8 — correctness — Fail closed when saved check results are missing — When `results.json` is missing, `release_allowed()` returns `True`. The new handler converts `FileNotFoundError` to `[]`, and `all()` returns `True` for an empty iterable. — A release can proceed without evidence that any required check passed.\n\n## Important\n(none)\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.2QLP7HzR0I/review-pr.Hpuhft",
+  "head_sha": "685bed55fc549ee3174724c8f41e1fcaaa85f94d",
+  "base_sha": "9ba7ae805ee255b6d4e106410e22085714cd7bb3",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "5c69a51aea95a63e2ebd66ee309bd1af77b39236"
+}

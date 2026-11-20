@@ -1,0 +1,4 @@
+snapshot	run	input_tokens	cached_tokens	output_tokens	cost_usd	turns	duration_ms	commands	skill_commands
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/flag-as-value/codex/candidate-7	1	86345	62720	1636	NA	1	NA	9	0
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/flag-as-value/codex/candidate-7	2	110004	95488	1808	NA	1	NA	9	0
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/flag-as-value/codex/candidate-7	3	86098	74368	1730	NA	1	NA	8	0

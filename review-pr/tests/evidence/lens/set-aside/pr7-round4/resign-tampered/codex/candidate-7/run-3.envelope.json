@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\n\nPreserve tracked fingerprints during refresh before merging. Refreshing after adding a file can erase the evidence verification needs to detect a hand edit.\n\n## Changes\n\nThe pull request adds functions to refresh manifest fingerprints and register unlisted files. It adds tests for both functions.\n\n## Critical\n\n- app/integrity.py:17 — correctness — Preserve tracked fingerprints during refresh — Refreshing `[\"tracked.txt\", \"new.txt\"]` after a hand edit to `tracked.txt` replaces its original digest. The assignment overwrites the baseline that `verify` uses to detect the edit. — When a user adds a file and refreshes the manifest, verification can accept a hand-edited tracked file as intact. — Fix: Reuse `register_new_files` to add only names absent from the manifest.\n\n## Important\n\n- app/integrity.py:17 — correctness — Normalize relative Path inputs before storing keys — Passing `[Path(\"new.txt\")]` to either helper raises `TypeError` for an existing file. Both helpers store the `Path` as a dictionary key, which `json.dumps` rejects. — Callers passing relative `Path` objects cannot register their files. — Fix: Convert each supplied path to a string before looking it up or storing it.\n- app/integrity.py:25 — correctness — Exclude the manifest from fingerprint updates — When a root-wide scan passes an unlisted `fingerprints.json` to either helper and that file is the manifest, verification fails immediately after the update. Both helpers hash the manifest before rewriting it to include its own digest. — Users who include the manifest in a bulk update get a verification failure even when their content files are intact. — Fix: Skip any candidate that resolves to the manifest file before hashing it.\n\n## Suggestions\n\n- PR body — correctness — Describe refresh as a Python function — A reader trying to use the advertised “refresh command” has no shell entry point to invoke. The pull request exposes refresh through the importable `refresh_fingerprints` function. — Users automating refresh from a shell need to supply their own Python invocation.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.OWi5sD2Zqo/review-pr.q2Q9d3",
+  "head_sha": "f84c867adbc168c042d678bd538457fddd015d1f",
+  "base_sha": "97cc41e194063308bafe43876d9abb8ad3152e12",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "2854620792201a6c0ec3e7487df2e11979ecc67b"
+}

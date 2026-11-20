@@ -1,0 +1,4 @@
+snapshot	run	input_tokens	cached_tokens	output_tokens	cost_usd	turns	duration_ms	commands	skill_commands
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/noisy-refactor/claude/candidate-8	1	126092	105166	8481	0.6950	27	95849	NA	NA
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/noisy-refactor/claude/candidate-8	2	150733	126729	11056	0.8515	28	122691	NA	NA
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/noisy-refactor/claude/candidate-8	3	145618	124809	8840	0.7114	25	102945	NA	NA

@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.326",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nThe `--json` branch must stop consuming a following flag as its path before this merges: when `--json` precedes `--junit`, the default destination the pull request describes is never applied, and parsing either fails or sends the JSON report to the wrong file.\n\n## Changes\nThe pull request adds a `--json` option to `parse_args` in `app/cli.py`, with a default destination of `results.json` or an explicit path, and adds `write_reports` to write each requested report to its destination. It also adds `tests/test_cli.py`, covering the JSON default and explicit path and the required `--junit` path.\n\n## Critical\n- app/cli.py:15 — correctness — Stop `--json` from consuming a following flag as its path — `parse_args([\"--json\", \"--junit\", \"x.xml\"])` raises `ValueError(\"unknown option: x.xml\")` instead of returning both destinations: line 16 takes any following argument as the JSON path, without the `startswith(\"--\")` check that line 7 applies. `[\"--json\", \"--junit\"]` returns `{\"json\": \"--junit\"}`, so `write_reports` writes a file named `--junit`. — Users who place `--json` before another flag get a misleading error, or a JSON report written to a file named after that flag. — Fix: Apply the line 7 lookahead check before consuming the next argument, and extend `test_json_default_and_explicit_path` with `--json` followed by `--junit`.\n\n## Important\n(none)\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 40437,
+    "cost_usd": 0.220379,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.KhISzmBD7M/review-pr.2CXR5Y",
+  "head_sha": "0d9c1ec20d9f8ed32fdfc6c2c9ca1059004a34d9",
+  "base_sha": "30c4bb9aa5c64294fadf2f05415ef3443ba152af",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "7b428d982c735d6b41775aa843009da81bfd8687"
+}

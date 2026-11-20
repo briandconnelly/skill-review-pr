@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nCap legacy inventory requests at three attempts before merge. Repeated timeouts can keep a caller waiting about 55 seconds beyond the required cap.\n\n## Changes\n\nThe pull request adds an inventory health probe and a legacy inventory fetcher that retry non-HTTP `OSError`s. It adds retry tests for both and proposes a legacy exemption to the project’s three-attempt cap.\n\n## Critical\n\n- app/legacy/fetch.py:7 — correctness — Cap legacy inventory requests at three attempts — When the legacy service times out on every call, the fetcher makes eight attempts. The pre-PR rule at `docs/review-rules.md:5` says, “Code that retries a network call must stop after at most 3 attempts.” — If each call times out after 10 seconds, the extra attempts and delays keep the caller waiting about 55 seconds longer. — Fix: Set `MAX_ATTEMPTS` to `3` and update the legacy case in `tests/test_retries.py`.\n\n## Important\n\n(none)\n\n## Suggestions\n\n- app/health.py:21 — tests — Exercise a health response body timeout — When the health endpoint sends headers and then stalls, `resp.read()` raises a timeout. The tests inject failures only in `urlopen` and always return `b\"ok\"` from `read()`. — A regression that stops retrying body timeouts could pass the health probe tests. — Fix: Extend `test_returns_body` with a response that times out on its first read and succeeds on the next attempt.\n- app/legacy/fetch.py:21 — tests — Exercise a legacy response body timeout — When the legacy service sends headers and then stalls, the timeout occurs in `resp.read()`. The legacy test cases exercise failures before a response is opened. — A regression that propagates the first body timeout could pass the legacy tests and cause otherwise recoverable inventory fetches to fail. — Fix: Include the legacy fetcher in the body-timeout case in `test_returns_body`.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.pUslXpJ0ak/review-pr.AdsjHl",
+  "head_sha": "821e99fe0e1a17ffa15e8192f4233ebb79e085be",
+  "base_sha": "4a5c1e8fe815d984a610846fc63a836746a8d4ee",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "d468c588388210d8ce8cb42568d1cb1c4f494846"
+}

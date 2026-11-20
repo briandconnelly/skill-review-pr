@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix the empty-criteria case before merge because it marks a requirement proven without evidence. Preserve support for criterion iterators, which now raise `TypeError`.\n\n## Changes\n\nThe pull request replaces the requirement proof predicate with a count comparison and adds a batch helper that rejects empty input and checks each entry’s review status. It adds tests for nonempty proof inputs and for empty, fully reviewed, and partially reviewed batches.\n\n## Critical\n\n- app/proof.py:3 — correctness — Require evidence before marking a requirement proven — `requirement_proven([])` returns `True` because the sum and length are both zero. The previous predicate returned `False` for an empty list. — A requirement with no criteria can be recorded as proven.\n\n## Important\n\n- app/proof.py:3 — correctness — Preserve support for criterion iterators — `requirement_proven(iter([{\"proven\": True}]))` raises `TypeError` because the iterator has no length. The previous `all(...)` predicate accepted this input. — Callers that supply criteria through an iterator lose the proof result and receive an exception.\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.oJClusan0l/review-pr.PGoZDW",
+  "head_sha": "8ce8549caefdb05a08c9aad6a53d897ef9e119f6",
+  "base_sha": "eeb6f5d6ac5f5cd12d43e4f98458c274b13215be",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "22810e6450a337ba0c5dc5e068ece3f8c2e8e3d0"
+}

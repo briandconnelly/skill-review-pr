@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.328",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nFix \"Treat limit=0 as no limit in list_orders\" before merge: the issue this pull request closes says `limit=0` must return every order, and the code returns none.\n\n## Changes\nAdds an `app/paging.py` `paginate(items, limit, offset)` helper that checks for negative arguments. `list_orders` now accepts `limit` and `offset` and passes the newest-first list through that helper, and new tests cover both functions.\n\n## Critical\n(none)\n\n## Important\n- app/orders.py:9 — correctness — Treat limit=0 as no limit in list_orders — `list_orders(orders, limit=0)` returns `[]`, because `paginate` computes `stop = start + 0` (app/paging.py:12). That contradicts issue fixture/fixture#12: \"limit=0 means no limit: return every order.\" No `list_orders` test covers `limit=0`. — Any caller that passes `limit=0` to get the full listing, as issue #12 says it should, gets an empty order list and no error. — Fix: In `list_orders`, pass `None` to `paginate` when `limit == 0`, which keeps `paginate`'s tested empty-page behavior, and add a `limit=0` case next to `test_limit_caps_results` in `tests/test_orders.py`.\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 23577,
+    "cost_usd": 0.0950308,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.rmXrZYMdYv/review-pr.X2zIBf",
+  "head_sha": "545afb7edd0a54eb8851141f792cdbc97a1dac26",
+  "base_sha": "ca1511718f6996112d5a23475449edc9f0395b0d",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "8a0b38a0d918aefbf83372eca25d71afea69ca2f"
+}

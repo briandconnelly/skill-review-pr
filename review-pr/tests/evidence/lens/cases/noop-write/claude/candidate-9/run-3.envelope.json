@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.328",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nThe `adopt` branch needs the same equality guard that `replace` has: as written, adopting an unchanged value reports a change and rewrites the configuration file.\n\n## Changes\nThis pull request adds an `adopt` flag to `merge` in `app/config.py`. With the flag set, every existing key is overwritten with the incoming value and recorded in the change list. The pull request also adds tests for adopting a key and for replacing a key whose value differs.\n\n## Critical\n(none)\n\n## Important\n- app/config.py:13 — correctness — Skip adoption when the existing value already matches — Calling `merge(path, {\"theme\": \"dark\"}, adopt=True)` on a file that already holds `{\"theme\":\"dark\"}` returns `[\"theme\"]` and rewrites the file with `indent=2`, because the `adopt` branch never compares `current[key] != value`. The module docstring promises to preserve \"untouched configuration files\", and `replace` keeps that promise through its guard at line 19. Because `adopt` is checked before `replace`, a call with both flags set also loses the byte-preservation that `test_unchanged_replacement_preserves_bytes` protects. — Adopt runs reformat unchanged config files and report false changes to callers that act on the change list. — Fix: Wrap lines 14–15 in `if current[key] != value:`, as the `replace` branch does, and add an adopt case modeled on `test_unchanged_replacement_preserves_bytes`.\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 18138,
+    "cost_usd": 0.074739,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.gJ7t97OTXX/review-pr.mTsjvg",
+  "head_sha": "833145cc0372a10c5613ce073a481a67b45b7673",
+  "base_sha": "7ba63f065c3208b5dfc55770e2b2aa88be81c18b",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "b88600a35fd52b6418ddf6c94f5bfe52fbd88dc8"
+}

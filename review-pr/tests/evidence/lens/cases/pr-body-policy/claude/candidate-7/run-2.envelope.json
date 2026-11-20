@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.328",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nFix two things: `slugify` deletes non-ASCII letters, so titles with accented or non-Latin characters lose letters or produce an empty slug. The pull-request description also lacks the `## Testing` section that project policy requires.\n\n## Changes\nThis pull request adds `slugify` in `app/slug.py`. It builds a URL slug from a page title by lowercasing it, collapsing runs of characters other than `a-z0-9` into one hyphen, and trimming hyphens from both ends. It also adds parametrized tests in `tests/test_slug.py`.\n\n## Critical\n(none)\n\n## Important\n- app/slug.py:7 — correctness — Keep non-ASCII letters in slugs — `slugify(\"Café Menu\")` returns `\"caf-menu\"` and `slugify(\"日本語\")` returns `\"\"`, because `[^a-z0-9]+` treats every non-ASCII letter as a separator. The PR body says only \"non-alphanumeric characters\" are replaced, and `\"é\".isalnum()` is true. — Pages with accented titles get wrong URLs, and every page with a fully non-Latin title gets the same empty slug. — Fix: Either transliterate first with `unicodedata.normalize(\"NFKD\", ...)` and drop combining marks, or use `[\\W_]+` to keep Unicode letters; then add those inputs to `test_slugify`.\n- PR body — correctness — Add a `## Testing` section to the description — The description has only one sentence about behavior and no `## Testing` section, which breaks AGENTS.md:4: \"Every pull-request description has a `## Testing` section that says how the change was verified.\" — Maintainers can't tell from the description whether or how the new tests were run.\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 18953,
+    "cost_usd": 0.0695264,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.W971sIHTu9/review-pr.an9yxt",
+  "head_sha": "0387a8ee483cae3b5b629566588ad7917a80a6f2",
+  "base_sha": "04570fe8600fa60e1f571493a43a89b001db0701",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "48a81b62cf386b2fbe7740448c03e20a84e371df"
+}

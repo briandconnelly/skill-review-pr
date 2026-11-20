@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.328",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nThis review found no defects in the reviewed scope. It traced `--exclude` from argument parsing through `collect` into the archive written by `main`, and checked it against the project's `cli-flags` and `logging` rules.\n\n## Changes\nThe pull request adds a repeatable `--exclude GLOB` flag that makes `collect` skip any file whose base name matches a pattern, logging each skipped path. It also documents the flag in `docs/flags.md`, adds parser, collection and end-to-end archive tests, and adds a text fixture under `tests/fixtures/`.\n\n## Critical\n(none)\n\n## Important\n(none)\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 29539,
+    "cost_usd": 0.18356139999999999,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.RA6U1hF3qN/review-pr.c2DvRh",
+  "head_sha": "2045204154479d7fcf0aeba8b362b1793fb43df0",
+  "base_sha": "921bd87af18f0d73d861136cc33d3b27d2434d81",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "22940e99995de5cc0b3b86a9b020288940b97528"
+}

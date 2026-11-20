@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\n\nApply the 12-character minimum to invite passwords before merging so the invite flow enforces the stated security policy.\n\n## Changes\n\nThe pull request raises the signup and reset password minimums from 8 to 12 characters and updates both boundary tests. It also adds `review.txt`.\n\n## Critical\n\n- app/signup.py:1 — correctness — Enforce the 12-character minimum for invite passwords — An 8-character password still passes invite validation through the separate minimum at `app/invite.py:1` after signup and reset move to 12. The invite boundary test explicitly expects that input to pass. — Users accepting an invitation can set passwords below the stated security minimum. — Fix: Raise the minimum at `app/invite.py:1` and update `test_password_boundaries` at `tests/test_invite.py:6`.\n\n## Important\n\n(none)\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.wzI9y7Ns3q/review-pr.PdVkm7",
+  "head_sha": "93b44529e16012f18e5bcd0f48ab9ca586243c9b",
+  "base_sha": "2173e13e7e9111b3cdefdbe02afb6e05e673c507",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "fd2625c31ceb31c77bf98be47f927a51f5f849ef"
+}

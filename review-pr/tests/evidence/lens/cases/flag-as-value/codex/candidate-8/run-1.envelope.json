@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nFix argument parsing before merge so users can put bare `--json` before `--junit` and still receive both reports.\n\n## Changes\nThe pull request adds `--json` with an optional path that defaults to `results.json`. It also adds a helper that writes reports to the parsed destinations.\n\n## Critical\n\n- app/cli.py:15 — correctness — Leave the next option available to parse — With `--json --junit out.xml`, the JSON branch consumes `--junit` as its path, then rejects `out.xml` as an unknown option. — Users who put bare `--json` before a valid JUnit option receive neither report. — Fix: Apply the same `--` prefix check used for JUnit before consuming a JSON path.\n\n## Important\n\n- app/cli.py:30 — correctness — Reject a destination shared by both reports — With `--junit report.xml --json report.xml`, the second `write_text` call replaces the JUnit payload with JSON. — A caller that accidentally reuses a destination receives only the last report written. — Fix: Check for destination collisions before writing either report.\n\n## Suggestions\n\n- app/cli.py:29 — tests — Test writing to two distinct destinations — The existing tests leave `--junit out.xml --json out.json` unverified at the writer's second iteration. The only test that calls `write_reports` requests a single JSON destination. — A regression that stops after writing the first report would leave the second destination empty and pass the current tests.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.Nqbm78w4AU/review-pr.ZVoSog",
+  "head_sha": "bbcfa3e6f0481eec8dbf6bda7b2c18cc29575688",
+  "base_sha": "0b77351b62311f294b7a992e12ff279af759d6af",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "cd4cee356a55d6ed51c22bc30f9eadbcbaacad9b"
+}

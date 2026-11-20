@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.328",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nThe invite validator still accepts 8-character passwords, which breaks the twelve-character policy that the pull-request body says this change enforces. It should be fixed before merge.\n\n## Changes\nThe pull request raises `MIN_PASSWORD_LENGTH` from 8 to 12 in `app/signup.py` and `app/reset.py`. It moves the boundary tests in `tests/test_signup.py` and `tests/test_reset.py` to 11, 12 and 13, and it adds a `review.txt` file.\n\n## Critical\n(none)\n\n## Important\n- app/signup.py:1 — correctness — Raise the invite flow minimum to twelve too — An 11-character password is still accepted through `app.invite.accepts_password`, because the stale `app/invite.py:1` keeps `MIN_PASSWORD_LENGTH = 8` while this change raises only signup and reset to 12. The pull-request body says it raises \"the minimum in the password validators\", and `tests/test_invite.py:6` still asserts the 8-character boundary. — Users who join through an invitation can still set passwords shorter than the twelve characters the security policy requires. — Fix: Set `app/invite.py:1` to 12 and extend `tests/test_invite.py::test_password_boundaries` with the same 11/12/13 boundaries.\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 18080,
+    "cost_usd": 0.07012779999999999,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.EQeiylnsF2/review-pr.a9k8BL",
+  "head_sha": "1bf932fa21ec78a66dc394ac86e947e5a44b87e8",
+  "base_sha": "31bc9f4f08bfe2171cd92fa04cb07daab24a40b9",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "ac46effb00cc4fd8defede757e0c93869a28d7b7"
+}

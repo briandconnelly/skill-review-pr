@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.326",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nMigration 3 must back up `users` before it drops `legacy_email`: as written it deletes that column's data with no way to restore it, unlike the other two destructive migrations.\n\n## Changes\nThe pull request adds migrations 3 and 4, which drop `users.legacy_email` and `orders.coupon_code`. It also adds one test that runs all four migrations and checks that both columns are gone and that the `orders` backup exists.\n\n## Critical\n- migrations/m0003_drop_legacy_email.py:7 — correctness — Back up users before dropping legacy_email — On any database with populated `users.legacy_email`, `upgrade` drops the column without calling `backup_table`, so no `users_backup_3` table exists. `migrations/safety.py:3-5` states that each destructive migration first calls `backup_table`. — Running migration 3 permanently deletes every stored legacy email, because rolling back the deploy cannot restore a dropped column. — Fix: Call `backup_table(conn, \"users\", VERSION)` first, as `migrations/m0002_drop_nickname.py:7` does, and extend `test_drop_retired_columns` with a populated `users` row.\n\n## Important\n(none)\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 37989,
+    "cost_usd": 0.24713320000000003,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.MEQ177pThs/review-pr.0gHbpZ",
+  "head_sha": "74734b5b93be2786ac70a4fd5dfa50c0ad49b2e2",
+  "base_sha": "e21c8f3578a02500ae141c9fb6cf01696da1ebba",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "0e8c362a8a74b6a625e2d6bbde3dd29dbc716b3a"
+}

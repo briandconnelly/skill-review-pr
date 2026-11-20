@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.326",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nOne defect should be fixed: with `adopt=True`, an incoming value identical to the stored one is still recorded as a change and the file is rewritten, which contradicts the module's stated purpose of preserving untouched configuration files.\n\n## Changes\nThe pull request adds an `adopt` flag to `merge` in `app/config.py` that overwrites existing keys and records them in the change list, and restructures the `replace` branch into a nested condition. It adds two tests, for adopt and replace updating a differing value, plus an unused module-level string constant in `tests/test_config.py`.\n\n## Critical\n(none)\n\n## Important\n- app/config.py:15 — correctness — Skip the file rewrite when adopt changes no value — With a file containing `{\"theme\":\"dark\"}\\n`, `merge(path, {\"theme\": \"dark\"}, adopt=True)` returns `[\"theme\"]` and rewrites the file with `indent=2` formatting. The branch at line 13 has no `current[key] != value` check, unlike the replace branch at line 19, and the module docstring at line 1 says \"preserving untouched configuration files\". — Callers see a change reported and the file's bytes altered when no setting differs, and no test covers adopt with an equal value. — Fix: either record an adopted key only when `current[key] != value`, or keep recording it but gate the write at `app/config.py:22` on a real value change; add an adopt counterpart to `test_unchanged_replacement_preserves_bytes`.\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 34297,
+    "cost_usd": 0.2065708,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.pjZHa3CLI5/review-pr.LFDbZL",
+  "head_sha": "aa88e771aa25457d995fa06e0962d5f823d4c38a",
+  "base_sha": "68ef6033284d25fafb83e81ee140a1b30c07c864",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "1441ad04553bf2c48b32a462b94436983fec3e43"
+}

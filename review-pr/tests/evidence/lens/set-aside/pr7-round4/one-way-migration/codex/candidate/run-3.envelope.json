@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix the missing legacy-email backup before merge because version 3 can discard values absent from the version 2 snapshot. The order rollback also needs to restore the schema before copying rows back.\n\n## Changes\nVersion 3 drops `users.legacy_email`. Version 4 backs up `orders` before dropping `coupon_code`, and the added test checks both column drops and the saved coupon value.\n\n## Critical\n\n- migrations/m0003_drop_legacy_email.py:7 — correctness — Back up users before dropping legacy_email — A user created after version 2 loses their populated `legacy_email` when version 3 drops the column. The migration skips `backup_table`, which `migrations/safety.py:3` documents as the first step for destructive migrations. — The migration backups cannot recover legacy email values written after the version 2 snapshot.\n\n## Important\n\n- migrations/m0004_drop_coupon_code.py:8 — correctness — Restore the orders schema before copying rows back — After version 4 drops `coupon_code`, `restore_table(conn, \"orders\", 4)` raises a SQLite column-count error. The insert at `migrations/safety.py:15` selects four backup columns into the three-column live table. — A rollback through the helper fails to recover coupon codes and leaves the orders deleted in the current transaction. — Fix: Restore the `coupon_code` column before copying data back, and make the row replacement in `migrations/safety.py:13` atomic.\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.iX7wmSCQ13/review-pr.qdOjE8",
+  "head_sha": "fb094b31c742b6a280b080dde1dc5ba2c90a0281",
+  "base_sha": "227b65882c7e0a3e3d307104b246bc3dce2f83a7",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "33a05e3eca68e077df957295aad0ceb9e893c7d9"
+}

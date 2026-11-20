@@ -1,0 +1,35 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.  \nFix the failed-write path before merge so callers can rely on the save result.\n\n## Changes\n\nThe pull request adds functions to save a generated report, announce its destination, and remove an optional temporary report. It adds tests for saving and cleanup.\n\n## Critical\n\n- app/reports.py:8 — silent-failure — Surface report write failures — Saving to `missing/report.txt` when `missing` does not exist prints a success message and returns `0`. The `except OSError` block discards the `FileNotFoundError` from `write_text`. — A caller can continue to the next step with a report that was never written. — Fix: Propagate the write error or return a nonzero status with an actionable message, and extend `test_save_with_unavailable_destination`.\n\n## Important\n\n(none)\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.4y0o9O1hxU/review-pr.tzJTRq",
+  "head_sha": "59b5681841355d1604f1db46ca15fab0f1844326",
+  "base_sha": "91c73d5bb5d2635d0bac0c57680ba3a436c5a664",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": false,
+  "schema_errors": [
+    "Summary must begin with the exact lenses-checked line"
+  ],
+  "diff_unavailable": false,
+  "collection_id": "bf1bc246f711b78b392d5e9cb93921f2afe4cb6f"
+}

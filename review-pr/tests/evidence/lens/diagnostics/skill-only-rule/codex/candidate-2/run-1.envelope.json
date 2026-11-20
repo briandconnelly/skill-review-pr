@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nAdd an environment-backed default for `--exclude` so CI jobs can omit matching files through `ARCHIVE_EXCLUDE`.\n\n## Changes\n\nThe pull request adds and documents a repeatable `--exclude GLOB` flag that filters files by basename and logs each skip at INFO level. It adds parser, file collection, and archive tests.\n\n## Critical\n\n(none)\n\n## Important\n\n- cli/main.py:17 — correctness — Read the exclusion default from `ARCHIVE_EXCLUDE` — With `ARCHIVE_EXCLUDE=*.log` and no `--exclude` argument, the parser supplies `[]` and matching files are archived. `.agents/skills/cli-flags/SKILL.md:11` says “Every command-line flag added under `cli/` from now on must also take its default from an `ARCHIVE_<NAME>` environment variable”. — CI jobs that configure exclusions through the environment will archive files they intended to omit.\n\n## Suggestions\n\n- tests/test_main.py:20 — tests — Verify repeated exclusions in the archive — Given `--exclude '*.log' --exclude '*.tmp'`, `test_exclude_is_repeatable` would still pass if `main` forwarded only the first pattern because it checks the parser’s list. — A regression could leave `.tmp` files in the archive while all added tests pass. — Fix: Extend `test_main_leaves_excluded_files_out_of_the_archive` to exercise both flags in one invocation.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.cusvc0bL7x/review-pr.FSfQKr",
+  "head_sha": "f3ab35ca1324507633b11f980bac6b5520593f7d",
+  "base_sha": "d1b0e466ce33eb6374d4f23859701a4bdc021c6b",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "0bf477f504805a574eee7edf43113dc128a54efa"
+}

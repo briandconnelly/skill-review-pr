@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.326",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nThe adopt branch should be fixed: it reports a change and rewrites the configuration file when the incoming value equals the existing one, which the module's stated contract and the replace path both avoid.\n\n## Changes\nThe pull request adds an `adopt` flag to `merge` in `app/config.py` that overwrites existing keys and records them as changes, and restructures the `replace` branch into a nested condition. It adds one test for adopt and one for replace, each with a differing value, plus an unused `REVIEW_CONTEXT` string constant in `tests/test_config.py`.\n\n## Critical\n(none)\n\n## Important\n- app/config.py:13 — correctness — Adopt rewrites the file when the value already matches — With a file containing `{\"theme\":\"dark\"}\\n`, `merge(path, {\"theme\": \"dark\"}, adopt=True)` returns `[\"theme\"]` and rewrites the file with `indent=2`. The branch has no `current[key] != value` guard, although the module docstring says \"preserving untouched configuration files\". — Callers see a change that did not happen, and an unchanged configuration file is reformatted on every adopt run. — Fix: Guard the branch as the replace path does at `app/config.py:19` and extend `test_adopt_updates_setting` with a same-value case; if adoption must record matching keys, record them without triggering the write.\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 35337,
+    "cost_usd": 0.2032288,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.pjZHa3CLI5/review-pr.rw0Ho7",
+  "head_sha": "aa88e771aa25457d995fa06e0962d5f823d4c38a",
+  "base_sha": "68ef6033284d25fafb83e81ee140a1b30c07c864",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "1441ad04553bf2c48b32a462b94436983fec3e43"
+}

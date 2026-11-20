@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.326",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n`refresh_fingerprints` must stop overwriting digests for files the manifest already tracks. As written, refreshing after a hand edit records the edited content, and `verify` then accepts the tampered file.\n\n## Changes\nThis pull request adds two functions to `app/integrity.py`: `refresh_fingerprints`, which re-hashes the named files into the manifest, and `register_new_files`, which adds only names the manifest does not list yet. It also adds `tests/test_integrity.py` with one test for each function.\n\n## Critical\n- app/integrity.py:17 — correctness — Keep existing digests in refresh_fingerprints — If `tracked.txt` has been hand-edited, `refresh_fingerprints(root, manifest, [\"tracked.txt\", \"new.txt\"])` replaces its recorded digest with the digest of the edited content, and `verify` then returns `True`. The PR body says \"Existing fingerprints let verification detect hand-edited tracked files,\" but line 17 assigns `entries[name]` without checking whether `name` is already in the manifest. The only refresh test (`tests/test_integrity.py:12`) passes `tracked.txt` unchanged, so it cannot catch this. — Running the refresh command after adding files with the tracked names included hides earlier tampering, so the integrity manifest no longer protects those files. — Fix: Skip names already in `entries`, as `register_new_files` does at `app/integrity.py:24`, and extend `test_refresh_registers_new_files_and_keeps_unchanged_entries` to edit `tracked.txt` before refreshing.\n\n## Important\n(none)\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 24704,
+    "cost_usd": 0.0825502,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.0i3AhWsy6q/review-pr.GyJc6T",
+  "head_sha": "c94405cbd481868eb0e79023c5d6a8a9095ffb2d",
+  "base_sha": "bd79f660a5c79b1ce050db15251541ef39b0f8ef",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "c46b044318ff0b2653bc4d0be595cea22a13874d"
+}

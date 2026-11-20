@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.326",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nThe `--json` default destination must be fixed before merge: it works only when `--json` is the last argument, so placing it before `--junit` fails or writes to a file named after the flag.\n\n## Changes\nThe pull request adds a `--json` option to `parse_args` in `app/cli.py`, with a default destination of `results.json` or an explicit path, and a `write_reports` function that writes each report to its parsed destination. It also adds `tests/test_cli.py` covering the JSON default, an explicit JSON path, and the `--junit` path requirement.\n\n## Critical\n- app/cli.py:15 — correctness — Stop --json from consuming a following flag as its path — `parse_args([\"--json\", \"--junit\", \"out.xml\"])` stores `\"--junit\"` as the JSON destination and then raises `ValueError(\"unknown option: out.xml\")`. Line 15 checks only `i + 1 < len(args)`, unlike the `startswith(\"--\")` check at line 7. `[\"--json\", \"--junit\"]` returns `{\"json\": \"--junit\"}`, so `write_reports` writes a file named `--junit`. — Users who pass `--json` before `--junit` get a misleading error or a misnamed output file and no JUnit destination. — Fix: Take the next argument as the path only when `i + 1 < len(args) and not args[i + 1].startswith(\"--\")`, and extend `test_json_default_and_explicit_path` with the `--json`-before-`--junit` order.\n\n## Important\n(none)\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 38800,
+    "cost_usd": 0.29399680000000006,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.KhISzmBD7M/review-pr.gwsirF",
+  "head_sha": "0d9c1ec20d9f8ed32fdfc6c2c9ca1059004a34d9",
+  "base_sha": "30c4bb9aa5c64294fadf2f05415ef3443ba152af",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "7b428d982c735d6b41775aa843009da81bfd8687"
+}

@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.326",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n`list_orders` should accept and forward an offset, because as written the order listing can only ever return its first page. The `limit=0` boundary of the new validation also has no test.\n\n## Changes\nThe pull request adds `app/paging.py` with a `paginate(items, limit, offset=0)` slicing helper that rejects negative arguments. It gives `list_orders` an optional `limit` that it passes to that helper after sorting newest first, and adds tests for both.\n\n## Critical\n(none)\n\n## Important\n- app/orders.py:9 — correctness — Expose offset in list_orders so later pages are reachable — With five orders, `list_orders(orders, limit=2)` always returns the two newest, and no argument returns the other three. `list_orders` accepts only `limit` and calls `paginate(ordered, limit)`, so `offset` is always 0. — Callers of the order listing cannot fetch any page after the first, so the pagination the title names is not delivered. — Fix: Add an `offset=0` parameter, call `paginate(ordered, limit, offset)`, and extend `test_limit_caps_results` in `tests/test_orders.py`.\n\n## Suggestions\n- app/paging.py:9 — tests — Add a test for limit=0 returning an empty page — `paginate([1, 2, 3], limit=0)` returns `[]`, but no test calls it. The added tests use limits of -1, 2 and `None`, so changing `limit < 0` to `limit <= 0` would make a zero limit raise with every test still passing. — A later change to the validation boundary can turn a zero limit into an error without any test failing.\n\n## Not reviewed\n- The text of issue #12 in this repository's issue tracker, which the pull-request body says this change closes, was not available to confirm the requested pagination behaviour.",
+    "duration_ms": 41422,
+    "cost_usd": 0.3514274,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.n7Ja6kFuz0/review-pr.GMpnVK",
+  "head_sha": "83103f2fe1f9045f9db9d1d61ddc87718ba69ab8",
+  "base_sha": "40a8db73606fc333e115f093dd12ac177ca130bd",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "805e1a41a7b357def6820a1fae0a7b12a4729e78"
+}

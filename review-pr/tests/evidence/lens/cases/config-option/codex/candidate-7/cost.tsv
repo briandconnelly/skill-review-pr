@@ -1,0 +1,4 @@
+snapshot	run	input_tokens	cached_tokens	output_tokens	cost_usd	turns	duration_ms	commands	skill_commands
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/config-option/codex/candidate-7	1	120315	100864	747	NA	1	NA	11	0
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/config-option/codex/candidate-7	2	120298	113280	1014	NA	1	NA	11	0
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/config-option/codex/candidate-7	3	120784	83072	1247	NA	1	NA	11	0

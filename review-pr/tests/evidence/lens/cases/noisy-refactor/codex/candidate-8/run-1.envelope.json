@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\nRestore the empty-criteria guard before merge so release review requires evidence before treating a requirement as proven.\n\n## Changes\n\nThe pull request modernizes handler type annotations and warning calls, uses `itemgetter` for name sorting, and compares the count of proven criteria with the total. It also adds `review.txt`.\n\n## Critical\n\n- app/handlers/h091_requirements.py:12 — correctness — Reject proof with no criteria — `requirement_proven([])` now returns `True` because both counts are zero. The previous `bool(criteria)` guard returned `False` for this input. — Release reviewers can receive a passing proof result for a requirement with no supporting criteria. — Fix: Return `False` after logging the empty-list warning and extend `test_requirement_proof`.\n\n## Important\n\n(none)\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.lyZ32UiGPQ/review-pr.udqODy",
+  "head_sha": "166a868ae0ed673baeb458a190dc64e6221686d3",
+  "base_sha": "c710b0e349fcd8de8ad19aa57c10251ed0356a5b",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "dd426bfaed025e5d9f8b4e2942fdb08c86da18b0"
+}

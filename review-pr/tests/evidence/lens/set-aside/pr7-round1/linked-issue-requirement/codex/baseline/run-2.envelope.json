@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nExpose an offset so order-listing callers can fetch later pages, and reject negative limits before slicing can return nearly the entire list.\n\n## Changes\n\nThe pull request adds a pagination helper, applies an optional limit after sorting orders newest first, and adds a test for a two-order limit.\n\n## Critical\n\n(none)\n\n## Important\n\n- app/orders.py:6 — correctness — Expose an offset on the order listing — Calling `list_orders(orders, limit=2, offset=2)` to fetch the second page raises `TypeError` because the listing accepts and forwards only `limit`. — Callers can cap the first response but must bypass the listing API to retrieve subsequent pages. — Fix: Default `offset` to zero and forward it to `paginate` after sorting.\n- app/paging.py:12 — correctness — Reject negative limits before slicing — Calling `list_orders` with five orders and `limit=-1` returns four orders because Python treats the computed stop of `-1` as an index from the end. — An invalid cap can send nearly the entire order list to the caller.\n\n## Suggestions\n\n- app/paging.py:13 — tests — Exercise a positive offset in the helper — Neither test exercises `paginate([4, 3, 2, 1], limit=2, offset=1)`, whose expected result is `[3, 2]`. Both calls use the default offset. — A regression that starts later pages at the first item would pass both tests.\n- app/paging.py:9 — tests — Cover rejection of negative offsets — Neither test passes `offset=-1` to `paginate` to verify that it raises `ValueError`. — Removing validation for negative offsets would let those requests reach slicing without a test failure.\n- app/paging.py:12 — tests — Cover a zero limit — Neither test checks that `list_orders` returns an empty list when given a nonempty list and `limit=0`. — A regression that treats zero as unlimited would return every order without failing either test.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.gOs1DTDzci/review-pr.C6niw9",
+  "head_sha": "f86313b16e481e1067fc5d0f27c854c397aadc74",
+  "base_sha": "4e6571bb14d879fc2006d362eb643427de4b59b5",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "5969f29e2b06fd2f0b0f861c718ac157d4c069f6"
+}

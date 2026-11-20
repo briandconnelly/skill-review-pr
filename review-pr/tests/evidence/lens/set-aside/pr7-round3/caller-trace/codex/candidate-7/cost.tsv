@@ -1,0 +1,4 @@
+snapshot	run	input_tokens	cached_tokens	output_tokens	cost_usd	turns	duration_ms	commands	skill_commands
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/caller-trace/codex/candidate-7	1	105811	93184	1577	NA	1	NA	9	0
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/caller-trace/codex/candidate-7	2	123025	115328	1160	NA	1	NA	9	0
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/caller-trace/codex/candidate-7	3	122309	109952	1187	NA	1	NA	10	0

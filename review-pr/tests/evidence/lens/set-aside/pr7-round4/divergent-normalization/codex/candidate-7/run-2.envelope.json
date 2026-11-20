@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nFailure-report matching should be fixed because it can silently omit requested failures from a rerun.\n\n## Changes\n\nThe pull request adds a selector for failed paths from runner reports, refactors the cached selector, and adds tests for all three selectors.\n\n## Critical\n\n(none)\n\n## Important\n\n- app/selection.py:20 — correctness — Normalize failure paths before matching — A report containing `./tests/test_x.py` returns an empty selection when the request contains `tests/test_x.py`. The failure selector checks the raw path against the request, while `select_explicit` normalizes it before matching. — A targeted rerun skips the failed test when the runner reports it with a `./` prefix. — Fix: Reuse `select_explicit` to match report paths while preserving their spelling, and extend `test_failure_report_selection`.\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.nU8gm4aPpN/review-pr.QwsSTu",
+  "head_sha": "23794ce95f9b29cd311042e47a8bc0d4b4937cf8",
+  "base_sha": "12c53c213a2e886dddb2d2fe4f11520037fafc27",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "1a9c35f4ba958b5280722610c8a972e2bb101f3b"
+}

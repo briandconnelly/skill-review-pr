@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix proof status before merging. An empty criteria list currently marks a requirement as proven.\n\n## Changes\n\nThe pull request replaces the requirement proof check with a comparison between the sum of proof values and the number of criteria. It adds a batch review helper and tests for both functions.\n\n## Critical\n\n- app/proof.py:3 — correctness — Require evidence before marking a requirement proven — `requirement_proven([])` returns `True` because both the sum and the length are zero. The previous check required a nonempty collection. — A requirement with no supporting evidence is reported as proven. — Fix: Restore the nonempty check and extend `test_requirement_with_evidence`.\n\n## Important\n\n- app/proof.py:2 — correctness — Preserve false results for missing proof values — `requirement_proven(None)` raises when the sum tries to iterate over it, and `requirement_proven([{\"proven\": None}])` raises when the sum tries to add `None`. The previous check returned `False` for both inputs. — A missing criteria collection or an unset proof flag now prevents the caller from receiving a proof status.\n- app/proof.py:3 — correctness — Preserve support for criteria iterators — A generator yielding `{\"proven\": True}` raises `TypeError` at `len(criteria)`. The previous `all(...)` check accepted the generator and returned `True`. — Callers that generate criteria lazily can no longer retrieve proof status.\n- app/proof.py:7 — correctness — Reject empty iterators in batch review — `reviewed_batch(iter([]))` returns `True` because the iterator passes the truthiness check and `all(...)` returns `True` when it yields nothing. — A lazily loaded batch with no entries is reported as fully reviewed.\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.mdaTj0iOdp/review-pr.wKGPFB",
+  "head_sha": "94b5722d358d66f1d1fe23a5b06d8607942d6b06",
+  "base_sha": "58972b891575bc27da6ce4fafad01e59697794cd",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "2c48de2d94a3b232f7a250499f7d0085293bd57c"
+}

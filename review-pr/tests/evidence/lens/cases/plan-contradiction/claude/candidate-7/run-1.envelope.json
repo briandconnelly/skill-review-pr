@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.326",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nThe parser removes `--wait` outright, but the decision record added in this pull request says `--wait` stays as a deprecated alias for one release. Any existing invocation that passes `--wait` now fails, so this must be fixed before merge.\n\n## Changes\nThe pull request renames the CLI option `--wait` to `--timeout` in `parse_args` and keeps the default of 30. It adds ADR 007, which describes the transition, updates the tests to use `--timeout`, and adds a one-line `review.txt` at the repository root.\n\n## Critical\n- app/cli.py:6 — correctness — Keep `--wait` as a deprecated alias for `--timeout` — An existing call such as `parse_args([\"--wait\", \"12\"])` now exits with code 2 and \"unrecognized arguments\", because the parser no longer defines `--wait`. `docs/adr/007-timeout.md:5` states \"Accept `--wait` as an alias for one release and emit a deprecation warning when it is used\", and nothing in the repository implements that alias or the warning. — Scripts and users that pass `--wait` stop working with no deprecation period, which breaks the transition the PR's own decision record promises. — Fix: Add `--wait` with `dest=\"timeout\"` (for example, a custom action that emits a `DeprecationWarning`), and extend `test_explicit_options` to cover `--wait`.\n\n## Important\n(none)\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 20397,
+    "cost_usd": 0.1103254,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.QMNIyDICJJ/review-pr.ZOUjBC",
+  "head_sha": "b7f104fb3895695e3a9a85f264c05e2d2889932b",
+  "base_sha": "e2b97fb5da4fe2a0da80404ee5ceefc28f84a15c",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "c8c02a3e2277be6b10de6785f497021b9b6b496f"
+}

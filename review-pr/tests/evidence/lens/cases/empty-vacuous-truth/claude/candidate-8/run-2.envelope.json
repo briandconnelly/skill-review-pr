@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.328",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nFix the empty-criteria regression before merge: `requirement_proven([])` now reports a requirement with no criteria as proven.\n\n## Changes\nThis pull request rewrites `requirement_proven` to compare a sum of `proven` flags against the criteria count. It also adds a `reviewed_batch` helper that rejects empty batches, a `REVIEW_HINT` string constant, and tests for both functions.\n\n## Critical\n- app/proof.py:2 — correctness — Restore the empty-criteria check in requirement_proven — With `criteria=[]`, `sum(...)` is 0 and `len(criteria)` is 0, so the function returns `True` where the base `bool(criteria) and all(...)` returned `False`. `tests/test_proof.py:6` never passes an empty list, so no test catches this. — A requirement with no criteria at all is reported as proven, so an unproven requirement can pass as satisfied. — Fix: Add `test_requirement_with_evidence` coverage for `[]`, and keep the `bool(criteria) and all(item[\"proven\"] for item in criteria)` form, which also keeps truthiness semantics for non-bool `proven` values.\n\n## Important\n(none)\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 15215,
+    "cost_usd": 0.057042999999999996,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.yWLRb6PGRj/review-pr.aPLCLa",
+  "head_sha": "3f9eb522d5984190b10280b6f613cd6504c602ba",
+  "base_sha": "01b6bef6b5d6cc2fadadd8e8cd19ceec77105b7e",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "c15413aac3265f6445adad4ae26441b97e4b2e67"
+}

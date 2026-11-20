@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.328",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nThe new `status` line shortens the revision differently from `history` and `completed`, which its own docstring says it should match. Fix this before merge so operators can match a running deployment to its history entry.\n\n## Changes\nAdds `status(revision, attempt)` and `attempt_label(attempt)` to `app/display.py`, which print a \"Running:\" line with the deployment's attempt number. It also adds two tests for them in `tests/test_display.py`.\n\n## Critical\n(none)\n\n## Important\n- app/display.py:14 — correctness — Shorten the revision to 12 characters, as `history` does — For `REVISION = \"0123456789abcdef...\"`, `status` prints `Running: 0123456 (attempt 2)` while `history` prints `History: 0123456789ab`, because line 14 uses `revision[:7]` and `history`/`completed` use `revision[:12]`. The docstring at line 13 says \"using the same identifier as history.\" — Operators can't match a running deployment's status line to its history or completion line by revision. — Fix: Use `revision[:12]`, and extend `test_running_status_contains_attempt` to compare the full string, since its `startswith`/`endswith` checks pass for any revision length.\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 18984,
+    "cost_usd": 0.0649692,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.w4rAug0BZu/review-pr.Dk5vY5",
+  "head_sha": "05eca559f7b64983b2a6dd00bcb6b3eac79c18ed",
+  "base_sha": "1e34bbe57510213ffeded1119f89717320bb6b8b",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "7f567d198df4e03063c305ba862e444a3d8544cc"
+}

@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.328",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nThe `preview` containment check needs fixing before merge because it compares paths without resolving them, so a request like `\"../secret.txt\"` reads files outside the home directory.\n\n## Changes\nThe pull request adds `preview` and `settings_file` helpers to `app/paths.py` and adds tests for them in `tests/test_paths.py`. It also adds a one-line text file, `tests/review-note.txt`.\n\n## Critical\n- app/paths.py:12 — correctness — Resolve paths before the home containment check — `preview(home, \"../secret.txt\")` passes the check and reads `home/../secret.txt`, which is outside home. `is_relative_to` only compares path segments without resolving them, so `Path(home) / \"../secret.txt\"` still starts with `home` and the `..` is never resolved; a symlink inside home is also followed. — Any caller that passes a user-chosen relative path can read any file the process can access, limited to its first 200 characters. — Fix: Call `.resolve()` on both `candidate` and `Path(home)` before `is_relative_to`, and add a `\"../outside.txt\"` case to `test_preview`.\n\n## Important\n(none)\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 18555,
+    "cost_usd": 0.074955,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.jCkDhjxP8Z/review-pr.Vqmlg1",
+  "head_sha": "ea7cfde42f447512bb08712471d65956c57d7d05",
+  "base_sha": "838dcbc12351670c6082e8213f54100f8ed8de2b",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "68fd55d747609f9be77b21f3ce16031dd28815d7"
+}

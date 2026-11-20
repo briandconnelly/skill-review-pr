@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix the criterion hint because following it produces a bullet that the validator rejects when `require_shall=True`.\n\n## Changes\n\nThe pull request rewrites the criterion guidance, shows the exact `- ` prefix, and adds a standalone review note. The validator and its tests are unchanged.\n\n## Critical\n\n(none)\n\n## Important\n\n- app/criteria.py:1 — correctness — Qualify the hint when `shall` is required — With `require_shall=True`, the validator rejects `- Save the result`, even though it follows the new instruction to write bullets “without the word shall.” The validator requires `\" shall \"` in that mode. — Authors who follow the hint in strict mode must rewrite their criteria before validation succeeds. — Fix: State when `shall` is required, or select the hint based on `require_shall`.\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.PhfQIkHJ7k/review-pr.8nnL1P",
+  "head_sha": "e8e8946b493f43db4f385d59b9d492bf00587385",
+  "base_sha": "fea8a47047be000da8714355b8108f87b64084a4",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "c808c60bf24e616c3955a2c197cc7654869dee88"
+}

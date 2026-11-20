@@ -1,0 +1,4 @@
+snapshot	run	input_tokens	cached_tokens	output_tokens	cost_usd	turns	duration_ms	commands	skill_commands
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/vacuous-assertion/claude/candidate-9	1	32863	25012	1600	0.0998	7	15411	NA	NA
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/vacuous-assertion/claude/candidate-9	2	33205	29911	1908	0.0705	7	18699	NA	NA
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/vacuous-assertion/claude/candidate-9	3	32893	29921	1823	0.0662	7	18418	NA	NA

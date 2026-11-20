@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix the `--exclude` default so CI jobs can omit matching files through `ARCHIVE_EXCLUDE`.\n\n## Changes\n\nThe pull request adds a repeatable `--exclude GLOB` flag that matches file basenames and logs skipped paths in verbose mode. It documents the flag and adds tests for parsing, file collection, and archive contents.\n\n## Critical\n\n(none)\n\n## Important\n\n- cli/main.py:17 — correctness — Read the exclude default from ARCHIVE_EXCLUDE — With `ARCHIVE_EXCLUDE='*.log'` set and `--exclude` omitted, the parser uses `[]`, so the archive includes `debug.log`. `.agents/skills/cli-flags/SKILL.md:11` requires that “Every command-line flag added under `cli/` from now on must also take its default from an `ARCHIVE_<NAME>` environment variable”. — CI jobs that configure exclusions through the environment include files they intended to omit.\n\n## Suggestions\n\n- tests/test_main.py:24 — tests — Test archive contents with no exclusions configured — With exclusions unset, the test would fail if the parser returned `None` and `main` converted it to zero patterns before collection. The assertion requires the specific list `[]`. — Maintainers would have to update the test for a parser refactor that preserves archive contents.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.s4u1alvxq1/review-pr.VbM7me",
+  "head_sha": "cbf78f82c77ac142c7c6aed6cdba3d5e4cebf954",
+  "base_sha": "b721a791c145ebfabee4b5516ebf0f1ed5c2cb2a",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "8b57949ef8b2677aa4d0af7d3819af2d228e4e1c"
+}

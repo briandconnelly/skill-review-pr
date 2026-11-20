@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.326",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nThe rewrite of `requirement_proven` must be fixed before merge: it now reports a requirement with no criteria as proven, reversing the base behavior, and no test covers that input.\n\n## Changes\nThe pull request rewrites `requirement_proven` in `app/proof.py` to compare a sum of `proven` values against the criteria count, and adds a `reviewed_batch` helper and a `REVIEW_HINT` constant. It also adds `tests/test_proof.py` with one test for each function.\n\n## Critical\n- app/proof.py:3 — correctness — Return False from requirement_proven for empty criteria — `requirement_proven([])` now returns True because `0 == len([])`. The base expression `bool(criteria) and all(...)` returned False for the same input. — A requirement with no criteria is reported as proven, and no added test would catch the reversal. — Fix: Restore the `bool(criteria) and` guard and extend `test_requirement_with_evidence` with the empty-list case.\n\n## Important\n(none)\n\n## Suggestions\n- app/proof.py:2 — correctness — Test truthiness of `proven` instead of summing it — `requirement_proven([{\"proven\": 2}, {\"proven\": 0}])` returns True because the values sum to the list length, and `[{\"proven\": None}]` raises `TypeError`. The base `all(...)` returned False for both. — Non-boolean `proven` values that the base handled by truthiness now produce a wrong True or a crash. — Fix: `all(item[\"proven\"] for item in criteria)`\n\n## Not reviewed\n(none)",
+    "duration_ms": 40569,
+    "cost_usd": 0.24056360000000002,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.ZSqQTC1trj/review-pr.GzOi98",
+  "head_sha": "b53b6d858e879f0a6bc889f7775d90e50e3d42fa",
+  "base_sha": "856a3531aaa10e28eb506b4aeff2193b83d10b20",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "bdc041e1c6718d63a37d22646bdc67aeb3f80098"
+}

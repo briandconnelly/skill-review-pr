@@ -1,0 +1,4 @@
+snapshot	run	input_tokens	cached_tokens	output_tokens	cost_usd	turns	duration_ms	commands	skill_commands
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/skill-reference-rule/codex/candidate-4	1	168852	136448	1261	NA	1	NA	12	2
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/skill-reference-rule/codex/candidate-4	2	171352	139008	2416	NA	1	NA	17	2
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/skill-reference-rule/codex/candidate-4	3	146742	109952	1896	NA	1	NA	14	2

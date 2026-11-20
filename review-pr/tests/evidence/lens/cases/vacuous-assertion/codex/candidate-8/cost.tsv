@@ -1,0 +1,4 @@
+snapshot	run	input_tokens	cached_tokens	output_tokens	cost_usd	turns	duration_ms	commands	skill_commands
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/vacuous-assertion/codex/candidate-8	1	102211	91136	1408	NA	1	NA	9	0
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/vacuous-assertion/codex/candidate-8	2	120581	107136	886	NA	1	NA	10	0
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/vacuous-assertion/codex/candidate-8	3	120840	113792	1212	NA	1	NA	8	0

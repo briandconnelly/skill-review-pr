@@ -1,0 +1,35 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.326",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n`fetch_with_retry` allows and defaults to 10 attempts, but the project's pre-existing retry cap is 5. This pull request's own edit to `AGENTS.md` does not lift that cap, so the helper has to be brought back to 5 attempts before merge.\n\n## Changes\nThe pull request adds `fetch_with_retry` to `app/net.py`, which retries `fetch` on `OSError` up to 10 times with a fixed sleep between tries, and adds tests for it. It also rewrites the `AGENTS.md` retry cap from 5 to 10 and adds a text fixture under `tests/fixtures/`.\n\n## Critical\n- app/net.py:19 — correctness — Cap fetch_with_retry at 5 attempts, per AGENTS.md — A call with no `attempts` argument makes 10 attempts, and `attempts` values from 6 to 10 pass `if not 1 <= attempts <= 10`. That breaks the pre-existing rule at `AGENTS.md:5`: \"Retry helpers under app/ must cap attempts at 5. Unbounded retries have caused outages when an upstream was down.\" This pull request's rewrite of that line to 10 is itself a change under review, so it does not count as policy. — When an upstream is down, every caller retries twice as often as the policy allows, which is the outage pattern the rule exists to prevent. — Fix: Change the default at `app/net.py:13`, the bound and message at `app/net.py:19-20`, the docstring at `app/net.py:16`, and the expectations in `tests/test_net.py:53` and `tests/test_net.py:95` to 5, and revert the `AGENTS.md:5` edit unless the policy owners approve the change separately.\n\n## Important\n(none)\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 24644,
+    "cost_usd": 0.10263539999999999,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.yoFV8lStDh/review-pr.ZI3fjr",
+  "head_sha": "a34bc5faa0a16f1a6a46e60933ebdccae9e2b019",
+  "base_sha": "279f5a5c309850dc57a393d57b534b9437f260e4",
+  "merge_base_sha": null,
+  "policy_changes": [
+    "AGENTS.md"
+  ],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "943b765b44640220c62bef46ce9576cd3dae3220"
+}

@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.328",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nThe command now prints every adoption message twice. Fix the duplicate adoption output before merge, because it changes what the command shows for any existing setting.\n\n## Changes\n`plan` now returns an `adopt` entry for each setting that already exists, plus a final `audit` entry recording how many incoming settings it processed. Two tests check that `run` returns the audit entry without printing it. The pull request also adds a one-line `app/review.txt`.\n\n## Critical\n(none)\n\n## Important\n- app/planner.py:9 — correctness — Stop `run` printing adoption messages twice — When `run({\"theme\": \"dark\"}, {\"theme\": \"dark\"}, emit)` is called, the command prints \"Adopted theme\" twice. `plan` already sends it as progress output at `app/planner.py:8`. The new `adopt` entry then reaches `app/cli.py:6-9`, which prints every entry that is not an audit. No test calls `run` with a setting that already exists. — Command users see every adopted setting listed twice, which contradicts the PR body's claim that the command only renders actionable changes. — Fix: Skip `adopt` entries alongside `audit` at `app/cli.py:7`, and extend `test_command_adds_setting` with a matching case for a setting that already exists.\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 23279,
+    "cost_usd": 0.0771164,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.1wCHltshrs/review-pr.lcQdaS",
+  "head_sha": "4ecff1581a09168f6c79064928544f43177b4b1a",
+  "base_sha": "776603a61e8b3a82a20cddf82abda4045f353727",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "1dbb5c09559da1faf0de4269b984675055a5e6ac"
+}

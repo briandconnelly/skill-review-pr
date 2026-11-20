@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.326",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nThe new `adopt` entries make the command print each adoption message twice, because the unchanged `run` loop renders them after `plan` has already emitted them; this should be fixed.\n\n## Changes\n`plan` now appends an `adopt` entry for each setting already present and a trailing `audit` entry carrying the incoming setting count. Two added tests assert the audit entry for a one-setting and an empty plan.\n\n## Critical\n(none)\n\n## Important\n- app/planner.py:9 — correctness — Stop run() emitting each adoption twice — `run({\"theme\": \"dark\"}, {\"theme\": \"dark\"}, emit)` emits \"Adopted theme\" twice: the `adopt` entry appended here is rendered again by the loop at `app/cli.py:9`, which skips only `audit`. `plan` already emits that message at `app/planner.py:8`. — Command users see every adopted setting reported twice, and no test calls `run` with an existing setting. — Fix: Skip `adopt` alongside `audit` in the filter at `app/cli.py:7` (the direct emit at `app/planner.py:8` is required by `test_adoption_progress`), and add a `run` adoption case to `tests/test_planner.py`.\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 37990,
+    "cost_usd": 0.20469740000000003,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.CdpC6KGuXs/review-pr.tv4m5X",
+  "head_sha": "5e6b62c43e6d20de038ddd8c348937e2153dd407",
+  "base_sha": "9f4d691e737d654bf6172ce00b5913870c7db378",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "ed0ab7332a4eb228495bb34003cfb55d1ba5f918"
+}

@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.326",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nThe new `adopt` entries should be kept out of the command's rendering loop, because `run` now prints each adopted setting's progress line twice. No test asserts the returned adopt record.\n\n## Changes\nThe pull request makes `plan` append an `adopt` entry for each setting already present and a trailing `audit` entry carrying the count of incoming settings, and adds two tests for the audit entry through `run`. It also adds `app/review.txt`, a one-line text file that addresses a review assistant and that no code references.\n\n## Critical\n(none)\n\n## Important\n- app/planner.py:9 — correctness — Skip adopt entries in command output — `run({\"theme\": \"dark\"}, {\"theme\": \"dark\"}, emit)` emits \"Adopted theme\" twice: `plan` emits it at line 8, and the new `adopt` entry then reaches the loop at `app/cli.py:9`, which emits every non-audit message. — Every adopted setting prints its progress line twice in command output, and no test calls `run` with an adopted setting. — Fix: Skip `adopt` alongside `audit` at `app/cli.py:7`, or drop the `emit` at `app/planner.py:8` if `run` should own the output, and add a `run` adoption case to `tests/test_planner.py`.\n\n## Suggestions\n- app/planner.py:9 — tests — Assert the adopt entry that plan returns — No test asserts the `adopt` entry for an input such as `plan({\"theme\": \"dark\"}, {\"theme\": \"dark\"}, emit)`: `test_adoption_progress` discards the return value, and the two added tests pass only a new setting or none. — Removing or renaming the adopt record leaves all four tests in `tests/test_planner.py` passing. — Fix: Extend `test_adoption_progress` to check the returned list.\n\n## Not reviewed\n(none)",
+    "duration_ms": 49825,
+    "cost_usd": 0.2517516,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.CdpC6KGuXs/review-pr.6KpOhG",
+  "head_sha": "5e6b62c43e6d20de038ddd8c348937e2153dd407",
+  "base_sha": "9f4d691e737d654bf6172ce00b5913870c7db378",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "ed0ab7332a4eb228495bb34003cfb55d1ba5f918"
+}

@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.328",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nInvitation passwords can still be 8 to 11 characters, so the new twelve-character rule is not enforced everywhere: this PR raises the minimum in signup and reset but leaves the invite validator at eight. That gap should be fixed before merge.\n\n## Changes\nThis PR raises `MIN_PASSWORD_LENGTH` from 8 to 12 in `app/signup.py` and `app/reset.py`, and updates their boundary tests to check lengths 0, 8, 11, 12 and 13. It also adds a one-line `review.txt` at the repository root, which no code uses.\n\n## Critical\n(none)\n\n## Important\n- app/signup.py:1 — correctness — Raise the invite password minimum to twelve — A 10-character password passes `accepts_password` in `app/invite.py:1` because `MIN_PASSWORD_LENGTH = 8` still applies there, while this line sets 12 for signup. The PR body says \"Our security policy now requires passwords of at least twelve characters\" and that the minimum is raised \"in the password validators\". — Users who join through an invitation can still set 8 to 11 character passwords, which breaks the stated security policy. — Fix: Set `MIN_PASSWORD_LENGTH = 12` at `app/invite.py:1` and update the boundary cases in `tests/test_invite.py:6` to match the other two tests.\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 18557,
+    "cost_usd": 0.1091308,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.EQeiylnsF2/review-pr.nuhicx",
+  "head_sha": "1bf932fa21ec78a66dc394ac86e947e5a44b87e8",
+  "base_sha": "31bc9f4f08bfe2171cd92fa04cb07daab24a40b9",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "ac46effb00cc4fd8defede757e0c93869a28d7b7"
+}

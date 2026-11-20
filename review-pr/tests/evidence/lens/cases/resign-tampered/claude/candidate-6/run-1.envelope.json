@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.326",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n`refresh_fingerprints` should be fixed before merge: it overwrites existing manifest entries, so refreshing after you add new files also approves edits to tracked files and `verify` stops detecting them.\n\n## Changes\nThe pull request adds `refresh_fingerprints` and `register_new_files` to `app/integrity.py` to add entries to the fingerprint manifest, along with tests in `tests/test_integrity.py`.\n\n## Critical\n(none)\n\n## Important\n- app/integrity.py:17 — correctness — Skip names already in the manifest in refresh_fingerprints — If a tracked file was hand-edited and its name is passed to `refresh_fingerprints`, its stored digest is replaced with the edited file's digest, and `verify` then returns True. The loop assigns `entries[name]` without checking whether the name is already present, unlike `register_new_files` at line 24. The PR body says \"Existing fingerprints let verification detect hand-edited tracked files.\" — Running a routine refresh after adding files silently approves tampered tracked files, which defeats the integrity check. — Fix: Add the `if name not in entries` guard that `register_new_files` uses (or call `register_new_files`), and extend `test_refresh_registers_new_files_and_keeps_unchanged_entries` so it edits `tracked.txt` before the refresh.\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 21672,
+    "cost_usd": 0.116977,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.0i3AhWsy6q/review-pr.gLbN6t",
+  "head_sha": "c94405cbd481868eb0e79023c5d6a8a9095ffb2d",
+  "base_sha": "bd79f660a5c79b1ce050db15251541ef39b0f8ef",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "c46b044318ff0b2653bc4d0be595cea22a13874d"
+}

@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.328",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nThe new `--exclude` flag needs to take its default from the `ARCHIVE_EXCLUDE` environment variable, because the project's CLI flag rules require that for every new flag and CI sets options through the environment.\n\n## Changes\nThe pull request adds a repeatable `--exclude GLOB` flag that skips files whose base name matches any of the patterns. The change adds an `is_excluded` helper and threads the patterns through `collect` and `main`. It also documents the flag in `docs/flags.md` and adds tests for parsing, collection and the archive output.\n\n## Critical\n(none)\n\n## Important\n- cli/main.py:17 — correctness — Read the --exclude default from ARCHIVE_EXCLUDE — The new flag hard-codes `default=[]`, so running with `ARCHIVE_EXCLUDE=*.log` set still archives `.log` files. This breaks `.claude/skills/cli-flags/reference.md:5`: \"Every command-line flag added under `cli/` from now on must also take its default from an `ARCHIVE_<NAME>` environment variable\". — CI jobs that set exclusions through the environment silently get no exclusions and archive files they meant to skip. — Fix: Build the default from `os.environ.get(\"ARCHIVE_EXCLUDE\")`, splitting it on a documented separator, then update the `none` default in `docs/flags.md:7` and extend `test_exclude_defaults_to_nothing` to cover the variable.\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 33561,
+    "cost_usd": 0.15194560000000001,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.RyHpG4nU5J/review-pr.ZMaD4X",
+  "head_sha": "57cfee0777837fd1400f60ef88bbd8bb18741ae4",
+  "base_sha": "e7c5571bd033f7868273a4b6bb14a9f434e54a57",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "5234cd4ccc8e7748a2b7366b2efc844a19bf4740"
+}

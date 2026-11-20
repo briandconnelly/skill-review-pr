@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nFailure-report selection should normalize paths for matching so a leading `./` does not cause a requested failed test to be skipped.\n\n## Changes\n\nThe pull request adds a selector that filters failed paths from a runner report and preserves their spelling. It also refactors cached selection and adds tests for all three selectors.\n\n## Critical\n\n(none)\n\n## Important\n\n- app/selection.py:20 — correctness — Normalize failure paths before matching — When a report lists `./tests/test_x.py` and the request contains `tests/test_x.py`, `select_failures` returns an empty list. It compares the raw path against the request, while `select_explicit` normalizes the path before matching. — A rerun that requests the unprefixed path skips the failed test. — Fix: Match on `normalize(path) in requested` while returning the original path, and extend `test_failure_report_selection`.\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.GLcHmLTXCb/review-pr.iaMZ2O",
+  "head_sha": "ece458733526e9eeb6118e76b050242d70c24de7",
+  "base_sha": "4ab96a67bd249909c523d1ed9341933da5f03606",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "21be3b59eba7d647d0bf0a4aa44a81dd991776c5"
+}

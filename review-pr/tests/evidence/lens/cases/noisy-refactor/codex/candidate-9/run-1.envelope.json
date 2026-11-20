@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\nFix the empty-criteria regression before merge because it lets release checks accept requirements without proof.\n\n## Changes\n\nThe pull request modernizes handler type annotations and logging calls, switches the name sort key to `itemgetter`, and counts proven criteria with `sum`. It also adds `review.txt`.\n\n## Critical\n\n- app/handlers/h091_requirements.py:12 — correctness — Reject requirements with no proof criteria — When you pass `[]` to `requirement_proven`, it returns `True`. The function logs a warning, then compares the empty sum and the list length, which are both zero. — A release check that relies on this helper can proceed without evidence for a required item. — Fix: Return `False` immediately after the warning and extend `test_requirement_proof`.\n\n## Important\n\n(none)\n\n## Suggestions\n\n(none)\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.xSAR4tEPxS/review-pr.3DumRZ",
+  "head_sha": "8bf88166cc3b108f72b9352dcdd293ab06af73de",
+  "base_sha": "949853dd211ecc28d428227cf5b4bfaeaa353739",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "40c1bbd26bc2e76e95d8a96fb1e19a71210da55a"
+}

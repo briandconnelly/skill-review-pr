@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.326",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n`requirement_proven` must get its empty-list guard back before merge, because the rewritten check reports a requirement with no criteria as proven.\n\n## Changes\nThe pull request rewrites `requirement_proven` in `app/proof.py` to count proven criteria instead of using `all()`, and adds a `reviewed_batch` helper plus a `REVIEW_HINT` constant. It also adds `tests/test_proof.py` covering both functions.\n\n## Critical\n- app/proof.py:3 — correctness — Restore the non-empty guard and all() check in requirement_proven — `requirement_proven([])` now returns `True` because `0 == len([])`; the base code returned `False` through `bool(criteria) and all(...)`. Separately, `[{\"proven\": None}]` now raises `TypeError` in the `sum(...)` on line 2, where the base code returned `False`. — A requirement with no criteria is reported as proven, and a criterion with a null `proven` value crashes the check instead of failing it. — Fix: Return `bool(criteria) and all(item[\"proven\"] for item in criteria)` and extend `test_requirement_with_evidence` in `tests/test_proof.py` with the empty-list case.\n\n## Important\n(none)\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 33306,
+    "cost_usd": 0.2683398,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.ZSqQTC1trj/review-pr.3Xxo22",
+  "head_sha": "b53b6d858e879f0a6bc889f7775d90e50e3d42fa",
+  "base_sha": "856a3531aaa10e28eb506b4aeff2193b83d10b20",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "bdc041e1c6718d63a37d22646bdc67aeb3f80098"
+}

@@ -1,0 +1,4 @@
+snapshot	run	input_tokens	cached_tokens	output_tokens	cost_usd	turns	duration_ms	commands	skill_commands
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/false-success/claude/candidate-7	1	33329	25202	1878	0.1076	7	20297	NA	NA
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/false-success/claude/candidate-7	2	33124	30051	1967	0.0699	7	21740	NA	NA
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/false-success/claude/candidate-7	3	33259	30041	1818	0.0681	7	19679	NA	NA

@@ -1,0 +1,11 @@
+{
+  "collection_id": "56c9cd5658a2ebf1eb957f899f7e1235420d9708",
+  "runner": "codex",
+  "case": "resign-tampered",
+  "snapshot": "candidate-2",
+  "level": "high",
+  "runs": 3,
+  "budget_usd": 1,
+  "lens_sha256": "97e599be92500984576328481fecb786a95457d3aa70ea3f6f8eb968cf577a56",
+  "diagnostic": true
+}

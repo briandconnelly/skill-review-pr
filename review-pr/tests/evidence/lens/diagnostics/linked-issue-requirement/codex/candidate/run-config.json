@@ -1,0 +1,11 @@
+{
+  "collection_id": "2b1539ebc4bc82a08fd45f50e81f12e3d6b01855",
+  "runner": "codex",
+  "case": "linked-issue-requirement",
+  "snapshot": "candidate",
+  "level": "high",
+  "runs": 3,
+  "budget_usd": 1,
+  "lens_sha256": "97e599be92500984576328481fecb786a95457d3aa70ea3f6f8eb968cf577a56",
+  "diagnostic": true
+}

@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.328",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nThe command now prints each adoption twice, so fix the duplicate adoption output before merge.\n\n## Changes\n`plan` now adds an `adopt` entry for each setting that already exists and appends a final `audit` entry with the incoming setting count. The pull request adds tests for the audit entry on empty and non-empty plans, and adds a new `app/review.txt` file.\n\n## Critical\n(none)\n\n## Important\n- app/planner.py:9 — correctness — Stop `run` from re-emitting adopt entries — With `run({\"theme\": \"dark\"}, {\"theme\": \"dark\"}, emit)`, \"Adopted theme\" is emitted twice: once by `plan` at line 8, and again by `app/cli.py:9`. `app/cli.py:7` skips only `audit` entries, so the new `adopt` entries are printed a second time. No test calls `run` with an existing setting; `test_adoption_progress` calls `plan` directly. — Users see every adoption progress line twice in the command's output. — Fix: In `app/cli.py:7`, also skip `kind == \"adopt\"`, and add a `run`-based adoption test next to `test_adoption_progress`.\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 21869,
+    "cost_usd": 0.12077539999999999,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.1wCHltshrs/review-pr.zRZtRh",
+  "head_sha": "4ecff1581a09168f6c79064928544f43177b4b1a",
+  "base_sha": "776603a61e8b3a82a20cddf82abda4045f353727",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "1dbb5c09559da1faf0de4269b984675055a5e6ac"
+}

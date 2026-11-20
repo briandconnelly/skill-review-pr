@@ -1,0 +1,11 @@
+{
+  "collection_id": "e065f0d17438a1f9ac7974ceeee5a8e55223abc6",
+  "runner": "claude",
+  "case": "caller-trace",
+  "snapshot": "candidate-9",
+  "level": "high",
+  "runs": 3,
+  "budget_usd": 1,
+  "lens_sha256": "7b310ada2dbe4d4b3f8a566cf4786b78bffd5b2a9ab3e5d5e3aa0dcb22b7e5d1",
+  "diagnostic": false
+}

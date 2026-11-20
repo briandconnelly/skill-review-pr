@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix the meaning of `finished_at` before merge. The model reports a finish time for a process whose only event is a start.\n\n## Changes\n\nThe current-state model adds `finished_at` from the latest event when that event is `started`, while retaining one row per process. The schema catalog documents the new column.\n\n## Critical\n\n- models/processes.sql:10 — correctness — Align `finished_at` with the event it reports — Process 20 gets a finish timestamp even though its only event is `started`. The expression returns that event’s `occurred_at`, while `models/schema.yml:11` describes the value as the time the process finished. — Consumers can classify a process that has only started as complete when they use `finished_at` as a completion signal.\n\n## Important\n\n- models/schema.yml:17 — comments — Correct the meaning of a null timestamp — Process 30 returns `NULL` after a `cleared` event follows its start, contradicting “NULL means the process has never been started.” The model keeps only `recency = 1` and sets the timestamp only when `event_type = 'started'`. — Consumers can mistake a previously started process for one that never started after a clear.\n\n## Suggestions\n\n- models/schema.yml:12 — comments — Qualify the UTC guarantee — A latest `started` event with `occurred_at` set to `2026-01-01T01:00:00+01:00` keeps that offset despite “Stored in UTC.” The source accepts the timestamp as text, and the model returns `then occurred_at` unchanged. — Consumers relying on the catalog’s UTC guarantee can receive timestamps with a nonzero offset.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.jNXs3irnDo/review-pr.6CF8Sk",
+  "head_sha": "6b6e8f09bb2b55bd61d8be15412cecec66663e84",
+  "base_sha": "ab5b94f8b8362c0c4b15e2f4f3873b45c9baea94",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "876600037ba8801fbc7d18c1b82d1153d1cb45fd"
+}

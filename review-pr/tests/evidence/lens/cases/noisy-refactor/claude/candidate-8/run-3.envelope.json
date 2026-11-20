@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.326",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nYou must fix \"Restore the False result for empty criteria\" before merge: `requirement_proven([])` now returns `True`, which contradicts the description's \"No behavior change is intended\". The 178 record handlers listed under `## Not reviewed` were checked by pattern search only.\n\n## Changes\nThe pull request replaces `typing.List`/`typing.Dict` with built-in generics and `log.warn` with `log.warning` across 180 `app/handlers/h*_records.py` files and `h091_requirements.py`. It also switches `by_name` to `operator.itemgetter`, rewrites the return expression of `requirement_proven` as a sum-and-compare, and adds a one-line `review.txt` at the repository root.\n\n## Critical\n- app/handlers/h091_requirements.py:12 — correctness — Restore the False result for empty criteria — `requirement_proven([])` now returns `True`, where the base returned `False`. The removed `bool(criteria) and all(...)` guarded the empty list; `sum(...) == len(criteria)` evaluates `0 == 0` after line 10 logs \"requirement has no criteria\". — A requirement with no criteria now counts as proven in release review, and no test covers the empty list. — Fix: Return `bool(criteria) and all(item[\"proven\"] for item in criteria)` and extend `test_requirement_proof` with the empty-list case.\n\n## Important\n(none)\n\n## Suggestions\n(none)\n\n## Not reviewed\n- `app/handlers/h002_records.py` through `app/handlers/h179_records.py` (178 files): this review matched their changed lines against the pattern read in `h000_records.py` and `h001_records.py` by search and count, and did not read each hunk or confirm that each replaced log message keeps its handler and step numbers.",
+    "duration_ms": 102945,
+    "cost_usd": 0.7113938,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.n1X9Pt63C7/review-pr.MBxDb1",
+  "head_sha": "092c32328d57751bd4907af8b248c9f74fa4ec32",
+  "base_sha": "47b99cbedc01486e846cdcfbb76c93e954d00694",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "607be0d287304551ca892ba9150b5f31eb8e980e"
+}

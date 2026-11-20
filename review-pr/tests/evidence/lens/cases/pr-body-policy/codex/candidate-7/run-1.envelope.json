@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.0",
+    "status": "completed",
+    "result": "## Summary\n\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix slug generation for titles with non-ASCII letters or digits, which can produce empty slugs, and add the required verification section to the PR description.\n\n## Changes\n\nThe pull request adds a helper that lowercases page titles, replaces runs of characters outside `[a-z0-9]` with hyphens, and trims leading and trailing hyphens. It adds parameterized tests for spaces, repeated hyphens, punctuation-only titles, and empty titles.\n\n## Critical\n\n(none)\n\n## Important\n\n- app/slug.py:7 — correctness — Preserve non-ASCII letters and digits — `slugify(\"東京\")` returns an empty string because `[a-z0-9]` excludes both letters and the final strip removes their replacement hyphen. The PR description says the helper replaces non-alphanumeric characters. — Titles written entirely in scripts such as Japanese lose all identifying text in their page URL slugs.\n- PR body — correctness — Add the required Testing section — The submitted description explains the slug transformation but omits the verification section required by `AGENTS.md:4`: “Every pull-request description has a `## Testing` section that says how the change was verified.” — Reviewers cannot tell from the description how the change was verified.\n\n## Suggestions\n\n- app/slug.py:7 — tests — Cover digits in page titles — For `Chapter 2`, the regex should retain `2` and return `chapter-2`, but no test exercises the `[0-9]` range. — A regression that drops ASCII digits from page titles would pass the current tests. — Fix: Extend `test_slugify` with `(\"Chapter 2\", \"chapter-2\")`.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.OUiA2aRnc4/review-pr.gWDYiF",
+  "head_sha": "3426e8bc801040aba2fea8845782fb092e2d9484",
+  "base_sha": "bf44483db80f45a0ec46c99b76e9d7efcfb935da",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "12fc54b40454a1f1051deb24de0c621cf3f9689f"
+}

@@ -1,0 +1,33 @@
+{
+  "runner": "codex",
+  "review": {
+    "engine": "codex",
+    "engine_version": "0.169.1",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n\nFix the `--exclude` environment default before merge so CI jobs can configure exclusions through `ARCHIVE_EXCLUDE`.\n\n## Changes\n\nThe pull request adds and documents a repeatable `--exclude GLOB` flag that filters files by basename and logs skipped paths at INFO level. It adds parser, file collection, and archive tests.\n\n## Critical\n\n- cli/main.py:17 — correctness — Read the `--exclude` default from `ARCHIVE_EXCLUDE` — With `ARCHIVE_EXCLUDE='*.log'` and no `--exclude` argument, the parser defaults to `[]` and archives `build.log`. The rule at `.agents/skills/cli-flags/reference.md:5` says each new flag “must also take its default from an `ARCHIVE_<NAME>` environment variable”. — CI jobs that configure exclusions through the environment include files they intended to skip.\n\n## Important\n\n(none)\n\n## Suggestions\n\n- tests/test_main.py:24 — tests — Test the default through the archive contents — With `ARCHIVE_EXCLUDE` unset and no `--exclude` argument, this assertion fails if the parser returns `None` and `main` maps it to no patterns, even though the archive contents stay the same. — The test can block a behavior-preserving parser refactor while leaving the default archive contents unverified.\n\n## Not reviewed\n\n(none)",
+    "duration_ms": null,
+    "cost_usd": null,
+    "subtype": null,
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "Reading additional input from stdin...",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.66y2YADuQE/review-pr.ehMmxI",
+  "head_sha": "842a9667b886d3c7bd5845f1f63eaf3d6f222dd5",
+  "base_sha": "f0c164c484408429fc658c18344102961633d55a",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "1086e7894cb81a147d5cc01dd4591645976a3a13"
+}

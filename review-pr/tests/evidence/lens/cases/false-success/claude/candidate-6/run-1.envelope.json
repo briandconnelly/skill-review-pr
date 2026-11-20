@@ -1,0 +1,33 @@
+{
+  "runner": "claude",
+  "review": {
+    "engine": "claude",
+    "engine_version": "2.1.326",
+    "status": "completed",
+    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\n`save_report` must stop reporting success when the report write fails: it discards the write error, prints the saved message and returns 0. The added test for that path asserts nothing, so it does not catch this.\n\n## Changes\nThe pull request adds `save_report`, which writes the rendered report to a path and prints its destination, and `cleanup_report`, which removes a temporary report and tolerates an absent file. It also adds an unused `REVIEW_NOTE` constant in `app/reports.py` and a new `tests/test_reports.py` with four tests.\n\n## Critical\n- app/reports.py:8 — silent-failure — Stop reporting success when the report write fails — For a path whose parent directory does not exist, such as `tmp_path / \"missing\" / \"report.txt\"`, `save_report` prints `Report saved to …` and returns 0 although no file was written. `except OSError: pass` discards every write error, including permission denied and disk full, and lines 10-11 run unconditionally. — Users and calling scripts get a success message and a 0 return value for a report that does not exist. — Fix: Either let the `OSError` propagate, or print the error with the path to stderr and return a nonzero status; in both cases print the saved message only after the write succeeds.\n\n## Important\n- tests/test_reports.py:14 — tests — Assert the failure outcome in test_save_with_unavailable_destination — With the missing-parent path, the test calls `save_report` and asserts nothing, so it passes while the function prints `Report saved to …` and returns 0 with no file written. It fails only if the call raises. — The failed-write path has no regression protection, and the test breaks if the fix lets the error propagate.\n\n## Suggestions\n(none)\n\n## Not reviewed\n(none)",
+    "duration_ms": 44113,
+    "cost_usd": 0.311056,
+    "subtype": "success",
+    "errors": [],
+    "denials": []
+  },
+  "stderr_tail": "",
+  "exit": 0,
+  "kept": true,
+  "dir": "/var/folders/4_/s6fbcjyn4b13xdxkd3lv0kw00000gn/T/tmp.PqCZmEHkKI/review-pr.0mgBAl",
+  "head_sha": "0f868f3f56bf80c954282a24298c3dfb7fcedeb3",
+  "base_sha": "ab0565d61566f7e1d426fd1094e744869d767e61",
+  "merge_base_sha": null,
+  "policy_changes": [],
+  "pr_state": null,
+  "pr_is_draft": null,
+  "pr_merged_at": null,
+  "pr_author": null,
+  "pr_author_is_bot": null,
+  "pr_base_ref": null,
+  "pr_base_is_default": null,
+  "schema_valid": true,
+  "schema_errors": [],
+  "diff_unavailable": false,
+  "collection_id": "aa3ad85c2ec2ce499202e80b8af014868dbc116e"
+}

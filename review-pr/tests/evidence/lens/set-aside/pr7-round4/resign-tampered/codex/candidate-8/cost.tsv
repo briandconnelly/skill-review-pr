@@ -1,0 +1,4 @@
+snapshot	run	input_tokens	cached_tokens	output_tokens	cost_usd	turns	duration_ms	commands	skill_commands
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/resign-tampered/codex/candidate-8	1	104027	91904	1968	NA	1	NA	9	0
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/resign-tampered/codex/candidate-8	2	123125	100224	1206	NA	1	NA	9	0
+/Users/bdc/projects/skill-review-pr/review-pr/tests/evidence/lens/cases/resign-tampered/codex/candidate-8	3	122937	115072	2275	NA	1	NA	9	0
