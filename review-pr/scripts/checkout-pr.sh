@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # checkout-pr.sh OWNER/REPO N
-# Implements RC4, RC12 and RC13 in references/runner-contract.md.
+# Implements RC4, RC12, RC13, RC15 and RC16 in references/runner-contract.md.
 set -euo pipefail
 HERE="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd -P)"
 # shellcheck disable=SC1091
@@ -14,6 +14,8 @@ RUNNER="${REVIEW_PR_RUNNER:-claude}"
 load_adapter "$RUNNER"
 MAX_POLICY_FILES="${REVIEW_PR_MAX_POLICY_FILES:-40}"
 [[ "$MAX_POLICY_FILES" =~ ^[0-9]+$ ]] || die 2 "REVIEW_PR_MAX_POLICY_FILES must be a non-negative integer, got '$MAX_POLICY_FILES'"
+MAX_ISSUES="${REVIEW_PR_MAX_ISSUES:-10}"
+[[ "$MAX_ISSUES" =~ ^[0-9]+$ ]] || die 2 "REVIEW_PR_MAX_ISSUES must be a non-negative integer, got '$MAX_ISSUES'"
 MAX_SKILL_INDEX="${REVIEW_PR_MAX_SKILL_INDEX:-200}"
 [[ "$MAX_SKILL_INDEX" =~ ^[0-9]+$ ]] || die 2 "REVIEW_PR_MAX_SKILL_INDEX must be a non-negative integer, got '$MAX_SKILL_INDEX'"
 
@@ -26,7 +28,7 @@ semver_at_least "${GIT_VERSION:-0}" 2.41 || die 3 "git 2.41 or newer is required
 REPO="github.com/$SLUG"
 gh auth status --hostname github.com >/dev/null 2>&1 || die 3 "gh is not authenticated to github.com (run: gh auth login)"
 
-META="$(gh pr view "$N" -R "$REPO" --json number,title,body,baseRefName,baseRefOid,headRefOid,headRepository,headRefName,isCrossRepository,url,state,isDraft,mergedAt,author 2>&1)" \
+META="$(gh pr view "$N" -R "$REPO" --json number,title,body,baseRefName,baseRefOid,headRefOid,headRepository,headRefName,isCrossRepository,url,state,isDraft,mergedAt,author,closingIssuesReferences 2>&1)" \
   || die 1 "gh pr view failed: $META"
 BASE_SHA="$(jq -r .baseRefOid <<<"$META")"
 HEAD_SHA="$(jq -r .headRefOid <<<"$META")"
@@ -68,7 +70,10 @@ g branch -q -f "pr-$N-base" "$BASE_SHA" || die 1 "git branch pr-$N-base failed"
 # The child reads this pinned diff as data and receives no capability to modify it.
 pinned_diff "$CLONE" "$BASE_SHA" "$HEAD_SHA" > "$JOB/pr.diff" \
   || die 1 "git diff failed for pinned base/head"
+# An empty diff leaves nothing to review; stopping here spends no runner budget on it.
+[ -s "$JOB/pr.diff" ] || die 1 "the pinned diff from merge base $MERGE_BASE_SHA to $HEAD_SHA is empty; nothing to review"
 printf '%s\n' "$META" > "$JOB/pr.json"
+write_linked_issues "$JOB/pr.json" "$JOB/issues.json" "$MAX_ISSUES"
 NOW_HEAD="$(gh pr view "$N" -R "$REPO" --json headRefOid -q .headRefOid 2>&1)" \
   || die 1 "gh pr view failed: $NOW_HEAD"
 [ "$NOW_HEAD" = "$HEAD_SHA" ] || die 1 "PR head changed during checkout ($HEAD_SHA -> $NOW_HEAD); re-run"
@@ -81,7 +86,7 @@ write_policy_manifest "$CLONE" "$BASE_SHA" "$JOB/policy-manifest.json"
 # Status is as observed at checkout. Booleans are copied with has(), since jq's // would turn false into null.
 # The metadata comes from pr.json on disk, never from argv: a PR body can exceed a single argument's size limit.
 jq -n --arg dir "$JOB" --arg runner "$RUNNER" --arg base "$BASE_SHA" --arg head "$HEAD_SHA" --arg mb "$MERGE_BASE_SHA" --arg hr "$HEAD_REPO" --arg default_ref "$DEFAULT_REF" \
-  --arg diff "$JOB/pr.diff" --arg meta "$JOB/pr.json" --arg context "$JOB/policy-manifest.json" \
+  --arg diff "$JOB/pr.diff" --arg meta "$JOB/pr.json" --arg context "$JOB/policy-manifest.json" --arg issues "$JOB/issues.json" \
   --slurpfile changes_doc "$JOB/policy-changes.json" --slurpfile meta_doc "$JOB/pr.json" \
   '$meta_doc[0] as $pr |
    {dir:$dir, runner:$runner, base_sha:$base, head_sha:$head, merge_base_sha:$mb, head_repo:$hr, policy_changes:$changes_doc[0],
@@ -89,4 +94,4 @@ jq -n --arg dir "$JOB" --arg runner "$RUNNER" --arg base "$BASE_SHA" --arg head 
     pr_author:($pr.author.login // null), pr_author_is_bot:(if (($pr.author | type) == "object" and ($pr.author | has("is_bot"))) then $pr.author.is_bot else null end),
     pr_base_ref:(($pr.baseRefName // "") | if . == "" then null else . end),
     pr_base_is_default:(if (($pr.baseRefName // "") == "" or $default_ref == "") then null else $pr.baseRefName == $default_ref end),
-    diff_path:$diff, meta_path:$meta, policy_manifest_path:$context}'
+    diff_path:$diff, meta_path:$meta, policy_manifest_path:$context, issues_path:$issues}'

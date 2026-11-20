@@ -15,7 +15,7 @@ adapter_check() {
 }
 
 adapter_is_policy_path() {
-  [[ "$1" =~ (^|/)(AGENTS\.md|AGENTS\.override\.md)$|^\.codex/|^\.agents/ ]]
+  [[ "$1" =~ (^|/)(AGENTS\.md|AGENTS\.override\.md)$|^\.codex/|^\.agents/ ]] || is_standards_path "$1"
 }
 
 adapter_context_paths() {
@@ -23,6 +23,7 @@ adapter_context_paths() {
   while IFS= read -r -d '' p; do paths+=("$p"); done < <(restored_policy_paths "$1" "$2")
   [ "${#paths[@]}" -gt 0 ] || return 0
   for p in "${paths[@]}"; do
+    if is_standards_path "$p"; then printf '%s\0' "$p"; continue; fi
     case "$p" in
       .agents/skills/*/SKILL.md) printf '%s\0' "$p" ;;
       AGENTS.override.md|*/AGENTS.override.md) printf '%s\0' "$p" ;;

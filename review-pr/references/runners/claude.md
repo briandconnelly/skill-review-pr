@@ -11,9 +11,9 @@ The generic security and result requirements have their only normative definitio
 
 ## Policy isolation
 
-- CA3: `CLAUDE.md`, `CLAUDE.local.md`, `AGENTS.md`, `.claude/`, and `.mcp.json` are reviewer-policy paths restored from the base commit.
+- CA3: `CLAUDE.md`, `CLAUDE.local.md`, `AGENTS.md`, `.claude/`, `.mcp.json`, and RC14's standards documents are reviewer-policy paths restored from the base commit.
 - CA4: `.claude/settings.json`, `.claude/settings.local.json`, and `.mcp.json` are removed after restoration because they can register hooks, permissions, or MCP servers.
-- CA5: `CLAUDE.md`, `CLAUDE.local.md`, `AGENTS.md`, Claude skill instructions, and Claude agent definitions are the adapter's passive-context selection, listed in the policy manifest per RC8; skill bodies under `.claude/skills/` are its skill index.
+- CA5: `CLAUDE.md`, `CLAUDE.local.md`, `AGENTS.md`, RC14's standards documents, Claude skill instructions, and Claude agent definitions are the adapter's passive-context selection, listed in the policy manifest per RC8; skill bodies under `.claude/skills/` are its skill index.
 
 ## Child controls
 

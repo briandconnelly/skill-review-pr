@@ -36,6 +36,8 @@ END {
   if (n>=1 && body["Summary"] ~ /^[[:space:]]*$/) err("Summary is empty")
   sl=split(body["Summary"], summary_lines, "\n"); first_summary=""; coverage_count=0; summary_prose=0
   for (i=1;i<=sl;i++) {
+    # Trailing blanks are a markdown line break some runners emit, not a different line.
+    sub(/[ \t]+$/, "", summary_lines[i])
     if (summary_lines[i]==coverage) coverage_count++
     if (first_summary=="" && summary_lines[i] !~ /^[[:space:]]*$/) first_summary=summary_lines[i]
     if (summary_lines[i] !~ /^[[:space:]]*$/ && summary_lines[i]!=coverage) summary_prose=1

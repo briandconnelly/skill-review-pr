@@ -51,6 +51,13 @@ An adapter must define `ADAPTER_ALWAYS_REMOVE` as the paths removed after restor
 - RC12: The pinned diff must take Git attributes from the base commit, never from the pull-request head, and must omit binary patch bodies.
 - RC13: The checkout must write the policy paths the pull request changes, the same list it reports as `policy_changes`, as a JSON array to `policy-changes.json` beside `pr.diff`.
   The list is derived from the pull request and is therefore evidence, not policy.
+- RC14: Every adapter must treat `CONTRIBUTING.md` and `CODING_STANDARDS.md` at the repository root, in `.github/`, or in `docs/` as policy paths and select them as passive context, by folding `is_standards_path` into `adapter_is_policy_path` and `adapter_context_paths`.
+  These documents carry a project's coding standards whatever runner reviews it, so RC4 restores them from the base commit and a pull request that changes them reports the change in `policy_changes`.
+- RC15: The checkout must stop with exit status 1 before review when the pinned diff is empty.
+- RC16: The checkout must write `issues.json` beside `pr.diff` as `{"version": 1, "total": N, "issues": [...]}`, where `total` counts the pull request's closing-issue references and `issues` holds at most `REVIEW_PR_MAX_ISSUES` of them, which defaults to 10, in GitHub's order.
+  Each entry is `{"repository", "number", "status": "fetched", "url", "state", "title", "body"}`, or `{"repository", "number", "status": "unavailable"}` when the issue cannot be fetched, or `{"repository": null, "number": null, "status": "invalid"}` for a malformed reference.
+  A failed fetch never fails the checkout.
+  The issues are authored outside the base commit and are therefore evidence, not policy.
 
 ## Normalized result envelope
 
