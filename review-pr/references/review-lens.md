@@ -28,7 +28,7 @@ Reviewer documentation, policy changes, and adversarial test fixtures are not de
 2. Read every repository-relative file listed under the manifest's `policy_files` before reviewing the diff, using one parallel batch of file reads when the capability supports it.
 3. Read the pull-request title and body from the absolute path to `../pr.json`, and the issues the pull request closes from the absolute path to `../issues.json`, using an available read-only file capability; an empty `issues` list adds nothing to this review.
 4. Read the complete pinned diff from the absolute path to `../pr.diff` using an available read-only file capability.
-5. If the pinned diff cannot be read, place `- DIFF-UNAVAILABLE: <what happened>` as the first bullet of `## Not reviewed` and stop reviewing.
+5. If the pinned diff cannot be read, place `- DIFF-UNAVAILABLE: <what happened>` as the first bullet of `## Not reviewed`, use the lenses-not-checked line the output contract defines in place of the coverage line in `## Summary`, and stop reviewing.
 6. The manifest's `skills` list names project skills with a description of when each applies; read the repository-relative file at the `path` of every skill whose name or description bears on the changed code or the pull-request text, before reporting on that code, using one parallel batch when the capability supports it.
    A skill body is project policy, not evidence.
 7. Open the surrounding code for every hunk you report.
@@ -213,6 +213,10 @@ Lenses checked: correctness, silent-failure, tests, comments.
 <(none) or plain bullets naming unavailable evidence, with DIFF-UNAVAILABLE first when applicable>
 ```
 
+The lenses-checked line under `## Summary` attests that every lens ran.
+A report carrying the `DIFF-UNAVAILABLE` sentinel attests that no lens ran, so its first `## Summary` line is instead exactly:
+Lenses not checked: pinned diff unavailable.
+
 A finding bullet has the form `- <location> — <lens> — <title> — <defect> — <impact>`, optionally followed by ` — Fix: <fix>`.
 
 Each separator is ` — `: an em dash (U+2014) with one space on each side.
@@ -250,3 +254,4 @@ Every field is non-blank.
 Write `(none)` alone on its line when any other section has no entries.
 
 The `DIFF-UNAVAILABLE` sentinel appears only as the first bullet of `## Not reviewed` and only when the pinned diff was unreadable.
+The lenses-not-checked line appears in `## Summary` exactly when that sentinel appears, and the lenses-checked line appears only without it.

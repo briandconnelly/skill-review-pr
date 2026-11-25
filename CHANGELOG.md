@@ -14,6 +14,7 @@
 
 ### Fixed
 
+- A review that could not read the pinned diff no longer claims lens coverage: its summary now opens with `Lenses not checked: pinned diff unavailable.` instead of the lenses-checked line, and the result validator rejects either line when it contradicts the `DIFF-UNAVAILABLE` sentinel.
 - A runner that trapped the watchdog's TERM on timeout and exited 0 no longer reports a completed review: the envelope `exit` is forced to a nonzero value, so the relay treats the run as did not complete.
 - A failed `git diff` while listing a pull request's changed policy files now fails checkout instead of reporting an empty list, which silently dropped the notice that the PR modifies reviewer policy.
 
