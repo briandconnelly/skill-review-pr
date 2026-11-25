@@ -71,6 +71,11 @@ printf '%s\n' 'No coverage marker here.' > "$missing_lens"
 [ "$(REVIEW_PR_LENS="$missing_lens" "$V" </dev/null | jq -r .schema_errors[0])" = 'review lens has no lenses-checked line' ] \
   || { echo "FAIL: missing lens marker is not reported"; FAIL=1; }
 rm -f "$missing_lens"
+no_notchecked_lens="$(mktemp)"
+grep -v '^Lenses not checked:' "$SRC/../references/review-lens.md" > "$no_notchecked_lens"
+[ "$(REVIEW_PR_LENS="$no_notchecked_lens" "$V" </dev/null | jq -r .schema_errors[0])" = 'review lens has no lenses-not-checked line' ] \
+  || { echo "FAIL: missing lens not-checked marker is not reported"; FAIL=1; }
+rm -f "$no_notchecked_lens"
 check valid-all-none true false <<<'## Summary
 Lenses checked: correctness, silent-failure, tests, comments.
 Docs only.
@@ -90,6 +95,26 @@ Adds is_valid_port to app/parse.py.
 ## Not reviewed
 (none)'
 check sentinel true true <<<'## Summary
+Lenses not checked: pinned diff unavailable.
+Could not read the diff.
+
+## Changes
+Adds is_valid_port to app/parse.py.
+
+## Critical
+(none)
+
+## Important
+(none)
+
+## Suggestions
+(none)
+
+## Not reviewed
+- DIFF-UNAVAILABLE: the pinned diff file was unreadable
+- app/ not read'
+# With the sentinel the lenses-checked line is a false attestation; without it the lenses-not-checked line is a false disclaimer.
+check sentinel-checked-line false true <<<'## Summary
 Lenses checked: correctness, silent-failure, tests, comments.
 Could not read the diff.
 
@@ -108,6 +133,7 @@ Adds is_valid_port to app/parse.py.
 ## Not reviewed
 - DIFF-UNAVAILABLE: the pinned diff file was unreadable
 - app/ not read'
+check not-checked-no-sentinel false false <<<"${VALID/Lenses checked: correctness, silent-failure, tests, comments./Lenses not checked: pinned diff unavailable.}"
 check missing-heading false false <<<'## Summary
 Lenses checked: correctness, silent-failure, tests, comments.
 x

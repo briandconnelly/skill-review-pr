@@ -13,7 +13,7 @@ LENSES = ("correctness", "silent-failure", "tests", "comments")
 # A finding's location ends at the first " — <lens> — ", so a path may contain the separator.
 LENS_FIELD = re.compile(SEP + "(" + "|".join(LENSES) + ")" + SEP)
 SECTIONS = ("Summary", "Changes", "Critical", "Important", "Suggestions", "Not reviewed")
-CONTRACT_LINES = ("Lenses checked:", "Mode:")
+CONTRACT_LINES = ("Lenses checked:", "Lenses not checked:", "Mode:")
 # A bullet needs four fields (location, lens, defect, impact); a fifth marks the title grammar.
 MIN_FIELDS = 4
 

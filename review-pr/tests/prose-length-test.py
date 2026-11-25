@@ -53,6 +53,13 @@ class MeasureTests(unittest.TestCase):
         self.assertEqual(m["fixes"], 1)
         self.assertEqual(m["total"], len(REPORT.split()))
 
+    def test_diff_unavailable_summary_excludes_the_not_checked_line(self):
+        report = REPORT.replace(
+            "Lenses checked: correctness, silent-failure, tests, comments.",
+            "Lenses not checked: pinned diff unavailable.",
+        ).replace("Mode: full review.\n", "")
+        self.assertEqual(PROSE.measure(report)["summary"], 10)
+
     def test_legacy_bullet_without_title_is_measured_as_defect(self):
         m = PROSE.measure(REPORT)
         # The third bullet has four fields, the pre-title grammar: no title, defect, impact.
