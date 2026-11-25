@@ -118,6 +118,9 @@ fi
 [ "$(grep -Fh 'Lenses checked: correctness, silent-failure, tests, comments.' "$ROOT/references/review-lens.md" "$ROOT/scripts/validate-result.sh" | awk 'END {print NR}')" = 1 ] \
   || { echo "FAIL: lenses-checked line must have exactly one home"; FAIL=1; }
 
+[ "$(grep -Fh 'Lenses not checked: pinned diff unavailable.' "$ROOT/references/review-lens.md" "$ROOT/scripts/validate-result.sh" | awk 'END {print NR}')" = 1 ] \
+  || { echo "FAIL: lenses-not-checked line must have exactly one home"; FAIL=1; }
+
 definitions="$(grep -RhoE '^- (RC|CA|CO)[0-9]+:' "$ROOT/references" | sed -E 's/^- ([A-Z]+[0-9]+):$/\1/' | sort)"
 duplicates="$(uniq -d <<<"$definitions")"
 [ -z "$duplicates" ] || { echo "FAIL: rule ids have multiple homes: $duplicates"; FAIL=1; }

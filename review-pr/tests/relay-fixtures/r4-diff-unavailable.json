@@ -4,7 +4,7 @@
     "engine": "claude",
     "engine_version": "2.3.1",
     "status": "completed",
-    "result": "## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nThe pinned diff could not be read, so no change was reviewed.\n\n## Changes\nUnknown: the pinned diff could not be read.\n\n## Critical\n(none)\n\n## Important\n(none)\n\n## Suggestions\n(none)\n\n## Not reviewed\n- DIFF-UNAVAILABLE: reading ../pr.diff failed with a permission error",
+    "result": "## Summary\nLenses not checked: pinned diff unavailable.\nThe pinned diff could not be read, so no change was reviewed.\n\n## Changes\nUnknown: the pinned diff could not be read.\n\n## Critical\n(none)\n\n## Important\n(none)\n\n## Suggestions\n(none)\n\n## Not reviewed\n- DIFF-UNAVAILABLE: reading ../pr.diff failed with a permission error",
     "duration_ms": 312000,
     "cost_usd": 1.42,
     "subtype": null,

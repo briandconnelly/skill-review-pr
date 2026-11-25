@@ -294,7 +294,7 @@ out="$(printf '%s' "$J" | FAKE_NATIVE="$native" "$SRC/run-child.sh")"
 jq -e '.schema_valid == false and (.schema_errors | length > 0) and .review != null' <<<"$out" >/dev/null \
   || { echo "FAIL: malformed report broke the public JSON envelope: $out"; FAIL=1; }
 [ ! -e "$dir" ] || { echo "FAIL: malformed report leaked the checkout"; FAIL=1; }
-SENT_RESULT='## Summary\nLenses checked: correctness, silent-failure, tests, comments.\nCould not read the diff.\n\n## Changes\nFixture change summary.\n\n## Critical\n(none)\n\n## Important\n(none)\n\n## Suggestions\n(none)\n\n## Not reviewed\n- DIFF-UNAVAILABLE: denied\n'
+SENT_RESULT='## Summary\nLenses not checked: pinned diff unavailable.\nCould not read the diff.\n\n## Changes\nFixture change summary.\n\n## Critical\n(none)\n\n## Important\n(none)\n\n## Suggestions\n(none)\n\n## Not reviewed\n- DIFF-UNAVAILABLE: denied\n'
 J="$(mkjob)"
 out="$(printf '%s' "$J" | FAKE_RESULT="$SENT_RESULT" "$SRC/run-child.sh")"
 [ "$(jq -r .diff_unavailable <<<"$out")" = true ] || { echo "FAIL: diff sentinel not detected"; FAIL=1; }

@@ -83,7 +83,7 @@ It is not part of the gate: a shorter report that drops a plant still fails `--g
 python3 review-pr/tests/prose-length.py SNAPSHOT... [--runs] [--json]
 ```
 
-Each report is split at the contract's six headings and each finding bullet into fields as [Scoring and gate](#scoring-and-gate) states, so the columns are whitespace-delimited word counts of the model's own text: `summary` (the Summary prose after the `Lenses checked:` and any `Mode:` line), `changes`, `not_reviewed` (`(none)` counts as zero), `findings` (bullets parsed), the mean `title`, `defect`, `impact` and `fix` words per finding, `fixes` (findings with a fix field), and `total` (the whole report).
+Each report is split at the contract's six headings and each finding bullet into fields as [Scoring and gate](#scoring-and-gate) states, so the columns are whitespace-delimited word counts of the model's own text: `summary` (the Summary prose after the `Lenses checked:` or `Lenses not checked:` and any `Mode:` line), `changes`, `not_reviewed` (`(none)` counts as zero), `findings` (bullets parsed), the mean `title`, `defect`, `impact` and `fix` words per finding, `fixes` (findings with a fix field), and `total` (the whole report).
 A bullet of the pre-title grammar is measured with an empty title.
 Per-snapshot rows give the median over the snapshot's runs for the whole-section columns and the mean over every finding for the per-finding columns; `--runs` gives one row per run instead.
 

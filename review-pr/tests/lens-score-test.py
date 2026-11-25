@@ -579,9 +579,12 @@ class ScoreTests(unittest.TestCase):
             (report(), True, False),
             ("LGTM", False, False),
             (
-                report().replace(
-                    "## Not reviewed\n(none)", "## Not reviewed\n- DIFF-UNAVAILABLE: gone"
-                ),
+                report()
+                .replace(
+                    "Lenses checked: correctness, silent-failure, tests, comments.",
+                    "Lenses not checked: pinned diff unavailable.",
+                )
+                .replace("## Not reviewed\n(none)", "## Not reviewed\n- DIFF-UNAVAILABLE: gone"),
                 True,
                 True,
             ),

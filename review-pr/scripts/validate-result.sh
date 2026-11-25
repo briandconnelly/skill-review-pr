@@ -11,8 +11,13 @@ if [ -z "$COVERAGE" ]; then
   printf '%s\n' '{"schema_valid":false,"schema_errors":["review lens has no lenses-checked line"],"diff_unavailable":false}'
   exit 0
 fi
+NO_COVERAGE="$(sed -n '/^Lenses not checked:/{p;q;}' "$LENS" 2>/dev/null || true)"
+if [ -z "$NO_COVERAGE" ]; then
+  printf '%s\n' '{"schema_valid":false,"schema_errors":["review lens has no lenses-not-checked line"],"diff_unavailable":false}'
+  exit 0
+fi
 
-awk -v coverage="$COVERAGE" '
+awk -v coverage="$COVERAGE" -v no_coverage="$NO_COVERAGE" '
 BEGIN {
   want[1]="Summary"; want[2]="Changes"; want[3]="Critical"; want[4]="Important"; want[5]="Suggestions"; want[6]="Not reviewed"
   lens[1]="correctness"; lens[2]="silent-failure"; lens[3]="tests"; lens[4]="comments"
@@ -32,18 +37,30 @@ function err(m) { errs[++nerr]=m }
 END {
   if (n<6) err("only " n " of 6 headings present")
   if (seen_text_before) err("text before ## Summary")
+  # Sentinel: first bullet of Not reviewed, nowhere else. It selects which coverage line ## Summary must carry.
+  nr=body["Not reviewed"]; nl=split(nr, lines, "\n"); first=""
+  for (i=1;i<=nl;i++) if (lines[i] !~ /^[[:space:]]*$/) { first=lines[i]; break }
+  if (first ~ /^- DIFF-UNAVAILABLE: ./) du=1
   # Summary: required observable coverage marker plus non-empty prose.
   if (n>=1 && body["Summary"] ~ /^[[:space:]]*$/) err("Summary is empty")
-  sl=split(body["Summary"], summary_lines, "\n"); first_summary=""; coverage_count=0; summary_prose=0
+  sl=split(body["Summary"], summary_lines, "\n"); first_summary=""; checked_count=0; notchecked_count=0; summary_prose=0
   for (i=1;i<=sl;i++) {
     # Trailing blanks are a markdown line break some runners emit, not a different line.
     sub(/[ \t]+$/, "", summary_lines[i])
-    if (summary_lines[i]==coverage) coverage_count++
+    if (summary_lines[i]==coverage) checked_count++
+    if (summary_lines[i]==no_coverage) notchecked_count++
     if (first_summary=="" && summary_lines[i] !~ /^[[:space:]]*$/) first_summary=summary_lines[i]
-    if (summary_lines[i] !~ /^[[:space:]]*$/ && summary_lines[i]!=coverage) summary_prose=1
+    if (summary_lines[i] !~ /^[[:space:]]*$/ && summary_lines[i]!=coverage && summary_lines[i]!=no_coverage) summary_prose=1
   }
-  if (coverage_count!=1 || first_summary!=coverage) err("Summary must begin with the exact lenses-checked line")
-  if (!summary_prose) err("Summary must include prose after the lenses-checked line")
+  if (du) {
+    if (notchecked_count!=1 || first_summary!=no_coverage) err("Summary must begin with the exact lenses-not-checked line")
+    if (checked_count) err("Summary carries the lenses-checked line with the diff-unavailable sentinel")
+    if (!summary_prose) err("Summary must include prose after the lenses-not-checked line")
+  } else {
+    if (checked_count!=1 || first_summary!=coverage) err("Summary must begin with the exact lenses-checked line")
+    if (notchecked_count) err("Summary carries the lenses-not-checked line without the diff-unavailable sentinel")
+    if (!summary_prose) err("Summary must include prose after the lenses-checked line")
+  }
   # Findings sections: (none) or finding bullets only
   split("Critical Important Suggestions", fs, " ")
   for (i=1;i<=3;i++) check_section(fs[i], 1)
@@ -53,10 +70,6 @@ END {
     else if (body["Changes"] ~ /^[[:space:]]*\(none\)[[:space:]]*$/) err("Changes: (none) is not allowed")
   }
   check_section("Not reviewed", 0)
-  # Sentinel: first bullet of Not reviewed, nowhere else
-  nr=body["Not reviewed"]; nl=split(nr, lines, "\n"); first=""
-  for (i=1;i<=nl;i++) if (lines[i] !~ /^[[:space:]]*$/) { first=lines[i]; break }
-  if (first ~ /^- DIFF-UNAVAILABLE: ./) du=1
   for (k in body) {
     if (k=="Not reviewed") { rest=nr; sub(/^[[:space:]]*- DIFF-UNAVAILABLE: [^\n]*\n?/, "", rest); if (rest ~ /DIFF-UNAVAILABLE/) err("sentinel appears more than once or not first in Not reviewed") }
     else if (body[k] ~ /DIFF-UNAVAILABLE/) err("sentinel outside Not reviewed: " k)
