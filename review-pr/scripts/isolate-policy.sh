@@ -34,8 +34,11 @@ is_policy_change() {
   return 1
 }
 # --no-renames: a rename reports only its destination, which would hide a policy file renamed out of policy.
+# The diff goes to a file, not a process substitution, so its exit status is not lost.
+g diff -z --name-only --no-renames "$MERGE_BASE" "$HEAD" > "$WORK/changed" \
+  || die 1 "git diff failed listing changed paths from merge base $MERGE_BASE to $HEAD"
 changes="$(
-  while IFS= read -r -d '' p; do if is_policy_change "$p"; then printf '%s\0' "$p"; fi; done < <(g diff -z --name-only --no-renames "$MERGE_BASE" "$HEAD") \
+  while IFS= read -r -d '' p; do if is_policy_change "$p"; then printf '%s\0' "$p"; fi; done < "$WORK/changed" \
     | nul_paths_json
 )"
 
