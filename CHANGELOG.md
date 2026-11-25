@@ -12,6 +12,10 @@
 
 - A pull request with an empty diff now fails at checkout instead of starting a review.
 
+### Fixed
+
+- A runner that trapped the watchdog's TERM on timeout and exited 0 no longer reports a completed review: the envelope `exit` is forced to a nonzero value, so the relay treats the run as did not complete.
+
 ### Changed
 
 - Moved from [briandconnelly/skills](https://github.com/briandconnelly/skills) into its own repository, with history.
