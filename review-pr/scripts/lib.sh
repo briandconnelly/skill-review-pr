@@ -450,25 +450,31 @@ skill_frontmatter_json() {
 # FALLBACK_FILE, when given, receives how many skills were listed in policy_files because their frontmatter could not
 # be read. Paths never leave JSON: each skill is addressed by its index, so no shell decoding can alter one.
 policy_manifest_json() {
-  local selection i n oid meta fallback=0 metas='{}'
+  local selection i oid meta fallback=0 work
   selection="$(policy_selection_json "$1" "$2")" || exit "$?"
-  n="$(jq length <<<"$selection")"
-  for ((i = 0; i < n; i++)); do
-    [ "$(jq -r --argjson i "$i" '.[$i].mandatory' <<<"$selection")" = false ] || continue
-    oid="$(jq -r --argjson i "$i" '.[$i].oid' <<<"$selection")"
+  work="$(mktemp -d "${TMPDIR:-/tmp}/review-pr-manifest.XXXXXX")" || die 1 "cannot create a temporary directory"
+  # Metadata accumulates one object per line in a file read with --slurpfile: passing it as an argument would hit
+  # Linux's per-argument limit (MAX_ARG_STRLEN, 128 KiB) well inside REVIEW_PR_MAX_SKILL_INDEX's default.
+  if ! jq -r 'to_entries[] | select(.value.mandatory == false) | "\(.key)\t\(.value.oid)"' <<<"$selection" > "$work/pairs" \
+    || ! : > "$work/metas"; then
+    rm -rf "$work"; return 1
+  fi
+  while IFS=$'\t' read -r i oid; do
     if meta="$(skill_frontmatter_json "$1" "$oid")"; then
-      metas="$(jq -c --arg i "$i" --argjson m "$meta" '. + {($i): $m}' <<<"$metas")"
+      printf '{"key":"%s","value":%s}\n' "$i" "$meta" >> "$work/metas" || { rm -rf "$work"; return 1; }
     else
       fallback=$((fallback + 1))
     fi
-  done
-  [ -z "${3:-}" ] || printf '%s\n' "$fallback" > "$3"
-  jq -c --argjson metas "$metas" '
-    to_entries
+  done < "$work/pairs"
+  if [ -n "${3:-}" ] && ! printf '%s\n' "$fallback" > "$3"; then rm -rf "$work"; return 1; fi
+  jq -c --slurpfile m "$work/metas" '
+    ($m | from_entries) as $metas
+    | to_entries
     | {version: 2,
        policy_files: ([.[] | select($metas[.key | tostring] == null) | .value.path] | sort),
        skills: ([.[] | select($metas[.key | tostring] != null) | {path: .value.path} + $metas[.key | tostring]] | sort_by(.path))}
-  ' <<<"$selection"
+  ' <<<"$selection" || { rm -rf "$work"; return 1; }
+  rm -rf "$work"
 }
 
 # write_policy_manifest DIR TREEISH OUTPUT -> writes the manifest and enforces RC9's bounds, so checkout-pr.sh and the
