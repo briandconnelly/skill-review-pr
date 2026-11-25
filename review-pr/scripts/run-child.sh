@@ -204,6 +204,9 @@ if [ -e "$NATIVE_TMP" ]; then mv -f "$NATIVE_TMP" "$NATIVE"; fi
 # The marker alone decides: a runner that handles the watchdog's TERM and exits 0 still timed out. The cost is a
 # stray line in stderr_tail when the watchdog fires just as the runner finishes on its own.
 if [ -e "$DIR/runner.timeout" ]; then
+  # A timed-out run never reports success: fall back to 124 (the coreutils timeout convention) only when the
+  # runner trapped TERM and exited 0, and keep the runner's own nonzero exit as the more specific failure.
+  [ "$CHILD_EXIT" != 0 ] || CHILD_EXIT=124
   normalize_native || true
   printf 'review-pr: runner timed out after %ss (REVIEW_PR_TIMEOUT)\n' "$TIMEOUT" | tee -a "$STDERR" >&2
 else

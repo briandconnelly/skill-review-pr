@@ -36,6 +36,12 @@ pwd -P > "$FAKE_CWD"
 if [ -n "${FAKE_SLEEP:-}" ]; then sleep "$FAKE_SLEEP" & echo $! > "$FAKE_GRANDCHILD"; wait; exit 0; fi
 # A descendant that ignores TERM, as a runner's tool subprocess can.
 if [ -n "${FAKE_TERM_IGNORER:-}" ]; then ( trap '' TERM; exec sleep 60 ) & echo $! > "$FAKE_GRANDCHILD"; sleep 20; exit 0; fi
+# A runner that traps the watchdog's TERM, still prints its report, and exits 0.
+if [ -n "${FAKE_TERM_GRACEFUL:-}" ]; then
+  graceful_term() { printf '{"type":"result","is_error":false,"result":"REVIEW TEXT","total_cost_usd":1.5,"duration_ms":60000,"permission_denials":[]}\n'; exit 0; }
+  trap graceful_term TERM
+  sleep 60 & echo $! > "$FAKE_GRANDCHILD"; wait; exit 0
+fi
 # A background process left behind by a runner that otherwise exits cleanly.
 if [ -n "${FAKE_LINGER:-}" ]; then sleep 60 & echo $! > "$FAKE_GRANDCHILD"; fi
 # Output larger than one argument's limit (128 KiB on Linux, 1 MiB in all on macOS).
@@ -142,6 +148,17 @@ jq -r .stderr_tail <<<"$out" | grep -qF 'runner timed out after 2s (REVIEW_PR_TI
 if jq -r .stderr_tail <<<"$out" | grep -qF 'did not match the normalized adapter contract'; then
   echo "FAIL: timeout is named: a timeout is reported as a contract mismatch: $out"; FAIL=1
 fi
+
+# A runner that handles TERM and exits 0 still timed out: the envelope exit is nonzero, so the relay's state 1
+# ("did not complete") matches, and stderr_tail still names the timeout.
+J="$(mkjob)"
+dir="$(jq -r .dir <<<"$J")"
+out="$(printf '%s' "$J" | FAKE_TERM_GRACEFUL=1 REVIEW_PR_TIMEOUT=2 "$SRC/run-child.sh")"
+[ "$(jq -r .exit <<<"$out")" = 124 ] || { echo "FAIL: graceful TERM timeout reported exit $(jq -r .exit <<<"$out"): $out"; FAIL=1; }
+[ "$(jq -r .review.status <<<"$out")" = error ] || { echo "FAIL: graceful TERM timeout review not an error: $out"; FAIL=1; }
+jq -r .stderr_tail <<<"$out" | grep -qF 'runner timed out after 2s (REVIEW_PR_TIMEOUT)' \
+  || { echo "FAIL: graceful TERM timeout is named: stderr_tail does not name the timeout: $out"; FAIL=1; }
+[ ! -e "$dir" ] || { echo "FAIL: graceful TERM timeout leaked the job"; FAIL=1; }
 
 # TERM-ignoring descendant is reaped: a timeout ends with KILL to the whole group, not only TERM to its leader.
 J="$(mkjob)"
