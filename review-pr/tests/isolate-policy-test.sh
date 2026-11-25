@@ -419,6 +419,20 @@ tree="$(GIT_INDEX_FILE="$S/odd.index" git -C "$fixture" write-tree)"
 got="$(policy_manifest_json "$fixture" "$tree" | jq -j '.skills[0].path')"
 [ "$got" = "$odd" ] || { echo "FAIL: odd skill path changed in the index: $(printf '%q' "$got")"; FAIL=1; }
 
+# A skill index at the default bound, every description at its 1,024-character limit, exceeds Linux's 128 KiB
+# single-argument limit, so the metadata must never pass through one argument.
+fixture="$S/big-skill-index"
+mkdir -p "$fixture"; git -C "$fixture" init -q -b main
+desc="$(printf 'd%.0s' $(seq 1024))"
+blob="$(printf -- '---\nname: big\ndescription: %s\n---\n' "$desc" | git -C "$fixture" hash-object -w --stdin)"
+for i in $(seq -w 200); do printf '100644 blob %s\t.claude/skills/s%s/SKILL.md\0' "$blob" "$i"; done \
+  | GIT_INDEX_FILE="$S/big.index" git -C "$fixture" update-index -z --add --index-info
+tree="$(GIT_INDEX_FILE="$S/big.index" git -C "$fixture" write-tree)"
+rc=0; manifest="$(policy_manifest_json "$fixture" "$tree")" || rc=$?
+got="$(jq '[.skills[] | select(.description | length == 1024)] | length' <<<"$manifest" 2>/dev/null || true)"
+[ "$rc" = 0 ] && [ "$got" = 200 ] && [ "${#manifest}" -gt 131072 ] \
+  || { echo "FAIL: 200-skill index at the description limit (exit $rc, $got skills, ${#manifest} bytes)"; FAIL=1; }
+
 # RC11: a policy path that is not valid UTF-8 fails rather than being renamed by JSON encoding.
 # Built with plumbing: the filesystem may refuse the name, but a base tree can carry it.
 fixture="$S/non-utf8"
