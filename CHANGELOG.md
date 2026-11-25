@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-11-25
+
 ### Added
 
 - The reviewer now reads the issues a pull request closes and reports requirements the change implements wrongly or only in part.
@@ -10,6 +12,8 @@
 
 ### Changed
 
+- Moved from [briandconnelly/skills](https://github.com/briandconnelly/skills) into its own repository, with history.
+  Install from this repository's `main` branch, which carries only the runtime files.
 - A pull request with an empty diff now fails at checkout instead of starting a review.
 
 ### Fixed
@@ -19,7 +23,5 @@
 - A failed `git diff` while listing a pull request's changed policy files now fails checkout instead of reporting an empty list, which silently dropped the notice that the PR modifies reviewer policy.
 - Checkout no longer aborts on Linux when the base branch's skill index is large but within its documented limits: skill metadata now passes to `jq` through a file instead of a single command-line argument, which Linux caps at 128 KiB.
 
-### Changed
-
-- Moved from [briandconnelly/skills](https://github.com/briandconnelly/skills) into its own repository, with history.
-  Install from this repository's `main` branch, which carries only the runtime files.
+[Unreleased]: https://github.com/briandconnelly/skill-review-pr/compare/v0.1.0...dev
+[0.1.0]: https://github.com/briandconnelly/skill-review-pr/releases/tag/v0.1.0
