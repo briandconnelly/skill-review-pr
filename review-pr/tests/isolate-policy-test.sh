@@ -109,6 +109,37 @@ GIT_CONFIG_PARAMETERS="'filter.evil.smudge=touch $MARK'" "$SRC/isolate-policy.sh
 out2="$("$SRC/isolate-policy.sh" claude "$R" "$BASE" "$BASE")"
 [ "$(jq -c . <<<"$out2")" = "[]" ] || { echo "FAIL: expected [] for identical SHAs, got $out2"; FAIL=1; }
 
+# A failed `git diff` of the changed paths must fail the run, not report an empty list: the caller would
+# otherwise print [] and drop the notice that the PR modifies reviewer policy. A git wrapper first on PATH
+# refuses only `diff --name-only` and execs the real git for everything else.
+wrap="$S/git-wrap"; mkdir -p "$wrap"
+REAL_GIT="$(command -v git)"; export REAL_GIT
+cat > "$wrap/git" <<'EOF'
+#!/usr/bin/env bash
+is_diff=0; is_names=0
+for a in "$@"; do
+  case "$a" in diff) is_diff=1;; --name-only) is_names=1;; esac
+done
+if [ "$is_diff" = 1 ] && [ "$is_names" = 1 ]; then
+  echo "wrapped git: refusing diff --name-only" >&2
+  exit 1
+fi
+exec "$REAL_GIT" "$@"
+EOF
+chmod +x "$wrap/git"
+# Known positive: the wrapper intercepts `diff --name-only` itself, so the run below cannot pass vacuously.
+git -C "$R" diff -z --name-only "$BASE" "$HEAD" >/dev/null \
+  || { echo "FAIL: known positive — the real git cannot run the changed-paths diff"; FAIL=1; }
+rc=0
+err="$(PATH="$wrap:$PATH" git -C "$R" diff -z --name-only "$BASE" "$HEAD" 2>&1 >/dev/null)" || rc=$?
+if [ "$rc" = 0 ] || ! grep -qF 'wrapped git: refusing diff --name-only' <<<"$err"; then
+  echo "FAIL: known positive — the git wrapper did not intercept diff --name-only (exit $rc): $err"; FAIL=1
+fi
+rc=0
+out="$(PATH="$wrap:$PATH" "$SRC/isolate-policy.sh" claude "$R" "$BASE" "$HEAD")" || rc=$?
+[ "$rc" != 0 ] || { echo "FAIL: a failed changed-paths diff exited 0"; FAIL=1; }
+[ "$out" != '[]' ] || { echo "FAIL: a failed changed-paths diff printed []"; FAIL=1; }
+
 # Base policy symlinks that leave the base tree are rejected before the checkout is mutated, for both
 # instruction files and passive resources (including symlinked policy roots).
 for runner in claude codex; do
